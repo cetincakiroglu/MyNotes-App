@@ -1,9 +1,10 @@
 import Login from './../Login/Login';
 import Home from './../Home/Home';
-import Info from './../Info/Info'
+import Info from './../Info/Info';
 import Notes from './../Notes/Notes';
 import Tasks from './../Tasks/Tasks';
 import Reminders from './../Reminders/Reminders';
+import NewNote from './../Notes/NewNote';
 
 const isAuth = JSON.parse(localStorage.getItem('userInfo')) ? Home : Login;
 
@@ -49,6 +50,13 @@ const links = [
         component: Info,
         isExact: true,
         isLink: true
+    },
+    {
+        link:'/New',
+        title:'New Note',
+        component: NewNote,
+        isExact:true,
+        isLink:false
     }
 ];
 

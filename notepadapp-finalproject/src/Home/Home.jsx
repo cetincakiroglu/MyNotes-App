@@ -1,7 +1,11 @@
 import React, { useEffect, useContext } from 'react'
-import { UserContext } from './../Context/UserContext';
+import { UserContext } from './../Context/UserContext'
+import { NoteContext, NoteProvider } from './../Context/NoteContext'
 import { Typography, Paper, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import InstantNote from '../Widgets/InstantNote'
+import NotesWidget from '../Widgets/NotesWidget'
+import NewNoteBtn from '../Widgets/NewNoteBtn'
 
 const useStyles = makeStyles({
   paper:{
@@ -11,7 +15,11 @@ const useStyles = makeStyles({
   },
   message:{
     paddingLeft:'2rem'
-  }
+  },
+  widgetWrapper:{
+    padding:'50px'
+  },
+
 })
 function Home() {
   const { name, setName, surname, setSurname } = useContext(UserContext);
@@ -32,6 +40,18 @@ function Home() {
               <Typography className={classes.message} variant='h1'>Welcome, {name}!</Typography>
             </Grid>
           </Grid>
+            {/* Note widgets */}
+            <Grid container justify='space-between' className={classes.widgetWrapper}>
+              <Grid item xs={4} >
+                <NotesWidget />
+              </Grid>
+              <Grid item> 
+                <NewNoteBtn />
+              </Grid>
+              <Grid item xs={6} >
+                <InstantNote />
+              </Grid>
+            </Grid>
         </Paper>
         </>
     )

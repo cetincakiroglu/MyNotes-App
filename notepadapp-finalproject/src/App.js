@@ -1,5 +1,6 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles'
+import NoteEditor from './Notes/NoteEditor'
 import Nav from './Nav/Nav'
 
 import links from './Data/links'
@@ -35,17 +36,17 @@ const theme = createMuiTheme({
     h2:{
       fontFamily:"'Montserrat', sans-serif",
       fontSize:'36px',
-      fontWeight:'500',
+      fontWeight:'300',
     },
     h3:{
       fontFamily:"'Montserrat', sans-serif",
       fontSize:'32px',
-      fontWeight:'500',
+      fontWeight:'300',
     },
     h4:{
       fontFamily:"'Montserrat', sans-serif",
       fontSize:'28px',
-      fontWeight:'500',
+      fontWeight:'300',
     },
     body1:{
       fontFamily:"'Open Sans', sans-serif",
@@ -92,12 +93,14 @@ function App() {
   return (
     <>
     <ThemeProvider theme={theme}>
-    <div className={classes.container}>
-      <BrowserRouter>
-      <Nav />
-      {routeMaps}
-      </BrowserRouter>
-    </div>
+      <div className={classes.container}>
+        <BrowserRouter>
+          <Nav />
+        <Switch>
+          {routeMaps}
+        </Switch>
+        </BrowserRouter>
+      </div>
     </ThemeProvider>
     </>
   );

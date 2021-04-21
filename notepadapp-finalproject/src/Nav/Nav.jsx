@@ -11,10 +11,10 @@ const useStyles = makeStyles({
         display: 'flex',
     },
     drawer: {
-        width:'20%'
+        width:'300px'
     },
     drawerPaper: {
-        width: '20%',
+        width: '300px',
     },
     nested:{
         paddingLeft:'10px'
