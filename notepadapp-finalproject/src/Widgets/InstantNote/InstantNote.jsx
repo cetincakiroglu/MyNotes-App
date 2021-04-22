@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useState, useEffect } from 'react'
-import { NoteContext } from './../Context/NoteContext';
+import React, { useContext, useRef, useState } from 'react'
+import { NoteContext } from './../../Context/NoteContext';
 import { Paper,TextField, Grid, Button, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { v4 as uuidv4 } from 'uuid';
@@ -14,7 +14,7 @@ function InstantNote() {
             backgroundColor:'#3A3A3A',
         },
         header:{
-            marginBottom:'30px'
+            marginBottom:'1.2em'
         },
         button:{
             display: showBtn ? 'block' : 'none',
@@ -23,7 +23,7 @@ function InstantNote() {
         }
     })
     const classes = useStyles();
-    const { textInput, setTextInput, notes, setNotes } = useContext(NoteContext);
+    const { textInput, setTextInput, notes } = useContext(NoteContext);
     const formInput = useRef();
 
     function Note(obj){
@@ -31,8 +31,7 @@ function InstantNote() {
         this.date = new Date().toDateString();
         this.title = 'Untitled Note';
         this.text = obj.textInput;
-        this.tags = null;
-        this.flags = null;
+        this.categories = null;
     }
 
     const handleSubmit = (e) => {
@@ -49,11 +48,11 @@ function InstantNote() {
 
     return (
         <>  
-                <Grid container>
-                    <Grid item xs={12} className={classes.header}>
-                        <Typography variant='h3'>Instant Note</Typography>
-                    </Grid>
+            <Grid container>
+                <Grid item xs={12} className={classes.header}>
+                    <Typography variant='h3'>Instant Note</Typography>
                 </Grid>
+            </Grid>
             <Paper elevation={5}>
                 <form onSubmit={handleSubmit}>
                     <TextField 

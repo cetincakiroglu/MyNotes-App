@@ -4,12 +4,15 @@ import './css/main.css'
 import App from './App';
 import { UserProvider } from './Context/UserContext'
 import { NoteProvider } from './Context/NoteContext'
+import { TaskProvider } from './Context/TaskContext'
 
 ReactDOM.render(
   <React.StrictMode>
     <UserProvider>
       <NoteProvider>
-        <App />
+        <TaskProvider>
+          <App />
+        </TaskProvider>
       </NoteProvider>
     </UserProvider>
   </React.StrictMode>,

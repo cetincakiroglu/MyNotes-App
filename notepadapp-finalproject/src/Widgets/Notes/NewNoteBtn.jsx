@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Grid, Button, Paper, Typography } from '@material-ui/core'
+import { Grid, Button, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import AddRoundedIcon from '@material-ui/icons/Add';
 

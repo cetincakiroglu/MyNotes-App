@@ -5,16 +5,15 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper-bundle.css'
 import 'swiper/components/effect-coverflow/effect-coverflow.scss'
 import SwiperCore, { Navigation, Pagination, A11y, EffectCoverflow } from 'swiper'
-import { NoteContext } from '../Context/NoteContext'
+import { NoteContext } from './../../Context/NoteContext'
 import './swiper.css'
 
 const useStyles = makeStyles({
     slider:{
         width:'100%',
-        
     },
     paper:{
-        marginTop:'30px',
+        marginTop:'1.2em',
         maxWidth:'730px',
         minHeight:'325px'
     },

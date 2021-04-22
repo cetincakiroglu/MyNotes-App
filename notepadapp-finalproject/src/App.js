@@ -1,6 +1,5 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles'
-import NoteEditor from './Notes/NoteEditor'
 import Nav from './Nav/Nav'
 
 import links from './Data/links'

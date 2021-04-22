@@ -41,7 +41,7 @@ function NoteEditor() {
                     console.log( 'Focus.', editor );
                 } }
                 onChange={handleChange}
-            >  
+            >
             </CKEditor>
         </form>
         </>
