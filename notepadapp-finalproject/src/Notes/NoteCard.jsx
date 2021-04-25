@@ -1,72 +1,58 @@
-import React, { useContext, useEffect } from 'react'
-import { Grid, Card, CardHeader, Typography, Divider, CardContent, Paper } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import React, { useContext, useState } from 'react'
+import { Card, Typography, Divider, CardContent, Paper } from '@material-ui/core'
 import { NoteContext } from './../Context/NoteContext';
+import { CardContext } from './../Context/CardContext'
+import DeleteBtn from './Buttons/DeleteBtn'
+import EditBtn from './Buttons/EditBtn'
+import OpenBtn from './Buttons/OpenBtn'
 
-const useStyles = makeStyles({
-    header:{
-        padding:'20px',
-    },
-    cardHeader:{
-        display:'flex',
-        flexDirection:'column-reverse',
-    },
-    subheader:{
-        alignSelf:'flex-end',
-        padding:'10px 20px 0px 20px'
-    },
-    cardText:{
-        padding:'10px',
-        lineHeight:'1.4rem'
-    },
-    cardBody:{
-        margin:'10px 0px',
-        lineHeight: '1.5rem',
-        maxHeight: '100%',
-        WebkitBoxOrient: 'vertical',
-        display: '-webkit-box',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        WebkitLineClamp: '8',
-    },
-    noteCard:{
-        backgroundColor:'#3a3a3a',
-        minWidth:'200px',
-        minHeight:'300px',
-        margin:'0 auto'
-    },
-    container:{
-        margin:'20px'
+function NoteCard({ item, index }) {
+    const { notes, setNotes} = useContext(NoteContext);
+    const { classes } = useContext(CardContext)
+    const [showBtn, setShowBtn] = useState(false);
+    
+    const handleChange = (e) => {
+        let editedNote = e.target.textContent;
+        let notesArr = notes;
+        console.log(editedNote)
+        const noteObj = item;
+        noteObj.note = editedNote;
+        
+        notesArr.map(item => item.id === noteObj.id ? item.note = noteObj.note : item);
+        setNotes([...notesArr])
+        localStorage.setItem('Notes', JSON.stringify(notes))
     }
-})
 
-function NoteCard(props) {
-    const classes = useStyles();
     return (
         <> 
-        <Grid item xs={12} md={4} className={classes.container}>
-            <Paper elevation={5}>
-                <Card className={classes.noteCard}>
+            <Paper elevation={5} onMouseEnter={() => setShowBtn(true)} onMouseLeave={() => setShowBtn(false)}>
+                <Card className={classes.cardWrapper}>
+                    <div className={classes.deleteBtnContainer}>
+                        <DeleteBtn showBtn={showBtn} index={index} />
+                    </div>
                     <div className={classes.cardHeader}>
                         <Typography variant='h4' className={classes.header}>
-                            Untitled Note
+                            {item.title ? item.title : 'Untitled Note'}
                         </Typography>
-                        <Typography variant='caption' className={classes.subheader}>
-                            21.04.2021
+                        <Typography variant='body1' className={classes.subHeader}>
+                            {item.date}
                         </Typography>
                     </div>
-                    <CardContent >
-                        <Typography variant='body2' className={classes.cardText}>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus quibusdam numquam enim provident animi, neque maxime? Odio itaque officia recusandae est? Aperiam quod nesciunt consectetur sequi quae, impedit a adipisci!
-                        </Typography>
+                    <CardContent className={classes.cardBody}>
+                        <Divider />
+                        <div contentEditable='true' dangerouslySetInnerHTML={{__html: item.note}} className={classes.cardText} onMouseLeave={(e) => handleChange(e)}>
+                        </div>
                             <Divider />
                         <Typography variant='body1'>
-                            #category1 #category2 #category3
+                            Categories: {item.categories.map(item => (`#${item}`))}
                         </Typography>
                     </CardContent>
+                    <div className={classes.btnContainer}>
+                            <EditBtn showBtn={showBtn} item={item} index={index}/>
+                            <OpenBtn showBtn={showBtn} item={item}/>
+                    </div>
                 </Card>
             </Paper>
-        </Grid>
         </>
     )
 }

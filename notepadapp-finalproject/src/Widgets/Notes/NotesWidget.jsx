@@ -15,18 +15,20 @@ const useStyles = makeStyles({
     paper:{
         marginTop:'1.2em',
         maxWidth:'730px',
-        minHeight:'325px'
+        height:'325px'
     },
     noteCard:{
         backgroundColor:'#3a3a3a',
         minWidth:'177px',
-        minHeight:'300px',
+        height:'300px',
         margin:'0 auto'
     },
     cardHeader:{
-        padding:'5px',
         display:'flex',
-        flexDirection:'column-reverse'
+        flexWrap:'nowrap',
+        flexDirection:'column',
+        height:'3em',
+        padding:'0.25em',
     },
     cardContent:{
         margin:'10px 0px',
@@ -40,7 +42,11 @@ const useStyles = makeStyles({
     },
     subheader:{
         alignSelf:'flex-end'
-    }
+    },
+    header:{
+        textOverflow:'ellipsis',
+        whiteSpace:'nowrap'
+     },
 })
 
 
@@ -49,8 +55,10 @@ function NotesWidget() {
     const { notes, setNotes } = useContext(NoteContext);
     SwiperCore.use([Navigation, Pagination, A11y, EffectCoverflow])
     
-    const savedItem = JSON.parse(localStorage.getItem('Notes'));
-    
+    useEffect(() => {
+        const savedItem = JSON.parse(localStorage.getItem('Notes'));
+        if(savedItem && savedItem !== []) setNotes([...savedItem])
+    },[])
     return (
         <>  <Grid container>
               <Grid item xs={12}>
@@ -69,17 +77,17 @@ function NotesWidget() {
                     onSlideChange={() => console.log('changed')}
                     onSwiper={swiper => console.log(swiper)}
                     >
-                        {savedItem.map((item,index) => (
+                        {notes.map((item,index) => (
                         <SwiperSlide key={index}>
                             <Card className={classes.noteCard} key={item.id}>
                                 <div className={classes.cardHeader}>
-                                <Typography variant='h4'className={classes.cardContent}> {item.title} </Typography>
-                                <Typography variant='caption' className={classes.subheader}>{item.date}</Typography>
+                                    <Typography variant='h4'className={classes.header}> {item.title} </Typography>
+                                    <Typography variant='caption' className={classes.subheader}>{item.date}</Typography>
                                 </div>
                                     <Divider />
                                 <CardContent >
                                     <Typography variant='body2' className={classes.cardContent}>
-                                        {item.text}
+                                        {item.note}
                                     </Typography>
                                 </CardContent>
                             </Card>

@@ -6,10 +6,11 @@ import InstantNote from '../Widgets/InstantNote/InstantNote'
 import NotesWidget from '../Widgets/Notes/NotesWidget'
 import NewNoteBtn from '../Widgets/Notes/NewNoteBtn'
 import TaskListWidget from '../Widgets/TaskList/TaskListWidget';
+import RemindersWidget from '../Widgets/Reminders/RemindersWidget'
 
 const useStyles = makeStyles({
   paper:{
-    height:'100vh',
+    minHeight:'100vh',
     width:'100%',
     borderRadius:'0',
   },
@@ -24,6 +25,7 @@ const useStyles = makeStyles({
 function Home() {
   const { name, setName, surname, setSurname } = useContext(UserContext);
   const classes = useStyles();
+  
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -53,8 +55,11 @@ function Home() {
               </Grid>
             </Grid>
             <Grid container justify='space-between' className={classes.widgetWrapper}>
-              <Grid item xs={12} sm={12} md={6}>
+              <Grid item xs={12} sm={12} md={7}>
                 <TaskListWidget />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <RemindersWidget />
               </Grid>
             </Grid>
         </Paper>

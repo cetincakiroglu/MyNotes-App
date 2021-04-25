@@ -4,8 +4,6 @@ import { Drawer,Collapse, Divider, Avatar, CardHeader, ListItem, List, ListItemT
 import { makeStyles } from '@material-ui/core/styles'
 import { UserContext } from './../Context/UserContext';
 
-
-
 const useStyles = makeStyles({
     root: {
         display: 'flex',

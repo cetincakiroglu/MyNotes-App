@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Grid, Paper, Typography } from '@material-ui/core'
+import React, { useContext, useState, useEffect } from 'react'
+import { Grid, Paper, Typography, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import NoteCard from './NoteCard'
 import { NoteContext } from './../Context/NoteContext';
@@ -7,40 +7,57 @@ import NoteEditor from './NoteEditor'
 
 const useStyles = makeStyles({
     paper:{
+        width:'100%',
         minHeight:'100vh',
-        borderRadius:'0'
+        borderRadius:'0',
+        padding:'2em'
     },
     noteContainer:{
         display:'flex',
         flexWrap:'wrap'
+    },
+    container:{
+        marginTop:'3em'
+    },
+    button:{
+        width:'100%',
+        height:'100%',
     }
 })
 function Notes() {
-    const { notes, setNotes } = useContext(NoteContext)
+    const { open, setOpen, notes, setNotes, deleteNote, editNote, textInput, setTextInput, categoryList, setCategoryList, title, category } = useContext(NoteContext);
     const classes = useStyles();
-    let arr = [1,2,3,4,5,6,7,8,9,10,11,12];
+
+   
+    useEffect(() => {
+        let savedNotes = JSON.parse(localStorage.getItem('Notes'));
+        if(savedNotes){
+            setNotes([...savedNotes])
+        }
+    },[])
     return (
         <>
         <Paper className={classes.paper}>
             <Grid container>
-                <Grid item xs={12}>
+                <Grid item xs={2}>
                     <Typography variant='h2'>Notes</Typography>
                 </Grid>
+                <Grid item xs={1}>
+                    <Button color='primary' variant='contained' className={classes.button} onClick={() => setOpen(true)}>
+                        New Note
+                    </Button>
+                </Grid>
             </Grid>
-            <Grid container>
-            <Grid item xs={12} sm={12} lg={6} className={classes.noteContainer}>
-               
-                {arr.map((item) => (
-                    <>
-                        <NoteCard key={item}/>
-                    </>
-                ))}
-               
+            <Grid container spacing={5} className={classes.container}>
+                    {notes ? notes.map((item,index) => (
+                        <>
+                            <Grid item xs={3} key={item}>
+                                <NoteCard item={item} index={index} />
+                            </Grid>
+                        </>
+                    )): ''}
             </Grid>
-            <Grid item xs={12} lg={4}>
-                <NoteEditor />
-            </Grid>
-            </Grid>
+        <NoteEditor open={open} setOpen={setOpen} />
         </Paper>
         </>
     )

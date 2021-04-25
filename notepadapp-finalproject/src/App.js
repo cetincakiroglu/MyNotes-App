@@ -1,7 +1,6 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles'
 import Nav from './Nav/Nav'
-
 import links from './Data/links'
 
 const theme = createMuiTheme({
@@ -44,7 +43,7 @@ const theme = createMuiTheme({
     },
     h4:{
       fontFamily:"'Montserrat', sans-serif",
-      fontSize:'28px',
+      fontSize:'24px',
       fontWeight:'300',
     },
     body1:{

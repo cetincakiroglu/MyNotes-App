@@ -5,17 +5,18 @@ import App from './App';
 import { UserProvider } from './Context/UserContext'
 import { NoteProvider } from './Context/NoteContext'
 import { TaskProvider } from './Context/TaskContext'
+import { CardProvider } from './Context/CardContext'
 
 ReactDOM.render(
-  <React.StrictMode>
     <UserProvider>
       <NoteProvider>
         <TaskProvider>
-          <App />
+          <CardProvider>
+            <App />
+          </CardProvider>
         </TaskProvider>
       </NoteProvider>
-    </UserProvider>
-  </React.StrictMode>,
+    </UserProvider>,
   document.getElementById('root')
 );
 

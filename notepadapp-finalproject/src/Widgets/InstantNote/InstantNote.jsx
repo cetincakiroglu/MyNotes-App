@@ -20,6 +20,9 @@ function InstantNote() {
             display: showBtn ? 'block' : 'none',
             margin:'10px auto',
             padding:'10px 50px'
+        },
+        form:{
+            height:'300px'
         }
     })
     const classes = useStyles();
@@ -54,7 +57,7 @@ function InstantNote() {
                 </Grid>
             </Grid>
             <Paper elevation={5}>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className={classes.form}>
                     <TextField 
                     id='standard-basic' 
                     inputRef={formInput}
@@ -67,14 +70,14 @@ function InstantNote() {
                     onChange={(e) => {setTextInput(e.target.value) 
                         e.target.value !== '' ? setShowBtn(true) : setShowBtn(false)}}
                     />
-                    <Button 
-                    variant='contained'
-                    type='submit' 
-                    color='primary' 
-                    className={classes.button}
-                    fullWidth>
-                        save
-                    </Button>
+                        <Button 
+                        variant='contained'
+                        type='submit' 
+                        color='primary' 
+                        className={classes.button}
+                        fullWidth>
+                            save
+                        </Button>
                 </form>
             </Paper>
         </>

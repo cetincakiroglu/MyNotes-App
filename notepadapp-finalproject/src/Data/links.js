@@ -52,7 +52,7 @@ const links = [
         isLink: true
     },
     {
-        link:'/New',
+        link:'/New/:id',
         title:'New Note',
         component: NewNote,
         isExact:true,

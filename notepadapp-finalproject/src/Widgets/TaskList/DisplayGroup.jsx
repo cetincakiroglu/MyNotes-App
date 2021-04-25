@@ -5,14 +5,16 @@ import { TaskContext } from './../../Context/TaskContext'
 
 const useStyles = makeStyles({
     cardHeader:{
-        padding:'0.5em',
         display:'flex',
+        flexWrap:'nowrap',
         flexDirection:'column',
+        height:'3em',
+        padding:'0.25em',
     },
     header:{
-        //TODO: kart başlığını düzelt, aynı hizada olsunlar
+       textOverflow:'ellipsis',
+       whiteSpace:'nowrap'
     },
-
     subheader:{
         alignSelf:'flex-end'
     },
@@ -20,15 +22,14 @@ const useStyles = makeStyles({
         backgroundColor:'#3a3a3a',
         boxShadow:'none',
         minWidth:'5em',
-        height:'100%',
-        maxHeight:'13em',
-        overflow:'hidden',
-        margin:'0 auto',
+        height:'15em',
         display:'flex',
         flexDirection:'column',
     },
     cardContent:{
         height:'80%',
+        margin:'0',
+        padding:'0'
     },
     categories:{
         alignSelf:'bottom'
@@ -40,7 +41,11 @@ const useStyles = makeStyles({
     },
     list:{
         margin:'0',
-        padding:'0'
+        padding:'0',
+        height:'100%',
+        overflowY:'scroll',
+        overflowX:'hidden',
+        scrollbarWidth:'none'
     },
     listItem:{
        margin:'0',
@@ -52,7 +57,7 @@ const useStyles = makeStyles({
 })
 function DisplayGroup({ item, index }) {
     const classes = useStyles();
-    const { taskListInfo, setTaskListInfo, handleCheckbox } = useContext(TaskContext);
+    const { handleCheckbox } = useContext(TaskContext);
 
     return (
         <>

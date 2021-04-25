@@ -8,18 +8,14 @@ import DisplayGroup from './DisplayGroup'
 const useStyles = makeStyles({
     paper:{
         marginTop:'1.2em',
-        minHeight:'500px',
-        backgroundColor:'#3a3a3a'
-    },
-    divider:{
-        transform:'rotate(90deg)'
+        backgroundColor:'#3a3a3a',
+        padding:'0.5em'
     },
     wrapper:{
         minHeight:'25em',
         margin:'0 1em'
     }
 })
-
 
 function TaskListWidget() {
     const classes = useStyles();

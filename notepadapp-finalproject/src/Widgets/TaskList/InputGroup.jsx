@@ -1,10 +1,9 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext } from 'react'
 import { TextField, IconButton,Button, Divider, Grid, List, ListItem, Typography } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { makeStyles } from '@material-ui/core/styles'
 import { TaskContext } from './../../Context/TaskContext'
-import { v4 as uuidv4 } from 'uuid'
 
 //css to hide scrollbar
 import './scrollbar.css'
@@ -35,7 +34,8 @@ const useStyles = makeStyles({
         height:'12em',
         maxHeight:'12em',
         overflowY:'scroll',
-        overflowX:'hidden'
+        overflowX:'hidden',
+        scrollbarWidth:'none'
     },
     task:{
         display:'flex',
@@ -45,7 +45,8 @@ const useStyles = makeStyles({
     },
     categories:{
         overflow:'hidden',
-        textOverflow:'ellipsis'
+        textOverflow:'ellipsis',
+        padding:'0em 1em'
     },
     button:{
         maxWidth:'16em',
@@ -61,82 +62,21 @@ const useStyles = makeStyles({
         justifyContent:'space-between'
     }
 })
+
 function InputGroup() {
     const classes = useStyles();
-    const { taskListInfo, setTaskListInfo } = useContext(TaskContext);
-    const [taskList, setTaskList] = useState([]);
-    const [categoryList, setCategoryList] = useState([]);
-
-    const title = useRef();
-    const taskListItem = useRef();
-    const category = useRef();
-
-    function TaskList(obj){
-        this.id = uuidv4();
-        this.date = new Date().toDateString();
-        this.title = obj.title;
-        this.tasklist = obj.tasklist;
-        this.categories = obj.categories;
-    }
-
-    const addTask = () => {
-        const textInput = taskListItem.current.value;
-        if(textInput && (textInput !== '' || textInput !== ' ')){
-            const taskObj = {
-                task: textInput,
-                status: false
-            };
-      
-            let arr = taskList;
-            arr.unshift(taskObj);
-            setTaskList([...arr]);
-            console.log('TASKS',taskList)
-            taskListItem.current.value='';
-        } else{
-            console.log('NO')
-        }
-    }
-
-    const removeTask = (num) => {
-        let taskArr = [...taskList];
-        taskArr.splice(num,1);
-        setTaskList(taskArr);
-    }
+    const {  
+        taskList, 
+        categoryList, 
+        addTask, 
+        removeTask,
+        addCategory,  
+        title, 
+        category, 
+        taskListItem,
+        handleSubmit 
+    } = useContext(TaskContext);
     
-    const addCategory = () => {
-        let categoryItem = category.current.value;
-        categoryItem = categoryItem.replace(/\s+/g, '');
-
-        let categoryArr = categoryList;
-        categoryArr.unshift(categoryItem);
-        setCategoryList([...categoryArr]);
-        // TODO: event listener ekle, space tuşuna basınca otomatik olarak kategorileri ayırsın.
-        category.current.value='';
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const tags = [...categoryList];
-        const tasks = [...taskList];
-        //create new task list object
-        const newTaskList = new TaskList({title:title.current.value, categories:tags, tasklist:tasks})
-        title.current.value = '';
-        //update state & retrieved form input.
-        let tasksArr = taskListInfo;
-        tasksArr.unshift(newTaskList);
-        setTaskListInfo([...tasksArr]);
-
-        //save to local
-        let savedTaskListInfo = JSON.parse(localStorage.getItem('Task List'));
-        if(savedTaskListInfo && savedTaskListInfo !== []){
-            localStorage.setItem('Task List', JSON.stringify([...taskListInfo, ...savedTaskListInfo]))
-        }else {
-            localStorage.setItem('Task List', JSON.stringify(taskListInfo))
-        }
-        setTaskList([]);
-        setCategoryList([]);
-    }
-
     return (
         <>
             <form className={classes.form} onSubmit={handleSubmit}>
@@ -153,7 +93,7 @@ function InputGroup() {
                     id='standard-basic' 
                     />
                     <IconButton color='primary' onClick={addTask}>
-                        <AddIcon />
+                        <AddRoundedIcon />
                     </IconButton>
                 </div>
 
@@ -177,7 +117,7 @@ function InputGroup() {
                  <div className={classes.taskInput}>
                     <TextField inputRef={category} variant='standard' label='Add Category' id='standard-basic-1'/>
                     <IconButton onClick={addCategory} color='primary'>
-                        <AddIcon />
+                        <AddRoundedIcon />
                     </IconButton>
                 </div>
             
