@@ -11,7 +11,7 @@ function InstantNote() {
     const useStyles = makeStyles({
         inputField:{
             width:'100%',
-            backgroundColor:'#3A3A3A',
+            backgroundColor:'#161616',
         },
         header:{
             marginBottom:'1.2em'

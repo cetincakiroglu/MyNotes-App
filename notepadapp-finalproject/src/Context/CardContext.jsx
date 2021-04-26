@@ -20,7 +20,7 @@ export const CardProvider = props => {
             whiteSpace:'nowrap'
         },
         cardWrapper:{
-            backgroundColor:'#3a3a3a',
+            backgroundColor:'#161616',
             minWidth:'10em',
             height:'28em',
             margin:'0 auto',

@@ -15,10 +15,11 @@ const useStyles = makeStyles({
     paper:{
         marginTop:'1.2em',
         maxWidth:'730px',
-        height:'325px'
+        height:'325px',
+        backgroundColor:'#161616'
     },
     noteCard:{
-        backgroundColor:'#3a3a3a',
+        backgroundColor:'#242424',
         minWidth:'177px',
         height:'300px',
         margin:'0 auto'

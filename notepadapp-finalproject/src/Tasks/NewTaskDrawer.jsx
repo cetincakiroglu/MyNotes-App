@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     paper:{
         minHeight:'100%',
         minWidth:'30vw',
-        backgroundColor:'#3a3a3a',
+        backgroundColor:'#161616',
         margin:'auto'
     },
     inputContainer:{

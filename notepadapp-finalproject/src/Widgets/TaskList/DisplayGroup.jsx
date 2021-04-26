@@ -19,7 +19,7 @@ const useStyles = makeStyles({
         alignSelf:'flex-end'
     },
     taskCard:{
-        backgroundColor:'#3a3a3a',
+        backgroundColor:'#242424',
         boxShadow:'none',
         minWidth:'5em',
         height:'15em',

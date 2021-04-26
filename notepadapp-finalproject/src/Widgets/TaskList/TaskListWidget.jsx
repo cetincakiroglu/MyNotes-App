@@ -8,7 +8,7 @@ import DisplayGroup from './DisplayGroup'
 const useStyles = makeStyles({
     paper:{
         marginTop:'1.2em',
-        backgroundColor:'#3a3a3a',
+        backgroundColor:'#161616',
         padding:'0.5em'
     },
     wrapper:{
