@@ -44,7 +44,7 @@ function NoteCard({ item, index }) {
                         </div>
                             <Divider />
                         <Typography variant='body1'>
-                            Categories: {item.categories.map(item => (`#${item}`))}
+                            Categories: {item.categories && item.categories.map(item => (`#${item}`))}
                         </Typography>
                     </CardContent>
                     <div className={classes.btnContainer}>

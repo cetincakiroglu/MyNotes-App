@@ -1,7 +1,7 @@
 import React,{ useState, useEffect } from 'react'
 import { Grid, Paper, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import DisplayGroup from './DisplayGroup'
+import EventCard from './EventCard'
 import InputGroup from './InputGroup'
 
 const useStyles = makeStyles({
@@ -26,7 +26,7 @@ function RemindersWidget() {
     let DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
     let SCOPES = "https://www.googleapis.com/auth/calendar.events";
 
-    const handleClick = () => {
+    const syncGoogle = (obj) => {
         gapi.load('client:auth2', () => {
             console.log('loaded client');
             gapi.client.init({
@@ -40,15 +40,15 @@ function RemindersWidget() {
             gapi.auth2.getAuthInstance().signIn()
             .then(() => {
                 var event = {
-                    'summary': 'Google I/O 2015',
-                    'location': '800 Howard St., San Francisco, CA 94103',
-                    'description': 'A chance to hear more about Google\'s developer products.',
+                    'summary': obj.eventName,
+                    'location': obj.eventLocation,
+                    'description': obj.eventSummary,
                     'start': {
-                    'dateTime': '2015-05-28T09:00:00-07:00',
+                    'dateTime': new Date(obj.date + ' ' +obj.time).toISOString().slice(0,19),
                     'timeZone': 'America/Los_Angeles'
                     },
                     'end': {
-                    'dateTime': '2015-05-28T17:00:00-07:00',
+                    'dateTime':  new Date(obj.date + ' ' +obj.time).toISOString().slice(0,19),
                     'timeZone': 'America/Los_Angeles'
                     },
                     'recurrence': [
@@ -59,7 +59,7 @@ function RemindersWidget() {
                     {'email': 'sbrin@example.com'}
                     ],
                     'reminders': {
-                    'useDefault': false,
+                    'useDefault': true,
                     'overrides': [
                         {'method': 'email', 'minutes': 24 * 60},
                         {'method': 'popup', 'minutes': 10}
@@ -77,6 +77,14 @@ function RemindersWidget() {
                 })
             })
         })
+    }
+
+    const deleteEvent = (num) => {
+        let eventsArr = eventList;
+        eventsArr.splice(num,1);
+        setEventList([...eventsArr]);
+
+        localStorage.setItem('Events', JSON.stringify(eventList));
     }
 
     useEffect(() => {
@@ -97,7 +105,7 @@ function RemindersWidget() {
                 <Grid container spacing={2} justify='center' className={classes.displayContainer}>
                     {eventList.length > 0 ? eventList.map((item,index) => (
                         <Grid item xs={12}>
-                            <DisplayGroup item={item} index={index} key={item.id} eventList={eventList} setEventList={setEventList} />
+                            <EventCard item={item} index={index} key={item.id} eventList={eventList} setEventList={setEventList} deleteEvent={deleteEvent} syncGoogle={syncGoogle}/>
                         </Grid>
                     )): 'You have 0 upcoming events'}
                 </Grid>

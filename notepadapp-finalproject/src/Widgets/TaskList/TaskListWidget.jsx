@@ -35,14 +35,14 @@ function TaskListWidget() {
             </Grid> 
            <Paper className={classes.paper} elevation={5}>
             <Grid container justify='space-between'>
-                <Grid item xs={12} sm={12} md={5} className={classes.wrapper}>
-                    <Grid container spacing={3}>
-                       {taskListInfo.slice(0,4).map((item,index) => (
-                           <DisplayGroup item={item} index={index} key={index}/>
-                       ))}
+                <Grid item xs={12} md={8}>
+                    <Grid container spacing={2}>
+                    {taskListInfo.slice(0,4).map((item,index) => (
+                            <DisplayGroup item={item} index={index} key={index}/>
+                        ))}
                     </Grid>
                 </Grid>
-                <Grid item xs={12} sm={12} md={4} className={classes.wrapper}>
+                <Grid item xs={12} md={3} >
                     <InputGroup />
                 </Grid>
             </Grid>

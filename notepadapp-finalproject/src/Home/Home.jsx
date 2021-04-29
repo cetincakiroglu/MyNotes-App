@@ -22,40 +22,39 @@ const useStyles = makeStyles({
   },
 
 })
+
 function Home() {
-  const { name, setName, surname, setSurname } = useContext(UserContext);
+
   const classes = useStyles();
   
 
-  useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    console.log(userInfo)
-    setName(userInfo[0].name)
-    setSurname(userInfo[0].surname)
-  },[])
+  // useEffect(() => {
+  //   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  //   console.log(userInfo)
+  //   setName(userInfo[0].name)
+  //   setSurname(userInfo[0].surname)
+  // },[])
 
     return (
         <>
         <Paper className={classes.paper}>
           <Grid container>
             <Grid item xs={12}>
-              <Typography className={classes.message} variant='h1'>Welcome, {name}!</Typography>
+              <Typography className={classes.message} variant='h1'>Welcome!</Typography>
             </Grid>
           </Grid>
             {/* Note widgets */}
-            <Grid container justify='space-between' className={classes.widgetWrapper}>
-              <Grid item xs={4} >
+            <Grid container  className={classes.widgetWrapper} >
                 <NotesWidget />
-              </Grid>
-              <Grid item> 
+              <Grid item style={{marginTop:'1.2em'}}>
                 <NewNoteBtn />
-              </Grid>
-              <Grid item xs={6} >
+            </Grid>
+              <Grid item >
                 <InstantNote />
               </Grid>
             </Grid>
             <Grid container justify='space-between' className={classes.widgetWrapper}>
-              <Grid item xs={12} sm={12} md={7}>
+              <Grid item xs={12} sm={12} md={12} lg={7}>
                 <TaskListWidget />
               </Grid>
               <Grid item xs={12} md={4}>

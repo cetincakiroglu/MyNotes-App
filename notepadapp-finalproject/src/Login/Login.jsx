@@ -2,7 +2,6 @@ import React,{ useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Typography, Button, TextField, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles'
-import { UserContext } from '../Context/UserContext'
 
 const useStyles = makeStyles({
   form:{
@@ -26,7 +25,6 @@ const useStyles = makeStyles({
 function Login() {
   const classes = useStyles();
   const history = useHistory();
-  const { name, setName, surname, setSurname, userInfo, setUserInfo} = useContext(UserContext);
 
   function User(obj){
       this.name = obj.username;

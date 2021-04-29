@@ -1,4 +1,5 @@
 import React, { createContext, useState, useRef, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 export const NoteContext = createContext();
 
@@ -7,6 +8,9 @@ export const NoteProvider = props => {
     const [ notes, setNotes ] = useState([]);
     const [ categoryList, setCategoryList ] = useState([]);
     const [ open, setOpen ] = useState(false);
+    const [noteId, setNoteId] = useState([0]);
+    const [header, setHeader] = useState([]);
+    const history = useHistory();
 
     const title = useRef();
     const category = useRef();
@@ -26,13 +30,18 @@ export const NoteProvider = props => {
         localStorage.setItem('Notes', JSON.stringify(notes))
     }
 
-    const editNote = (obj, index) => {
-        // console.log(obj);
+    const editNote = (obj) => {
+        // TODO: change the update method, that's not viable.
+        let arr = noteId;
+        arr.unshift(obj.id)
+        arr.pop();
+        setNoteId([...arr]);
+        console.log(noteId.join(''));
+        setHeader(obj.title)
+        let categories = obj.categories ? obj.categories : '';
         setOpen(true);
-        title.value = obj.title ? obj.title : 'Untitled';
-        title.current.value = obj.title ? obj.title : 'Untitled Note';
         setTextInput(obj.note);
-        setCategoryList([...obj.categories]);
+        setCategoryList([...categories]);
     }
 
     const addCategory = (e) => {
@@ -55,42 +64,70 @@ export const NoteProvider = props => {
         this.title = obj.title;
         this.note = obj.note;
         this.categories = obj.categories;
+        this.status = 'new'
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const notesArr = notes;
+        let notesArr = notes;
         const noteTitle = title.current.value;
         const note = textInput;
         const tags = [...categoryList]
-        const newNote = new Note({title: noteTitle, note:note, categories:tags});
-        if(note){
+
+        // check if note will be edited or it's a new note 
+        if(noteId.join('') !== 0){
+            console.log(noteId)
+            let editedNote = {id: noteId.join(''), title: title.current.value, note: textInput, categories: tags}
+            notesArr.map(item => item.id === noteId.join('') ? item.note = editedNote.note : item )
+
+        } else if(noteId.join('') === 0 && note){
+            const newNote = new Note({title: noteTitle, note:note, categories:tags});
             notesArr.unshift(newNote);
-            setNotes([...notesArr]);
-
-            localStorage.setItem('Notes', JSON.stringify(notes))    
-            title.current.value='';
-            category.current.value='';
-            setTextInput('');
-            setCategoryList([]);
         }
-
-        console.log(notes);
+        setNotes([...notesArr]);
+        localStorage.setItem('Notes', JSON.stringify(notes))    
+        title.current.value='';
+        category.current.value='';
+        setTextInput('');
+        setCategoryList([]);
+        setHeader([]);
     }
     
     const handleChange = (e,editor) => {
         const data = editor.getData();
         setTextInput(data)
-        console.log(textInput)
     }
     
+    const value={
+        header,
+        setHeader,
+        textInput, 
+        setTextInput, 
+        notes, 
+        setNotes, 
+        categoryList, 
+        setCategoryList, 
+        title, 
+        category, 
+        Note, 
+        deleteNote, 
+        editNote, 
+        open, 
+        setOpen, 
+        handleSubmit, 
+        addCategory, 
+        handleChange, 
+        noteId, 
+        setNoteId 
+    }
+
     useEffect(() => {
         let savedItems = JSON.parse(localStorage.getItem('Notes'))
         setNotes([...savedItems])
     },[])
     return (
-        <NoteContext.Provider value={{textInput: textInput, setTextInput: setTextInput, notes: notes, setNotes: setNotes, categoryList: categoryList, setCategoryList: setCategoryList, title:title, category: category, Note: Note, deleteNote: deleteNote, editNote:editNote, open: open, setOpen: setOpen, handleSubmit: handleSubmit, addCategory: addCategory, handleChange: handleChange}}>
+        <NoteContext.Provider value={value}>
             { props.children }
         </NoteContext.Provider>
     )

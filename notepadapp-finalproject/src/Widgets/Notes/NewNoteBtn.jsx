@@ -8,8 +8,6 @@ const useStyles = makeStyles({
     button:{
         height:'325px',
         maxWidth:'150px',
-        marginTop:'67px',
-        // TODO: FIX THIS MARGIN IS NOT WORKING PROPERLY
     },
     icon:{
        transform: 'scale(1.5)'

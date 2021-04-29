@@ -3,12 +3,11 @@ import { Paper, Drawer, Tooltip, IconButton, Button, TextField, Typography } fro
 import React,{ useContext } from 'react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-import { config } from './editorConfig'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import { makeStyles } from '@material-ui/core/styles';
 import { NoteContext } from './../Context/NoteContext';
-import { v4 as uuidv4 } from 'uuid'
+
 
 const useStyles = makeStyles({
     paper:{
@@ -38,10 +37,8 @@ const useStyles = makeStyles({
     }
 })
 function NoteEditor({ open, setOpen }) {
-    const {textInput, setTextInput, notes, setNotes, categoryList, setCategoryList, title, category, addCategory, handleChange, handleSubmit } = useContext(NoteContext);
+    const {textInput, categoryList, title, category, addCategory, handleChange, handleSubmit } = useContext(NoteContext);
     const classes = useStyles();
-
-    ClassicEditor.defaultConfig = config;
 
     return (
         <>  
@@ -57,7 +54,6 @@ function NoteEditor({ open, setOpen }) {
                             <form onKeyPress={(e) => e.key === 'Enter' && e.preventDefault()} onSubmit={handleSubmit} className={classes.form}>
                                 <TextField id='standard-basic' inputRef={title} variant='outlined' label='Title' className={classes.header}/>
                                 <CKEditor
-                                    config={config}
                                     editor={ClassicEditor}
                                     data={textInput}
                                     className='ck-content'

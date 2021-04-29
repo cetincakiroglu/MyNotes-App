@@ -1,7 +1,21 @@
+import React, { useContext } from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles'
 import Nav from './Nav/Nav'
 import links from './Data/links'
+import PrivateRoute from './Auth/PrivateRoute';
+import { AuthProvider } from './Context/AuthContext'
+import { AuthContext } from './Context/AuthContext'
+
+import Home from './Home/Home'
+import Info from './Info/Info'
+import Notes from './Notes/Notes'
+import Tasks from './Tasks/Tasks'
+import Reminders from './Reminders/Reminders'
+import NewNote from './Notes/NewNote'
+import Signup from './Auth/Signup'
+import Login from './Auth/Login'
+import ResetPassword from './Auth/ResetPassword'
 
 const theme = createMuiTheme({
   palette: {
@@ -79,28 +93,58 @@ const useStyles = makeStyles({
 })
 
 function App() {
-  const routeMaps = links.map((item, index) => (
-    <Route 
-      key = {index}
-      exact = {item.isExact}
-      path = {item.link}
-      component = {item.component}
-    />
+  const { currentUser } = useContext(AuthContext);
+  const routeMaps = links.map((item,index) => (
+    <Route
+      key={index}
+      exact={item.isExact}
+      path={item.link}
+      component={item.component}
+      />
   ))
+  const privateRoutes = links.filter(item => item.isPrivate === true)
+  .map((item,index) => (
+   <PrivateRoute 
+     key={index}
+     exact path ={item.link}
+     component={item.component}
+   />
+  ));
+  const publicRoutes = links.filter(item => item.isPrivate === false)
+  .map((item,index) => (
+   <Route
+     key={index}
+     exact={item.isExact}
+     path={item.link}
+     component={item.component}
+   />
+  
+  ))
+
   const classes = useStyles();
   return (
     <>
-    <ThemeProvider theme={theme}>
-      <div className={classes.container}>
-        <BrowserRouter>
-          <Nav />
-        <Switch>
-          {routeMaps}
-        </Switch>
-        </BrowserRouter>
-      </div>
-    </ThemeProvider>
-    </>
+      <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            <div className={classes.container}>
+                  { currentUser ? <Nav /> : <></>}
+                <Switch>
+                  <Route path ='/Info' component={Info}/>
+                  <Route path ='/Signup' component={Signup}/>
+                  <Route path ='/Login' component={Login}/>
+                  <Route path ='/Forgot-Password' component ={ResetPassword}/>
+                  <PrivateRoute exact path ='/' component={Home}/>
+                  <PrivateRoute exact path ='/Notes' component ={Notes}/>
+                  <PrivateRoute exact path ='/Tasks' component ={Tasks}/>
+                  <PrivateRoute exact path ='/Reminders' component ={Reminders}/>
+                  <PrivateRoute exact path ='/New' component ={NewNote}/>
+                  <PrivateRoute path ='/New/:id' component ={NewNote}/>
+                  {/* <PrivateRoute exact path ='/New/:id' component={NewNote} */}
+                </Switch>
+            </div>
+          </ThemeProvider>
+      </BrowserRouter>
+   </>
   );
 }
 

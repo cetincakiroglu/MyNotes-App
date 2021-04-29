@@ -26,26 +26,20 @@ function InstantNote() {
         }
     })
     const classes = useStyles();
-    const { textInput, setTextInput, notes } = useContext(NoteContext);
+    const { textInput, setTextInput, notes, setNotes, Note } = useContext(NoteContext);
     const formInput = useRef();
-
-    function Note(obj){
-        this.id = uuidv4();
-        this.date = new Date().toDateString();
-        this.title = 'Untitled Note';
-        this.text = obj.textInput;
-        this.categories = null;
-    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newNote = new Note({textInput: textInput})
-        notes.push(newNote);
+        const newNote = new Note({note: textInput})
+        let notesArr = notes;
+        notesArr.unshift(newNote);
         formInput.current.value='';
+        setNotes([...notesArr]);
         console.log(notes)
         setShowBtn(false)
         localStorage.setItem('Notes',JSON.stringify(notes))
-        //TODO: update storage to store new note
+      
     }
 
 

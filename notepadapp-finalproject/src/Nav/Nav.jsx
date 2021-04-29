@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Drawer,Collapse, Divider, Avatar, CardHeader, ListItem, List, ListItemText, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { UserContext } from './../Context/UserContext';
+import { AuthContext } from './../Context/AuthContext';
 
 const useStyles = makeStyles({
     root: {
@@ -33,11 +33,12 @@ const useStyles = makeStyles({
 function Nav(props) {
     const classes = useStyles();
     const { history } = props;
-    const { name, setName, surname, setSurname } = useContext(UserContext);
+    const { logout, error, setError } = useContext(AuthContext);
+    // const { name, setName, surname, setSurname } = useContext(UserContext);
     const navList = [
         {
             title: 'Home',
-            onClick: () => history.push('/Home')
+            onClick: () => history.push('/')
         },
         {
             title: 'Notes',
@@ -56,13 +57,24 @@ function Nav(props) {
             onClick: () => history.push('/Info')
         }
     ]
+
+    const handleLogOut = async () => {
+        setError('');
+        try{
+            await logout();
+            history.push('/Login')
+        }catch(err){
+            console.log(err);
+            setError('Failed to log out')
+        }
+    }
     
-    useEffect(() => {
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        console.log(userInfo)
-        setName(userInfo[0].name)
-        setSurname(userInfo[0].surname)
-    },[])
+    // useEffect(() => {
+    //     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    //     console.log(userInfo)
+    //     setName(userInfo[0].name)
+    //     setSurname(userInfo[0].surname)
+    // },[])
 
     return (
         <>
@@ -72,8 +84,8 @@ function Nav(props) {
                     R
                     </Avatar>
                     }
-                    title={name}
-                    subheader={surname}
+                    title='Name'
+                    subheader='Surname'
                     />
                     <Divider />
                     <List className={classes.list}>
@@ -82,7 +94,7 @@ function Nav(props) {
                             return(
                                 <ListItem className={classes.listItem} button key={index} onClick={onClick} >
                                     <ListItemText secondary={title} />
-                                    <Collapse in={true}  timeout="auto" unmountOnExit>
+                                    <Collapse in={false}  timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding>
                                         <ListItem button className={classes.nested}>
                                             <ListItemText primary="All" />
@@ -101,7 +113,7 @@ function Nav(props) {
                     </List>
                     <Divider />
                     <div className={classes.buttonContainer}>
-                        <Button variant='outlined' color='secondary' fullWidth={true}>Log out</Button> 
+                        <Button onClick={handleLogOut} variant='outlined' color='secondary' fullWidth={true}>Log out</Button> 
                     </div>
             </Drawer>
         </>

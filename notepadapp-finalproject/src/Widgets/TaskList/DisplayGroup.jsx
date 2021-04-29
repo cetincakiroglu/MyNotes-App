@@ -61,7 +61,7 @@ function DisplayGroup({ item, index }) {
 
     return (
         <>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
             <Card className={classes.taskCard} key={index}>
                 <div className={classes.cardHeader}>
                     <Typography variant='caption' className={classes.subheader}>{item.date}</Typography>

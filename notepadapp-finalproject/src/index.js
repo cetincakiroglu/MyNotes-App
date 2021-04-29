@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './css/main.css'
 import App from './App';
-import { UserProvider } from './Context/UserContext'
+
 import { NoteProvider } from './Context/NoteContext'
 import { TaskProvider } from './Context/TaskContext'
 import { CardProvider } from './Context/CardContext'
+import { AuthProvider } from './Context/AuthContext'
 
 ReactDOM.render(
-    <UserProvider>
+  <AuthProvider>
       <NoteProvider>
         <TaskProvider>
           <CardProvider>
@@ -16,7 +17,7 @@ ReactDOM.render(
           </CardProvider>
         </TaskProvider>
       </NoteProvider>
-    </UserProvider>,
+  </AuthProvider>,
   document.getElementById('root')
 );
 

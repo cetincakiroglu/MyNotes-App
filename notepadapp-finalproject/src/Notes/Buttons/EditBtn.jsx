@@ -15,7 +15,7 @@ function EditBtn({ showBtn, item, index }) {
     return (
         <>
             <Tooltip title='Edit'>
-                <IconButton className={classes.editBtn} color='primary' onClick={() => editNote(item, index)}>
+                <IconButton className={classes.editBtn} color='primary' onClick={() => editNote(item)}>
                     <EditRoundedIcon />
                 </IconButton>
             </Tooltip>

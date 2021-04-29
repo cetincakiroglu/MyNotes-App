@@ -1,30 +1,33 @@
-import React from 'react'
+import React,{ useState } from 'react'
 import { Card, Typography, Divider, Tooltip, IconButton } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+import DeleteOutline from '@material-ui/icons/DeleteOutline'
+import DeleteBtn from './Buttons/DeleteBtn'
+import GoogleBtn from './Buttons/GoogleBtn'
+
 
 const useStyles = makeStyles({
-    icon:{
-       transform:'scale(0.5)',
-    },
-    iconContainer:{
-        margin:'auto',
-        width:'32px',
-        height:'32px'
-    },
+
     card:{
-        
         padding:'0.5em',
         display:'flex',
         justifyContent:'space-between',
         margin:'0 auto'
     },
+    buttonContainer:{
+        width:'20%',
+        height:'100%',
+        display:'flex',
+        justifyContent:'space-around'
+    }
 })
-function DisplayGroup({ item,index }) {
-
+function EventCard({ item,index, deleteEvent, syncGoogle }) {
+    const [showBtn, setShowBtn] = useState(false);
     const classes = useStyles();
+
     return (
         <>
-            <Card className={classes.card}>
+            <Card className={classes.card} onMouseOver={() => setShowBtn(true)} onMouseLeave={() => setShowBtn(false)}>
                 <div>
                     <Typography variant='body2'>{item.date}</Typography>
                     <Typography variant='body2'>{item.time}</Typography>
@@ -34,16 +37,13 @@ function DisplayGroup({ item,index }) {
                     <Typography variant='body1'>{item.eventSummary}</Typography>
                     <Typography variant='body1'>{item.eventLocation}</Typography>
                 </div>
-                <div>
-                    <Tooltip title='Add to Google Calendar'>
-                        <IconButton >
-                            <img src="https://img.icons8.com/fluent/48/000000/google-logo.png" className={classes.icon} alt='google logo'/>
-                        </IconButton>
-                    </Tooltip>
+                <div className={classes.buttonContainer}>
+                    <DeleteBtn showBtn={showBtn} deleteEvent={deleteEvent} index={index}/>
+                    <GoogleBtn showBtn={showBtn} syncGoogle={syncGoogle} item={item} index={index}/>
                 </div>
             </Card>
         </>
     )
 }
 
-export default DisplayGroup
+export default EventCard
