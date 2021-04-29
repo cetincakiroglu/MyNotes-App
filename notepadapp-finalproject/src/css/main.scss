@@ -3,15 +3,10 @@
  * CKEditor 5 (v27.1.0) content styles.
  * Generated on Wed, 21 Apr 2021 07:00:21 GMT.
  * For more information, check out https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/content-styles.html
- */
- * {
-    scrollbar-width: thin;
-    scrollbar-color: blue orange;
-  }
-  
+
   /* Works on Chrome, Edge, and Safari */
   *::-webkit-scrollbar {
-    width: 12px;
+    width: 0;
   }
  :root {
     --ck-color-mention-background: hsla(341, 100%, 30%, 0.1) !important;

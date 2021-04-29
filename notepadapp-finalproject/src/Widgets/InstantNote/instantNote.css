@@ -1,3 +1,9 @@
 .MuiOutlinedInput-multiline{
     padding:15px !important;
+    height:420px !important;
+}
+
+*::placeholder{
+    font-size: 32px !important;
+    color:#76cb01 !important;
 }

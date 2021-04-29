@@ -8,27 +8,35 @@ import 'swiper/components/effect-coverflow/effect-coverflow.scss'
 import SwiperCore, { Navigation, Pagination, A11y, EffectCoverflow } from 'swiper'
 import { NoteContext } from './../../Context/NoteContext'
 import './swiper.css'
+//TODO: splide js kullan
+import { Splide, SplideSlide} from '@splidejs/react-splide'
+import '@splidejs/splide/dist/css/themes/splide-default.min.css';
+import NewNoteBtn from './NewNoteBtn'
 
 
 const useStyles = makeStyles({
     slider:{
-        position:'relative',
-        width:'90%',
-        padding:'10px'
+        // position:'relative',
+        // maxWidth:'95%',
+        padding:'10px 0px'
     },
     paper:{
         marginTop:'1.2em',
-        maxWidth:'90%',
-        height:'325px',
-        backgroundColor:'#161616'
+        maxWidth:'95%',
+        padding:'1em',
+        backgroundColor:'#161616',
+        position:'relative',
     },
     noteCard:{
         backgroundColor:'#242424',
-        width:'177px',
+        width:'200px',
         height:'300px',
         margin:'0 auto',
         '&:hover':{
-            cursor:'pointer'
+            cursor:'pointer',
+            transform: 'scale(1.05)',
+            transition:'.1s ease',
+            
         }
     },
     cardHeader:{
@@ -55,6 +63,15 @@ const useStyles = makeStyles({
         textOverflow:'ellipsis',
         whiteSpace:'nowrap'
      },
+    title:{
+        color:'#76cb01',
+    },
+    button:{
+        alignSelf:'center', 
+        order:'1', 
+        marginLeft:'1.5em',
+       //TODO: boyutu düzelt
+    }
 })
 
 
@@ -72,28 +89,47 @@ function NotesWidget() {
         setHeader([...headerArr])
       
     }
+    const splideOptions={
+        type        : 'slide',
+        rewind      : true,
+        gap         : '1em',
+        pagination  : false,
+        perPage     : 5,
+        perMove     : 1,
+        cover       : false,
+        focus       : 'end',
+        isNavigation: false,
+        updateOnMove: true,
+        drag        : true,
+        trimSpace   : true,
+        lazyLoad    : true,
+        preloadPages: 0,
+        slideFocus  : false,
+        clones: 0,
+        width: '1100px',
+        height:325,
+    }
     useEffect(() => {
         const savedItem = JSON.parse(localStorage.getItem('Notes'));
         if(savedItem && savedItem !== []) setNotes([...savedItem])
     },[])
     return (
         <>  
-            <Grid item xs={12}>
-                <Typography variant='h3'>Your Notes</Typography>
-            </Grid>
-            <Grid item xs={12} md={10}>
+            <Grid item xs={12} md={12}>
                 <Paper className={classes.paper} elevation={5}>
-                        <Swiper
-                        className={classes.slider}
-                        loop='false'
-                        navigation
-                        pagination={{clickable: true}}
-                        spaceBetween={10}
-                        slidesPerView={4}
-                        >
-                            {notes.map((item,index) => (
-                            <SwiperSlide key={index} onClick={() => openInLarge(item)} >
-                                <Card className={classes.noteCard} key={item.id}>
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <Typography variant='h3' className={classes.title}>Notes</Typography>
+                        </Grid>
+                        <Grid item className={classes.button}>
+                            <NewNoteBtn />
+                        </Grid>
+
+                    <Grid item xs={11} >
+                    <Splide options={splideOptions} className={classes.slider}>
+                        {notes.map((item,index) =>(
+                            <SplideSlide key={index}>
+                                 <Card className={classes.noteCard} key={item.id}>
                                     <div className={classes.cardHeader}>
                                         <Typography variant='h4'className={classes.header}> {item.title ? item.title : 'Untitled Note'} </Typography>
                                         <Typography variant='caption' className={classes.subheader}>{item.date}</Typography>
@@ -105,9 +141,12 @@ function NotesWidget() {
                                         </Typography>
                                     </CardContent>
                                 </Card>
-                            </SwiperSlide>
-                            ))}
-                        </Swiper>
+                            </SplideSlide>
+                        ))}
+                    </Splide>
+                    </Grid>
+                    </Grid>
+
                 </Paper>
             </Grid>
         </>

@@ -1,5 +1,4 @@
 import React, { useEffect, useContext } from 'react'
-import { UserContext } from './../Context/UserContext'
 import { Typography, Paper, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import InstantNote from '../Widgets/InstantNote/InstantNote'
@@ -10,9 +9,12 @@ import RemindersWidget from '../Widgets/Reminders/RemindersWidget'
 
 const useStyles = makeStyles({
   paper:{
-    minHeight:'100vh',
+    height:'100vh',
     width:'100%',
     borderRadius:'0',
+    overflowX:'hidden',
+    overflowY:'scroll',
+    scrollbarWidth:'none'
   },
   message:{
     paddingLeft:'2rem'
@@ -27,15 +29,7 @@ function Home() {
 
   const classes = useStyles();
   
-
-  // useEffect(() => {
-  //   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  //   console.log(userInfo)
-  //   setName(userInfo[0].name)
-  //   setSurname(userInfo[0].surname)
-  // },[])
-
-    return (
+  return (
         <>
         <Paper className={classes.paper}>
           <Grid container>
@@ -44,22 +38,22 @@ function Home() {
             </Grid>
           </Grid>
             {/* Note widgets */}
-            <Grid container  className={classes.widgetWrapper} >
+            <Grid container  className={classes.widgetWrapper}>
+                <Grid item xs={12} md={10}>
                 <NotesWidget />
-              <Grid item style={{marginTop:'1.2em'}}>
-                <NewNoteBtn />
-            </Grid>
-              <Grid item >
+
+                </Grid>
+                <Grid item xs={12} md={2}>
                 <InstantNote />
-              </Grid>
+                </Grid>
             </Grid>
             <Grid container justify='space-between' className={classes.widgetWrapper}>
               <Grid item xs={12} sm={12} md={12} lg={7}>
                 <TaskListWidget />
               </Grid>
-              <Grid item xs={12} md={4}>
+              {/* <Grid item xs={12} md={4}>
                 <RemindersWidget />
-              </Grid>
+              </Grid> */}
             </Grid>
         </Paper>
         </>

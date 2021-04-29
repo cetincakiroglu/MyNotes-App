@@ -22,7 +22,7 @@ function InstantNote() {
             padding:'10px 50px'
         },
         form:{
-            height:'300px'
+           marginTop:'1.2em'
         }
     })
     const classes = useStyles();
@@ -42,24 +42,18 @@ function InstantNote() {
       
     }
 
-
     return (
         <>  
-            <Grid container>
-                <Grid item xs={12} className={classes.header}>
-                    <Typography variant='h3'>Instant Note</Typography>
-                </Grid>
-            </Grid>
             <Paper elevation={5}>
                 <form onSubmit={handleSubmit} className={classes.form}>
                     <TextField 
                     id='standard-basic' 
                     inputRef={formInput}
                     aria-label='Instant Note' 
-                    placeholder="What's on your mind ?" 
+                    placeholder="Instant Note" 
                     className={classes.inputField} 
                     multiline 
-                    rows={13} 
+                    rows={16}
                     variant='outlined'
                     onChange={(e) => {setTextInput(e.target.value) 
                         e.target.value !== '' ? setShowBtn(true) : setShowBtn(false)}}
