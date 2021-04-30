@@ -1,42 +1,30 @@
+import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Paper, Grid, Typography, Card, CardContent, CardHeader, Divider } from '@material-ui/core'
+import { Paper, Grid, Typography, Card, CardContent, IconButton, Tooltip, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/swiper-bundle.css'
-import 'swiper/components/effect-coverflow/effect-coverflow.scss'
-import SwiperCore, { Navigation, Pagination, A11y, EffectCoverflow } from 'swiper'
 import { NoteContext } from './../../Context/NoteContext'
-import './swiper.css'
-//TODO: splide js kullan
 import { Splide, SplideSlide} from '@splidejs/react-splide'
-import '@splidejs/splide/dist/css/themes/splide-default.min.css';
-import NewNoteBtn from './NewNoteBtn'
 
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
 
 const useStyles = makeStyles({
-    slider:{
-        // position:'relative',
-        // maxWidth:'95%',
-        padding:'10px 0px'
-    },
     paper:{
-        marginTop:'1.2em',
-        maxWidth:'95%',
-        padding:'1em',
+        maxWidth:'100%',
+        padding:'0 15px',
         backgroundColor:'#161616',
         position:'relative',
+        minHeight:'410px',
     },
     noteCard:{
         backgroundColor:'#242424',
-        width:'200px',
+        width:'180px',
         height:'300px',
         margin:'0 auto',
         '&:hover':{
             cursor:'pointer',
-            transform: 'scale(1.05)',
+            transform: 'scale(1.01)',
             transition:'.1s ease',
-            
         }
     },
     cardHeader:{
@@ -52,34 +40,33 @@ const useStyles = makeStyles({
         maxHeight: '100%',
         WebkitBoxOrient: 'vertical',
         display: '-webkit-box',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
+        textOverflow:'ellipsis',
+        overflow:'hidden',
         WebkitLineClamp: '8',
+   
     },
     subheader:{
         alignSelf:'flex-end'
     },
     header:{
         textOverflow:'ellipsis',
-        whiteSpace:'nowrap'
+        whiteSpace:'nowrap',
+        overflow:'hidden'
      },
     title:{
-        color:'#76cb01',
+        margin:'20px 0px'
     },
     button:{
-        alignSelf:'center', 
-        order:'1', 
-        marginLeft:'1.5em',
-       //TODO: boyutu düzelt
+        marginLeft:'10px'
     }
 })
 
 
-function NotesWidget() {
+function NotesWidget({setOpen}) {
     const classes = useStyles();
-    const { notes, setNotes, setTextInput, title, header, setHeader } = useContext(NoteContext);
+    const { notes, setNotes, setTextInput, header, setHeader, openDrawer } = useContext(NoteContext);
     const history = useHistory();
-    SwiperCore.use([Navigation, Pagination, A11y, EffectCoverflow])
+  
     
     const openInLarge = (item) => {
         history.push(`/New/${item.id}`)
@@ -106,30 +93,33 @@ function NotesWidget() {
         preloadPages: 0,
         slideFocus  : false,
         clones: 0,
-        width: '1100px',
         height:325,
     }
+
+    
     useEffect(() => {
         const savedItem = JSON.parse(localStorage.getItem('Notes'));
         if(savedItem && savedItem !== []) setNotes([...savedItem])
     },[])
     return (
         <>  
-            <Grid item xs={12} md={12}>
-                <Paper className={classes.paper} elevation={5}>
-                    <Grid container>
-                        <Grid item xs={12}>
-                            <Typography variant='h3' className={classes.title}>Notes</Typography>
-                        </Grid>
-                        <Grid item className={classes.button}>
-                            <NewNoteBtn />
-                        </Grid>
-
-                    <Grid item xs={11} >
-                    <Splide options={splideOptions} className={classes.slider}>
+        <Paper className={classes.paper} elevation={5}>
+            <Grid container alignItems='center'>
+                <Grid item className={classes.title}>
+                    <Typography variant='h3' color='primary'>Notes</Typography>
+                </Grid>
+                <Grid item className={classes.button}>
+                    <Tooltip title='New Note'>
+                        <IconButton onClick={openDrawer} color='primary'>
+                            <AddRoundedIcon />
+                        </IconButton>
+                    </Tooltip>
+                </Grid>
+                <Grid item xs={12} >
+                    <Splide options={splideOptions}>
                         {notes.map((item,index) =>(
                             <SplideSlide key={index}>
-                                 <Card className={classes.noteCard} key={item.id}>
+                                <Card className={classes.noteCard} key={item.id} onClick={() => openInLarge(item)}>
                                     <div className={classes.cardHeader}>
                                         <Typography variant='h4'className={classes.header}> {item.title ? item.title : 'Untitled Note'} </Typography>
                                         <Typography variant='caption' className={classes.subheader}>{item.date}</Typography>
@@ -144,11 +134,9 @@ function NotesWidget() {
                             </SplideSlide>
                         ))}
                     </Splide>
-                    </Grid>
-                    </Grid>
-
-                </Paper>
+                </Grid>
             </Grid>
+        </Paper>
         </>
     )
 }

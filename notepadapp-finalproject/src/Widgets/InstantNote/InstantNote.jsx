@@ -1,8 +1,7 @@
 import React, { useContext, useRef, useState } from 'react'
 import { NoteContext } from './../../Context/NoteContext';
-import { Paper,TextField, Grid, Button, Typography } from '@material-ui/core'
+import { Paper,TextField, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { v4 as uuidv4 } from 'uuid';
 import './instantNote.css'
 
 
@@ -17,12 +16,14 @@ function InstantNote() {
             marginBottom:'1.2em'
         },
         button:{
+            position:'absolute',
+            bottom:1,
+            borderTopLeftRadius:0,
+            borderTopRightRadius:0,
             display: showBtn ? 'block' : 'none',
-            margin:'10px auto',
-            padding:'10px 50px'
         },
         form:{
-           marginTop:'1.2em'
+           position:'relative'
         }
     })
     const classes = useStyles();

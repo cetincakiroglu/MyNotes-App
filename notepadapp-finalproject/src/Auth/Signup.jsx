@@ -22,6 +22,7 @@ function Signup() {
             setLoading(true);
             await signup(email.current.value, password.current.value)
             history.push('/')
+            setUserInfo(email.current.value)
           
         }catch(err){
             console.log(err);
@@ -91,7 +92,7 @@ function Signup() {
                       </Grid>
                           <Button variant='contained' color='primary' type='submit' className={classes.button} disabled={loading}>Sign Up</Button>
                       <Grid item xs={8}>
-                          <Typography variant='body2' style={{textAlign:'center', margin:'1em 0'}}>Sign in with <Link to='/Signup' className={classes.link}>Google</Link></Typography>
+                          {/* <Typography variant='body2' style={{textAlign:'center', margin:'1em 0'}}>Sign in with <Link to='/Signup' className={classes.link}>Google</Link></Typography> */}
                           <Typography variant='body2'>Already have an account? <Link to='/Login' className={classes.link}>Login</Link></Typography>
                       </Grid>
                   </Grid>

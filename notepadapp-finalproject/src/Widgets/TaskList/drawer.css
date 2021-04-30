@@ -1,0 +1,21 @@
+.taskList::-webkit-scrollbar {
+  display: none !important;
+}
+
+@keyframes componentDrawer{
+  from {
+    display:none;
+  }
+  to {
+    display:block;
+  }
+}
+
+@keyframes openTaskList{
+  from{
+    width:0
+  }
+  to{
+    width:30%;
+  }
+}

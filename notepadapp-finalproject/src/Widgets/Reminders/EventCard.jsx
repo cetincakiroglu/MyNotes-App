@@ -1,26 +1,32 @@
 import React,{ useState } from 'react'
-import { Card, Typography, Divider, Tooltip, IconButton } from '@material-ui/core'
+import { Card, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import DeleteOutline from '@material-ui/icons/DeleteOutline'
 import DeleteBtn from './Buttons/DeleteBtn'
 import GoogleBtn from './Buttons/GoogleBtn'
-
 
 const useStyles = makeStyles({
 
     card:{
+        minHeight:'100px',
         padding:'0.5em',
         display:'flex',
         justifyContent:'space-between',
-        margin:'0 auto'
+        margin:'0 auto',
+        backgroundColor:'#242424',
     },
     buttonContainer:{
-        width:'20%',
-        height:'100%',
+        width:'10%',
         display:'flex',
-        justifyContent:'space-around'
+        flexDirection:'column',
+        alignContent:'center',
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    text:{
+        width:'50%'
     }
 })
+
 function EventCard({ item,index, deleteEvent, syncGoogle }) {
     const [showBtn, setShowBtn] = useState(false);
     const classes = useStyles();
@@ -32,7 +38,7 @@ function EventCard({ item,index, deleteEvent, syncGoogle }) {
                     <Typography variant='body2'>{item.date}</Typography>
                     <Typography variant='body2'>{item.time}</Typography>
                 </div>
-                <div>
+                <div className={classes.text}>
                     <Typography variant='h4'>{item.eventName}</Typography>
                     <Typography variant='body1'>{item.eventSummary}</Typography>
                     <Typography variant='body1'>{item.eventLocation}</Typography>

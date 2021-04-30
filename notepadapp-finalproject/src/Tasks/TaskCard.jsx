@@ -29,9 +29,9 @@ function TaskCard({ item, index, deleteCard, deleteTask }) {
                                 <Task key={index} el={el} index={index} item={item} handleCheckbox={handleCheckbox} deleteTask={deleteTask}/>
                             ))}
                         </List>
-                        <Divider />
                     </CardContent>
                         <div className={classes.cardFooter}>
+                        <Divider />
                             <Typography variant='body1'>
                                 Categories: {item.categories.map((category,index) => (
                                    `#${category}`

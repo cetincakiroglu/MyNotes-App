@@ -54,11 +54,7 @@ const useStyles = makeStyles({
 })
 function NewTaskDrawer() {
     const { 
-        taskListInfo, 
-        setTaskListInfo, 
         taskList, 
-        setTaskList, 
-        TaskList, 
         categoryList, 
         addTask, 
         removeTask,

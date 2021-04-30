@@ -3,11 +3,11 @@ import { Tooltip, IconButton } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
 
-function GoogleBtn({ showBtn, syncGoogle, item, index }) {
+function GoogleBtn({ showBtn, syncGoogle, item }) {
     const useStyles = makeStyles({
         icon:{
-            transform:'scale(0.5)',
-            display: showBtn ? 'block' : 'none'
+            display:showBtn ? 'block' : 'none',
+            width:'70%'
         }
     })
     const classes = useStyles();

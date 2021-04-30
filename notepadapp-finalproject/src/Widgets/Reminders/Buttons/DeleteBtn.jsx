@@ -7,7 +7,7 @@ function DeleteBtn({ showBtn, deleteEvent, index }) {
     const useStyles = makeStyles({
         icon:{
             display: showBtn ? 'block' : 'none',
-            flexShrink:'0',
+            width:'90%'
         }
     })
     const classes = useStyles();

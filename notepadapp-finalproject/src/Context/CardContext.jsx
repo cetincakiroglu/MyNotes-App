@@ -8,7 +8,6 @@ export const CardProvider = props => {
         cardHeader:{
             display:'flex',
             flexDirection:'column-reverse',
-            height:'20%'
         },
         subHeader:{
             padding:'0.5em 1.5em 0em 1.5em',
@@ -30,24 +29,25 @@ export const CardProvider = props => {
             lineHeight: '1.5rem',
             WebkitBoxOrient: 'vertical',
             display: '-webkit-box',
-            maxHeight:'18em',
-            textOverflow: 'ellipsis',
-            WebkitLineClamp: '8',
-            overflowX:'hidden',
-            overflowY:'scroll',
-            scrollbarWidth:'none'
+            maxHeight:'15em',
+          
         },
         cardText:{
             margin:'1em 0',
             lineHeight:'1.4rem',
-            height:'300px',
+            height:'200px',
            '&:focus-visible':{
                outline:'none'
-           }
+           },
+           textOverflow: 'ellipsis',
+           WebkitLineClamp: '8',
+           overflowX:'hidden',
+           overflowY:'scroll',
+           scrollbarWidth:'none'
         },
         cardFooter:{
             fontSize:'14px !important',
-            padding:'0em 2em'
+            padding:'0em 1em'
         },
         listItem:{
             display:'flex',

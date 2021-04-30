@@ -49,7 +49,8 @@ export const AuthContext = createContext();
 export const AuthProvider = props => {
     const classes = useStyles();
     const [currentUser, setCurrentUser] = useState();
-    const [userInfo, setUserInfo] = useState({});
+    const [userInfo, setUserInfo] = useState();
+    //TODO: Get user data and set the state
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
      
@@ -77,7 +78,7 @@ export const AuthProvider = props => {
 
     const signInWithGoogle = () => {
         return(auth.signInWithPopup(googleProvider)
-         .then(res => console.log(res.user)))
+                .then(res => console.log(res.user)))
     }
     
     useEffect(() => {
@@ -89,7 +90,7 @@ export const AuthProvider = props => {
         return unsubscribe;
     },[])
 
-    const value = { signup, login, logout, signInWithGoogle, resetPassword, currentUser, password, email, passwordConfirm, name, surname, classes, error, setError }
+    const value = { signup, login, logout, signInWithGoogle, resetPassword, currentUser, password, email, passwordConfirm, name, surname, classes, error, setError, userInfo, setUserInfo }
     return(
         <AuthContext.Provider value={value}>
             {!loading && props.children}

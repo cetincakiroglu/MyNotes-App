@@ -2,16 +2,13 @@ import React, { useContext } from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles'
 import Nav from './Nav/Nav'
-import links from './Data/links'
 import PrivateRoute from './Auth/PrivateRoute';
-import { AuthProvider } from './Context/AuthContext'
 import { AuthContext } from './Context/AuthContext'
 
 import Home from './Home/Home'
 import Info from './Info/Info'
 import Notes from './Notes/Notes'
 import Tasks from './Tasks/Tasks'
-import Reminders from './Reminders/Reminders'
 import NewNote from './Notes/NewNote'
 import Signup from './Auth/Signup'
 import Login from './Auth/Login'
@@ -21,7 +18,7 @@ const theme = createMuiTheme({
   palette: {
     type: 'dark',
     background:{
-      paper:'#242424',
+      paper:'#111',
     },
     primary:{
       light:'#95ff01',
@@ -34,7 +31,7 @@ const theme = createMuiTheme({
       dark:'#800801',
     },
     text:{
-      primary:'#eee',
+      primary:'#efefef9d',
       disabled:'#eeeeee4d'
     },
     divider: 'rgba(238, 238, 238, 0.1)'
@@ -47,12 +44,12 @@ const theme = createMuiTheme({
     },
     h2:{
       fontFamily:"'Montserrat', sans-serif",
-      fontSize:'36px',
+      fontSize:'32px',
       fontWeight:'300',
     },
     h3:{
       fontFamily:"'Montserrat', sans-serif",
-      fontSize:'32px',
+      fontSize:'28px',
       fontWeight:'300',
     },
     h4:{
@@ -94,33 +91,7 @@ const useStyles = makeStyles({
 
 function App() {
   const { currentUser } = useContext(AuthContext);
-  const routeMaps = links.map((item,index) => (
-    <Route
-      key={index}
-      exact={item.isExact}
-      path={item.link}
-      component={item.component}
-      />
-  ))
-  const privateRoutes = links.filter(item => item.isPrivate === true)
-  .map((item,index) => (
-   <PrivateRoute 
-     key={index}
-     exact path ={item.link}
-     component={item.component}
-   />
-  ));
-  const publicRoutes = links.filter(item => item.isPrivate === false)
-  .map((item,index) => (
-   <Route
-     key={index}
-     exact={item.isExact}
-     path={item.link}
-     component={item.component}
-   />
-  
-  ))
-
+ 
   const classes = useStyles();
   return (
     <>
@@ -136,10 +107,8 @@ function App() {
                   <PrivateRoute exact path ='/' component={Home}/>
                   <PrivateRoute exact path ='/Notes' component ={Notes}/>
                   <PrivateRoute exact path ='/Tasks' component ={Tasks}/>
-                  <PrivateRoute exact path ='/Reminders' component ={Reminders}/>
                   <PrivateRoute exact path ='/New' component ={NewNote}/>
                   <PrivateRoute path ='/New/:id' component ={NewNote}/>
-                  {/* <PrivateRoute exact path ='/New/:id' component={NewNote} */}
                 </Switch>
             </div>
           </ThemeProvider>

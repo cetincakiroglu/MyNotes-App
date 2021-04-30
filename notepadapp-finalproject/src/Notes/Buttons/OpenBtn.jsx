@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/styles'
 import { NoteContext } from '../../Context/NoteContext'
 
 function OpenBtn({ showBtn, item }) {
-    const { setTextInput, title,header, setHeader } = useContext(NoteContext);
+    const { setTextInput, title, header, setHeader } = useContext(NoteContext);
     const useStyles = makeStyles({
         openBtn:{
             display: showBtn ? 'block' : 'none',
@@ -22,7 +22,7 @@ function OpenBtn({ showBtn, item }) {
          headerArr.unshift(item.title);
          headerArr.pop();
         setHeader([...headerArr])
-        //TODO: that's not viable option.
+        //TODO: method is not good to update state. Fix this.
     }
     return (
         <>

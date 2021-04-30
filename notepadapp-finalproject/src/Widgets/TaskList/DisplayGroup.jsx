@@ -13,7 +13,8 @@ const useStyles = makeStyles({
     },
     header:{
        textOverflow:'ellipsis',
-       whiteSpace:'nowrap'
+       whiteSpace:'nowrap',
+       overflow:'hidden'
     },
     subheader:{
         alignSelf:'flex-end'
@@ -61,7 +62,7 @@ function DisplayGroup({ item, index }) {
 
     return (
         <>
-        <Grid item xs={12} md={6}>
+       
             <Card className={classes.taskCard} key={index}>
                 <div className={classes.cardHeader}>
                     <Typography variant='caption' className={classes.subheader}>{item.date}</Typography>
@@ -81,7 +82,7 @@ function DisplayGroup({ item, index }) {
                     </List>
                 </CardContent>
             </Card>
-        </Grid>
+       
         </>
     )
 }

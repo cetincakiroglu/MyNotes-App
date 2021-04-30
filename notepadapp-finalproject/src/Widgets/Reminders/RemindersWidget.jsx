@@ -1,28 +1,38 @@
 import React,{ useState, useEffect } from 'react'
-import { Grid, Paper, Typography } from '@material-ui/core'
+import { Grid, Paper, Typography, IconButton, Tooltip } from '@material-ui/core'
+import AddRoundedIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/styles'
 import EventCard from './EventCard'
 import InputGroup from './InputGroup'
 
 const useStyles = makeStyles({
     paper:{
-        minHeight:'30em',
+        maxWidth:'95%',
+        padding:'0em 15px',
         backgroundColor:'#161616',
-        marginTop:'1.2em',
-        padding:'1em'
+        position:'relative',
+        height:'500px',
+        overflowX:'hidden',
+        overflowY:'scroll',
+        scrollbarWidth:0,
     },
     displayContainer:{
-        height:'80%'
+        maxHeight:'325px',
+    },
+    title:{
+        margin:'20px 0px'
+    },
+    button:{
+        marginLeft:'10px',
     }
 })
 
 function RemindersWidget() {
     const classes = useStyles();
     const [eventList, setEventList] = useState([]);
+    const [openInputDrawer, setOpenInputDrawer] = useState(false);
 
     let gapi = window.gapi;
-    let CLIENT_ID ='1013909302575-jilt3g3mv4d086ltntbqkbp01bj159hi.apps.googleusercontent.com';
-    let API_KEY = 'AIzaSyBMp2omIXiiB8Ed5NtYImyE1lpAOQCpP14';
     let DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
     let SCOPES = "https://www.googleapis.com/auth/calendar.events";
 
@@ -30,8 +40,8 @@ function RemindersWidget() {
         gapi.load('client:auth2', () => {
             console.log('loaded client');
             gapi.client.init({
-                apiKey: API_KEY,
-                clientId: CLIENT_ID,
+                apiKey: process.env.REACT_APP_GOOGLE_CALENDAR_API_KEY,
+                clientId: process.env.REACT_APP_GOOGLE_CALENDAR_CLIENT_ID,
                 discoveryDocs: DISCOVERY_DOCS,
                 scope: SCOPES,
             });
@@ -95,25 +105,31 @@ function RemindersWidget() {
     },[])
     return (
         <>
-            <Grid container>
-                <Grid item xs={12} className={classes.header}>
-                    <Typography variant='h3'>Reminders</Typography>
-                </Grid>
-            </Grid>
-            <Grid container>
+    
             <Paper className={classes.paper} elevation={5}>
-                <Grid container spacing={2} justify='center' className={classes.displayContainer}>
-                    {eventList.length > 0 ? eventList.map((item,index) => (
-                        <Grid item xs={12}>
-                            <EventCard item={item} index={index} key={item.id} eventList={eventList} setEventList={setEventList} deleteEvent={deleteEvent} syncGoogle={syncGoogle}/>
-                        </Grid>
-                    )): 'You have 0 upcoming events'}
+                <Grid container alignItems='center'>
+                    <Grid item className={classes.title}>
+                        <Typography variant='h3' color='primary'>Events</Typography>
+                    </Grid>
+                    <Grid item className={classes.button}>
+                        <Tooltip title='New Event'>
+                            <IconButton color='primary' onClick={() => setOpenInputDrawer(true)} >
+                                <AddRoundedIcon />
+                            </IconButton>
+                        </Tooltip>  
+                   </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <InputGroup eventList={eventList} setEventList={setEventList} />
+                <Grid container>
+                    <Grid container spacing={2} justify='center' >
+                        {eventList.length > 0 ? eventList.map((item,index) => (
+                            <Grid item xs={12}>
+                                <EventCard item={item} index={index} key={item.id} eventList={eventList} setEventList={setEventList} deleteEvent={deleteEvent} syncGoogle={syncGoogle}/>
+                            </Grid>
+                        )): (<Typography variant='body1'>You have 0 upcoming events.</Typography>)}
+                    </Grid>
+                        <InputGroup openInputDrawer={openInputDrawer} setOpenInputDrawer={setOpenInputDrawer} eventList={eventList} setEventList={setEventList} />
                 </Grid>
             </Paper>
-            </Grid>
         </>
     )
 }

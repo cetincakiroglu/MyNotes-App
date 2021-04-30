@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
-import { withRouter } from 'react-router-dom'
-import { Drawer,Collapse, Divider, Avatar, CardHeader, ListItem, List, ListItemText, Button } from '@material-ui/core'
+import { withRouter, HashRouter } from 'react-router-dom'
+import { Drawer, Collapse, Divider, Avatar, CardHeader, ListItem, List, ListItemText, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { AuthContext } from './../Context/AuthContext';
 
@@ -9,10 +9,10 @@ const useStyles = makeStyles({
         display: 'flex',
     },
     drawer: {
-        width:'300px'
+        width:'230px'
     },
     drawerPaper: {
-        width: '300px',
+        width: '230px',
     },
     nested:{
         paddingLeft:'10px'
@@ -33,8 +33,8 @@ const useStyles = makeStyles({
 function Nav(props) {
     const classes = useStyles();
     const { history } = props;
-    const { logout, error, setError } = useContext(AuthContext);
-    // const { name, setName, surname, setSurname } = useContext(UserContext);
+    const { logout, error, setError, currentUser, userInfo } = useContext(AuthContext);
+
     const navList = [
         {
             title: 'Home',
@@ -49,8 +49,9 @@ function Nav(props) {
             onClick: () => history.push('/Tasks')
         },
         {
-            title: 'Reminders',
-            onClick: () => history.push('/Reminders')
+            title: 'Events',
+            onClick: () => history.push('/')
+            //TODO: refactor with in-component navigation.
         },
         {
             title: 'Info',
@@ -69,13 +70,6 @@ function Nav(props) {
         }
     }
     
-    // useEffect(() => {
-    //     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    //     console.log(userInfo)
-    //     setName(userInfo[0].name)
-    //     setSurname(userInfo[0].surname)
-    // },[])
-
     return (
         <>
         
@@ -84,8 +78,8 @@ function Nav(props) {
                     R
                     </Avatar>
                     }
-                    title='Name'
-                    subheader='Surname'
+                    title={userInfo}
+                    
                     />
                     <Divider />
                     <List className={classes.list}>
@@ -94,17 +88,9 @@ function Nav(props) {
                             return(
                                 <ListItem className={classes.listItem} button key={index} onClick={onClick} >
                                     <ListItemText secondary={title} />
-                                    <Collapse in={false}  timeout="auto" unmountOnExit>
+                                    <Collapse in={true}  timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding>
-                                        <ListItem button className={classes.nested}>
-                                            <ListItemText primary="All" />
-                                        </ListItem>
-                                        <ListItem button className={classes.nested}>
-                                            <ListItemText primary="Category1" />
-                                        </ListItem>
-                                        <ListItem button className={classes.nested}>
-                                            <ListItemText primary="Category1" />
-                                        </ListItem>
+
                                         </List>
                                     </Collapse>
                                 </ListItem>

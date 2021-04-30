@@ -1,17 +1,15 @@
 import React, { createContext, useState, useRef, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 export const NoteContext = createContext();
 
 export const NoteProvider = props => {
-    const [ textInput, setTextInput ] = useState('');
-    const [ notes, setNotes ] = useState([]);
-    const [ categoryList, setCategoryList ] = useState([]);
-    const [ open, setOpen ] = useState(false);
-    const [noteId, setNoteId] = useState([0]);
+    const [textInput, setTextInput] = useState('');
+    const [notes, setNotes] = useState([]);
+    const [categoryList, setCategoryList] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [noteId, setNoteId] = useState([0]); // used in handleSubmit to determine edit || create new note.
     const [header, setHeader] = useState([]);
-    const history = useHistory();
-
+    
     const title = useRef();
     const category = useRef();
 
@@ -36,7 +34,6 @@ export const NoteProvider = props => {
         arr.unshift(obj.id)
         arr.pop();
         setNoteId([...arr]);
-        console.log(noteId.join(''));
         setHeader(obj.title)
         let categories = obj.categories ? obj.categories : '';
         setOpen(true);
@@ -67,6 +64,14 @@ export const NoteProvider = props => {
         this.status = 'new'
     }
 
+    const openDrawer = () => {
+        let arr = noteId;
+        arr.unshift(0)
+        arr.pop();
+        setNoteId([...arr]);
+        setOpen(true);
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -76,12 +81,12 @@ export const NoteProvider = props => {
         const tags = [...categoryList]
 
         // check if note will be edited or it's a new note 
-        if(noteId.join('') !== 0){
+        if(noteId.join('') !== '0'){
             console.log(noteId)
             let editedNote = {id: noteId.join(''), title: title.current.value, note: textInput, categories: tags}
             notesArr.map(item => item.id === noteId.join('') ? item.note = editedNote.note : item )
 
-        } else if(noteId.join('') === 0 && note){
+        } else if(noteId.join('') === '0'){
             const newNote = new Note({title: noteTitle, note:note, categories:tags});
             notesArr.unshift(newNote);
         }
@@ -119,12 +124,15 @@ export const NoteProvider = props => {
         addCategory, 
         handleChange, 
         noteId, 
-        setNoteId 
+        setNoteId,
+        openDrawer 
     }
 
     useEffect(() => {
         let savedItems = JSON.parse(localStorage.getItem('Notes'))
-        setNotes([...savedItems])
+        if(savedItems){
+            setNotes([...savedItems])
+        }
     },[])
     return (
         <NoteContext.Provider value={value}>

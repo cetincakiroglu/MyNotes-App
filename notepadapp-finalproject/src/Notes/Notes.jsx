@@ -10,22 +10,27 @@ const useStyles = makeStyles({
         width:'100%',
         minHeight:'100vh',
         borderRadius:'0',
-        padding:'2em'
+        padding:'2em',
+        
     },
     noteContainer:{
-        display:'flex',
-        flexWrap:'wrap'
+        width:'300px',
+       
     },
     container:{
-        marginTop:'3em'
+        marginTop:'3em',
+    
     },
     button:{
         width:'100%',
         height:'100%',
+    },
+    message:{
+        marginLeft:'25px'
     }
 })
 function Notes() {
-    const { open, setOpen, notes, setNotes, deleteNote, editNote, textInput, setTextInput, categoryList, setCategoryList, title, category } = useContext(NoteContext);
+    const { open, setOpen, notes, setNotes, openDrawer } = useContext(NoteContext);
     const classes = useStyles();
 
    
@@ -40,22 +45,22 @@ function Notes() {
         <Paper className={classes.paper}>
             <Grid container>
                 <Grid item xs={2}>
-                    <Typography variant='h2'>Notes</Typography>
+                    <Typography variant='h2' color='primary'>Notes</Typography>
                 </Grid>
                 <Grid item xs={1}>
-                    <Button color='primary' variant='contained' className={classes.button} onClick={() => setOpen(true)}>
+                    <Button color='primary' variant='contained' className={classes.button} onClick={openDrawer}>
                         New Note
                     </Button>
                 </Grid>
             </Grid>
             <Grid container spacing={5} className={classes.container}>
-                    {notes ? notes.map((item,index) => (
+                    {notes.length > 0 ? notes.map((item,index) => (
                         <>
-                            <Grid item xs={3} key={item}>
+                            <Grid item xs={3} key={item} className={classes.noteContainer}>
                                 <NoteCard item={item} index={index} />
                             </Grid>
                         </>
-                    )): ''}
+                    )): (<Typography variant='body2' className={classes.message}>You don't have any note yet. It's a beautiful day to write one!</Typography>)}
             </Grid>
         <NoteEditor open={open} setOpen={setOpen} />
         </Paper>
