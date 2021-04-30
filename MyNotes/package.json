@@ -1,0 +1,55 @@
+{
+  "name": "notepadapp-finalproject",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^27.1.0",
+    "@ckeditor/ckeditor5-react": "^3.0.2",
+    "@ckeditor/ckeditor5-theme-lark": "^27.1.0",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/styles": "^4.11.3",
+    "@splidejs/react-splide": "^0.4.4",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "file": "^0.2.2",
+    "firebase": "^8.4.2",
+    "raw-loader": "3",
+    "react": "^17.0.2",
+    "react-datepicker": "^3.8.0",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "swiper": "^6.5.7",
+    "uuid": "^8.3.2",
+    "web-vitals": "^1.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "node-sass": "^5.0.0"
+  }
+}

@@ -1,0 +1,35 @@
+.MuiOutlinedInput-multiline{
+    height:410px !important;
+    position:relative !important;
+}
+
+*::-webkit-input-placeholder{
+    font-family:'Montserrat', sans-serif;
+    font-size: 28px !important;
+    font-weight: 400 !important;
+    color:#76cb01 !important;
+}
+*::-moz-placeholder{
+    font-family:'Montserrat', sans-serif;
+    font-size: 28px !important;
+    font-weight: 400 !important;
+    color:#76cb01 !important;
+}
+*:-ms-input-placeholder{
+    font-family:'Montserrat', sans-serif;
+    font-size: 28px !important;
+    font-weight: 400 !important;
+    color:#76cb01 !important;
+}
+*::-ms-input-placeholder{
+    font-family:'Montserrat', sans-serif;
+    font-size: 28px !important;
+    font-weight: 400 !important;
+    color:#76cb01 !important;
+}
+*::placeholder{
+    font-family:'Montserrat', sans-serif;
+    font-size: 28px !important;
+    font-weight: 400 !important;
+    color:#76cb01 !important;
+}
