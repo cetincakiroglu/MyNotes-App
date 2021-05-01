@@ -18,18 +18,18 @@
 - Firebase auth & firestore (db is in progress).
 - Netlify
 - Figma
-- 3rd party libraries
+- 3rd party libraries ( CKEditor, Splidejs )
 
-**To use the demo, you can sign up with a dummy email (for exampple: xyz@asd.com).**
-**Note that Voice Notes feature is currently in experimental status and works best in Chrome."
-[DEMO](https://mynotes-web.netlify.app/) 
-
+**To use the demo, you can sign up with a dummy email (for exampple: xyz@asd.com).**  
+**Note that Voice Note feature is currently in experimental status and works best in Chrome.**  
+[Project DEMO](https://mynotes-web.netlify.app/) 
+---  
 ### Project Images
 
-- Login/Signup
+- Login/Signup  
 ![Login/Signup](./src/Assets/Images/MyNotes-Login.png)
 
-- Home
+- Home  
 ![Home](./src/Assets/Images/home.png)
 
 - Notes
@@ -39,10 +39,10 @@
 
 ![LargeEditor](./src/Assets/Images/largeeditor.png)
 
-- Tasks
+- Tasks  
 ![Tasks](./src/Assets/Images/Tasksweditor.png)
 
-- Info
+- Info  
 ![Info](./src/Assets/Images/Info.png)
 ---
 ### Task List (Sprint 1 / Status: Completed)
