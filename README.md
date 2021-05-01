@@ -1,10 +1,12 @@
 # Project: MyNotes Web App
 
-- MyNotes is a hybrit note taking app based on widgets.
+- MyNotes is a hybrit note taking web app based on widgets.
 - Users can signup or login with mail.
 - Users can take notes with advanced editor, voice notes, create task lists, set events and sync with Google Calendar.
 - **This project is a result of 2 weeks personal sprint period. Some features are not supported cross browser yet. I recommend using Google Chrome to test demo.**
 - MyNotes is a final personal project of **Social Hackers Academy Front End Development Course**
+- More features, bug fixes, updates will come as the development process continues.
+- Note that this version is designed to be a web app. As a part of production strategy project is divided in 3 paths, at the end of production there will be 3 versions. Web (React), Mobile (React Native), Desktop(Electron).
 
 ### Technologies & Tools Used
 - JavaScript
@@ -15,8 +17,11 @@
 - Firebase auth & firestore (db is in progress).
 - Netlify
 - Figma
+- 3rd party libraries
 
-[DEMO](https://mynotes-web.netlify.app/)
+**To use the demo, you can sign up with a dummy email (for exampple: xyz@asd.com).**
+**Note that Voice Notes feature is currently in experimental status and works best in Chrome."
+[DEMO](https://mynotes-web.netlify.app/) 
 
 ### Project Images
 
