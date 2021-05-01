@@ -4,6 +4,7 @@
 - Users can signup or login with mail.
 - Users can take notes with advanced editor, voice notes, create task lists, set events and sync with Google Calendar.
 - **This project is a result of 2 weeks personal sprint period. Some features are not supported cross browser yet. I recommend using Google Chrome to test demo.**
+- MyNotes is a final personal project of **Social Hackers Academy Front End Development Course**
 
 ### Technologies & Tools Used
 - JavaScript
