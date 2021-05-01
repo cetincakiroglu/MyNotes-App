@@ -1,18 +1,17 @@
 import React, { useContext } from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles'
-import Nav from './Nav/Nav'
-import PrivateRoute from './Auth/PrivateRoute';
-import { AuthContext } from './Context/AuthContext'
-
-import Home from './Home/Home'
-import Info from './Info/Info'
-import Notes from './Notes/Notes'
-import Tasks from './Tasks/Tasks'
-import NewNote from './Notes/NewNote'
-import Signup from './Auth/Signup'
-import Login from './Auth/Login'
-import ResetPassword from './Auth/ResetPassword'
+import Nav from './Components/Nav/Nav'
+import Home from './Components/Home/Home'
+import Info from './Components/Info/Info'
+import Notes from './Components/Notes/Notes'
+import Tasks from './Components/Tasks/Tasks'
+import NewNote from './Components/Notes/NewNote'
+import Signup from './Components/Auth/Signup'
+import Login from './Components/Auth/Login'
+import ResetPassword from './Components/Auth/ResetPassword'
+import PrivateRoute from './Components/Auth/PrivateRoute';
+import { AuthContext } from './Components/Context/AuthContext';
 
 const theme = createMuiTheme({
   palette: {

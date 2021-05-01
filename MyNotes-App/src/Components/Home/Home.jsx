@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import InstantNote from '../Widgets/InstantNote/InstantNote'
 import NotesWidget from '../Widgets/Notes/NotesWidget'
 import TaskListWidget from '../Widgets/TaskList/TaskListWidget';
-import RemindersWidget from '../Widgets/Reminders/RemindersWidget'
+import RemindersWidget from '../Widgets/Events/EventsWidget'
 import NoteEditor from '../Notes/NoteEditor'
 import { NoteContext } from './../Context/NoteContext';
 import VoiceNoteWidget from '../Widgets/VoiceNote/VoiceNoteWidget'

@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './css/main.css'
+import './Assets/css/main.css'
 import App from './App';
 
-import { NoteProvider } from './Context/NoteContext'
-import { TaskProvider } from './Context/TaskContext'
-import { CardProvider } from './Context/CardContext'
-import { AuthProvider } from './Context/AuthContext'
+import { NoteProvider } from './Components/Context/NoteContext'
+import { TaskProvider } from './Components/Context/TaskContext'
+import { CardProvider } from './Components/Context/CardContext'
+import { AuthProvider } from './Components/Context/AuthContext'
 
 ReactDOM.render(
   <AuthProvider>
