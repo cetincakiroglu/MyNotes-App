@@ -34,10 +34,11 @@ function RemindersWidget() {
 
     let gapi = window.gapi;
     const syncGoogle = (obj) => {
-        console.log('date:', new Date(obj.date ).toISOString(), 'time: ', obj.time)
+       
         gapi.load('client:auth2', () => {
             console.log('loaded client');
             gapi.client.init({
+                //TODO: make them environment variables, store in a dotenv file.
                 apiKey:"AIzaSyAfdWsCAIswFGPpYuhXBNSUtVpv3uXIfjc",
                 clientId:"504976774479-b967jfhn0f28in465kkbbk1fgl46nb5n.apps.googleusercontent.com",
                 discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
@@ -48,24 +49,21 @@ function RemindersWidget() {
             gapi.auth2.getAuthInstance().signIn()
             .then(() => {
                 var event = {
-                    'summary': obj.eventName,
-                    'location': obj.eventLocation,
-                    'description': obj.eventSummary,
+                    'summary': obj.name,
+                    'location': obj.location,
+                    'description': obj.summary,
                     'start': {
                       'dateTime': new Date(obj.date).toISOString(),
-                      'timeZone': 'America/Los_Angeles'
+                      'timeZone': obj.timeZone
                     },
                     'end': {
                       'dateTime': new Date(obj.date).toISOString(),
-                      'timeZone': 'America/Los_Angeles'
+                      'timeZone': obj.timeZone 
                     },
                     'recurrence': [
-                      'RRULE:FREQ=DAILY;COUNT=2'
+                      'RRULE:FREQ=DAILY;COUNT=1'
                     ],
-                    'attendees': [
-                      {'email': 'lpage@example.com'},
-                      {'email': 'sbrin@example.com'}
-                    ],
+                    'attendees': false,
                     'reminders': {
                       'useDefault': false,
                       'overrides': [

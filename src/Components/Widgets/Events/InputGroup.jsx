@@ -72,9 +72,10 @@ function InputGroup({ eventList, setEventList, openInputDrawer, setOpenInputDraw
         this.id = uuidv4();
         this.date = obj.date;
         this.time = obj.time;
-        this.eventName = obj.name;
-        this.eventSummary = obj.summary;
-        this.eventLocation = obj.location;
+        this.name = obj.name;
+        this.summary = obj.summary;
+        this.location = obj.location;
+        this.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; 
 
     }
 

@@ -39,9 +39,9 @@ function EventCard({ item,index, deleteEvent, syncGoogle }) {
                     <Typography variant='body2'>{item.time}</Typography>
                 </div>
                 <div className={classes.text}>
-                    <Typography variant='h4'>{item.eventName}</Typography>
-                    <Typography variant='body1'>{item.eventSummary}</Typography>
-                    <Typography variant='body1'>{item.eventLocation}</Typography>
+                    <Typography variant='h4'>{item.name}</Typography>
+                    <Typography variant='body1'>{item.summary}</Typography>
+                    <Typography variant='body1'>{item.location}</Typography>
                 </div>
                 <div className={classes.buttonContainer}>
                     <DeleteBtn showBtn={showBtn} deleteEvent={deleteEvent} index={index}/>
