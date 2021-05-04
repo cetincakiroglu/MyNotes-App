@@ -33,17 +33,15 @@ function RemindersWidget() {
     const [openInputDrawer, setOpenInputDrawer] = useState(false);
 
     let gapi = window.gapi;
-    let DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-    let SCOPES = "https://www.googleapis.com/auth/calendar.events";
-
     const syncGoogle = (obj) => {
+        console.log('date:', new Date(obj.date ).toISOString(), 'time: ', obj.time)
         gapi.load('client:auth2', () => {
             console.log('loaded client');
             gapi.client.init({
-                apiKey: process.env.REACT_APP_GOOGLE_CALENDAR_API_KEY,
-                clientId: process.env.REACT_APP_GOOGLE_CALENDAR_CLIENT_ID,
-                discoveryDocs: DISCOVERY_DOCS,
-                scope: SCOPES,
+                apiKey:"AIzaSyAfdWsCAIswFGPpYuhXBNSUtVpv3uXIfjc",
+                clientId:"504976774479-b967jfhn0f28in465kkbbk1fgl46nb5n.apps.googleusercontent.com",
+                discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
+                scope: "https://www.googleapis.com/auth/calendar.events",
             });
 
             gapi.client.load('calendar', 'v3', () => console.log('Calendar loaded!'));
@@ -54,28 +52,28 @@ function RemindersWidget() {
                     'location': obj.eventLocation,
                     'description': obj.eventSummary,
                     'start': {
-                    'dateTime': new Date(obj.date + ' ' +obj.time).toISOString().slice(0,19),
-                    'timeZone': 'America/Los_Angeles'
+                      'dateTime': new Date(obj.date).toISOString(),
+                      'timeZone': 'America/Los_Angeles'
                     },
                     'end': {
-                    'dateTime':  new Date(obj.date + ' ' +obj.time).toISOString().slice(0,19),
-                    'timeZone': 'America/Los_Angeles'
+                      'dateTime': new Date(obj.date).toISOString(),
+                      'timeZone': 'America/Los_Angeles'
                     },
                     'recurrence': [
-                    'RRULE:FREQ=DAILY;COUNT=2'
+                      'RRULE:FREQ=DAILY;COUNT=2'
                     ],
                     'attendees': [
-                    {'email': 'lpage@example.com'},
-                    {'email': 'sbrin@example.com'}
+                      {'email': 'lpage@example.com'},
+                      {'email': 'sbrin@example.com'}
                     ],
                     'reminders': {
-                    'useDefault': true,
-                    'overrides': [
+                      'useDefault': false,
+                      'overrides': [
                         {'method': 'email', 'minutes': 24 * 60},
                         {'method': 'popup', 'minutes': 10}
-                    ]
+                      ]
                     }
-                };
+                  };
 
                 var request = gapi.client.calendar.events.insert({
                     'calendarId': 'primary',
@@ -85,7 +83,8 @@ function RemindersWidget() {
                 request.execute(event => {
                     window.open(event.htmlLink)
                 })
-            })
+                
+            }).catch(err => console.log(err))
         })
     }
 
