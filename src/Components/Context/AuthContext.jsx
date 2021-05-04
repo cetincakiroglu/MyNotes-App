@@ -1,5 +1,5 @@
 import React, { useState, createContext, useEffect, useRef } from 'react'
-import { auth, googleProvider } from './../Auth/firebase'
+import { auth, googleProvider,db } from './../Auth/firebase'
 import { makeStyles } from '@material-ui/styles'
 import background from '../Auth/background.jpg'
 
@@ -49,10 +49,11 @@ export const AuthContext = createContext();
 export const AuthProvider = props => {
     const classes = useStyles();
     const [currentUser, setCurrentUser] = useState();
-    const [userInfo, setUserInfo] = useState();
+    const [userID,setUserID] = useState('');
     //TODO: Get user data and set the state
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [userInfo, setUserInfo] = useState([]);
      
     const email = useRef();
     const name = useRef();
@@ -61,6 +62,7 @@ export const AuthProvider = props => {
     const passwordConfirm = useRef();
 
     const signup = (email, password) => {
+        // get user info by form
         return auth.createUserWithEmailAndPassword(email,password);
     }
 
@@ -77,9 +79,13 @@ export const AuthProvider = props => {
     }
 
     const signInWithGoogle = () => {
-        return(auth.signInWithPopup(googleProvider)
-                .then(res => console.log(res.user)))
+        return auth.signInWithPopup(googleProvider)
     }
+//TODO: make context for db functions.
+    const saveUserDB = (uid, userObj) => {
+        db.collection('Users').doc(uid).set(userObj);
+    }
+
     
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
@@ -90,7 +96,8 @@ export const AuthProvider = props => {
         return unsubscribe;
     },[])
 
-    const value = { signup, login, logout, signInWithGoogle, resetPassword, currentUser, password, email, passwordConfirm, name, surname, classes, error, setError, userInfo, setUserInfo }
+
+    const value = { userInfo, setUserInfo ,db,saveUserDB, signup, login, logout, signInWithGoogle, resetPassword, currentUser, password, email, passwordConfirm, name, surname, classes, error, setError, userID, setUserID }
     return(
         <AuthContext.Provider value={value}>
             {!loading && props.children}

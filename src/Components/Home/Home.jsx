@@ -7,6 +7,7 @@ import TaskListWidget from '../Widgets/TaskList/TaskListWidget';
 import RemindersWidget from '../Widgets/Events/EventsWidget'
 import NoteEditor from '../Notes/NoteEditor'
 import { NoteContext } from './../Context/NoteContext';
+import { AuthContext } from './../Context/AuthContext'
 import VoiceNoteWidget from '../Widgets/VoiceNote/VoiceNoteWidget'
 
 const useStyles = makeStyles({
@@ -31,13 +32,14 @@ function Home() {
 
   const classes = useStyles();
   const {open, setOpen} = useContext(NoteContext);
+  const {userInfo} = useContext(AuthContext)
   
   return (
         <>
         <Paper className={classes.paper}>
           <Grid container>
             <Grid item xs={12}>
-              <Typography className={classes.message} variant='h1'>Welcome!</Typography>
+              <Typography className={classes.message} variant='h1'>{`Welcome, ${userInfo.name ? userInfo.name : ''} !`}</Typography>
             </Grid>
           </Grid>
             {/* Note widgets */}

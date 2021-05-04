@@ -5,7 +5,7 @@ import { AuthContext } from './../Context/AuthContext';
 
 function Signup() {
 
-    const { signup, currentUser, classes, email, password, passwordConfirm, error, setError, userInfo, setUserInfo } = useContext(AuthContext);
+    const { saveUserDB ,signup, currentUser, classes, email, password, passwordConfirm, error, setError, userInfo, setUserInfo } = useContext(AuthContext);
     const [loading, setLoading] = useState(false)
     const history = useHistory();
     const name = useRef();
@@ -20,10 +20,13 @@ function Signup() {
         try{
             setError('');
             setLoading(true);
-            await signup(email.current.value, password.current.value)
+            // const signup(email.current.value, password.current.value)
+            const cred = await signup(email.current.value,password.current.value)
+            //save user to db
+            saveUserDB(cred.user.uid, {name: cred.user.displayName, email: cred.user.email})
+            // redirect user
             history.push('/')
-            setUserInfo(email.current.value)
-          
+
         }catch(err){
             console.log(err);
             setError('Failed to log in')

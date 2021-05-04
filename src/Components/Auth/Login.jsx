@@ -4,7 +4,7 @@ import { Grid, Paper, Typography, TextField, Button } from '@material-ui/core'
 import { AuthContext } from './../Context/AuthContext';
 
 function Login() {
-    const { login, currentUser, signInWithGoogle, email, password, classes, error, setError, setUserInfo, userInfo } = useContext(AuthContext);  
+    const { login, saveUserDB, currentUser,setCurrentUser, signInWithGoogle, email, password, classes, error, setError, userID, setUserID } = useContext(AuthContext);  
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState('')
     const history = useHistory();
@@ -17,7 +17,7 @@ function Login() {
             setLoading(true)
             await login(email.current.value, password.current.value);
             history.push('/')
-            setUserInfo(email.current.value);
+            // setUserInfo(email.current.value);
         }catch(err){
             console.log(err)
             setError('Failed to log in')
@@ -29,10 +29,17 @@ function Login() {
         try{
             setError('');
             setLoading(true)
-            await signInWithGoogle();
+            // get user credentials
+            const cred = await signInWithGoogle();
+            setUserID(cred.user.uid)
+            //save user to db
+            saveUserDB(cred.user.uid, {name: cred.user.displayName, email: cred.user.email})
+            // TODO: replace sessionStorage with cookies.
+            sessionStorage.setItem('UID', JSON.stringify(cred.user.uid))
+            //redirect user
             history.push('/')
             setMessage('Signed in with Google')
-
+            
         }catch(err){
             console.log(err);
             setError('Failed to sign in')
@@ -72,7 +79,7 @@ function Login() {
                             <Button variant='contained' color='primary' type='submit' className={classes.button} disabled={loading} >Login</Button>
                         <Grid item xs={8}>
                             {/* TODO: Google is disabled due to an auth bug, fix this */}
-                            {/* <Button variant='outlined' color='primary' onClick={handleGoogle}>Sign in with Google</Button> */}
+                            <Button variant='outlined' color='primary' onClick={handleGoogle}>Sign in with Google</Button>
                             <Typography variant='body2'>Don't have an account? <Link to='/Signup' className={classes.link}>Signup</Link></Typography>
                             <Typography variant='body1'>Forgot your password? <Link to='/Forgot-password' className={classes.link}>Reset</Link></Typography>
                         </Grid>

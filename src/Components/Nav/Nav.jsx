@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 function Nav(props) {
     const classes = useStyles();
     const { history } = props;
-    const { logout, error, setError, currentUser, userInfo } = useContext(AuthContext);
+    const { db,logout, error, setError, currentUser, userID, userInfo, setUserInfo } = useContext(AuthContext);
 
     const navList = [
         {
@@ -69,7 +69,16 @@ function Nav(props) {
             setError('Failed to log out')
         }
     }
+
     
+    useEffect(() => {
+        const id = JSON.parse(sessionStorage.getItem('UID'))
+        //get userid
+        if(id){
+            db.collection('Users').doc(id).get().then(doc => setUserInfo({name: doc.data().name, email: doc.data().email})).then(console.log(userInfo));
+        }
+        
+    },[])
     return (
         <>
         
@@ -78,8 +87,7 @@ function Nav(props) {
                     R
                     </Avatar>
                     }
-                    title={userInfo}
-                    
+                    title={userInfo.name ? userInfo.name : userInfo.email}
                     />
                     <Divider />
                     <List className={classes.list}>
