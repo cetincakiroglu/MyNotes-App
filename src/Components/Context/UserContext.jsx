@@ -17,7 +17,7 @@ export const UserProvider = props => {
     }
 
     return (
-        <UserContext.Provider value={{ userInfo: userInfo, setUserInfo: setUserInfo, name: name, setName: setName, surname: surname, setSurname: setSurname }}>
+        <UserContext.Provider value={value}>
             { props.children }
         </UserContext.Provider>
     )
