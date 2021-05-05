@@ -39,9 +39,8 @@ function RemindersWidget() {
         gapi.load('client:auth2', () => {
             console.log('loaded client');
             gapi.client.init({
-                //TODO: make them environment variables, store in a dotenv file.
-                apiKey:"AIzaSyAfdWsCAIswFGPpYuhXBNSUtVpv3uXIfjc",
-                clientId:"504976774479-b967jfhn0f28in465kkbbk1fgl46nb5n.apps.googleusercontent.com",
+                apiKey:process.env.REACT_APP_GOOGLE_API_KEY,
+                clientId:process.env.REACT_APP_GOOGLE_CLIENT_ID,
                 discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
                 scope: "https://www.googleapis.com/auth/calendar.events",
             });
