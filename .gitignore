@@ -1,1 +1,8 @@
 node_modules
+.env
+.gitignore
+database.rules.json
+firebase.json
+firestore.indexes.json
+firestore.rules
+.firebase
