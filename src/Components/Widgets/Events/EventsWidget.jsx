@@ -1,9 +1,10 @@
-import React,{ useState, useEffect } from 'react'
+import React,{ useState, useEffect, useContext } from 'react'
 import { Grid, Paper, Typography, IconButton, Tooltip } from '@material-ui/core'
 import AddRoundedIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/styles'
 import EventCard from './EventCard'
 import InputGroup from './InputGroup'
+import {EventContext} from '../../Context/EventContext'
 
 const useStyles = makeStyles({
     paper:{
@@ -29,7 +30,7 @@ const useStyles = makeStyles({
 
 function RemindersWidget() {
     const classes = useStyles();
-    const [eventList, setEventList] = useState([]);
+    const { eventList, setEventList, deleteEvent } = useContext(EventContext);
     const [openInputDrawer, setOpenInputDrawer] = useState(false);
 
     let gapi = window.gapi;
@@ -82,24 +83,10 @@ function RemindersWidget() {
                     window.open(event.htmlLink)
                 })
                 
-            }).catch(err => console.log(err))
+            }).catch(err => console.log(err)) // TODO: Handle error properly.
         })
     }
 
-    const deleteEvent = (num) => {
-        let eventsArr = eventList;
-        eventsArr.splice(num,1);
-        setEventList([...eventsArr]);
-
-        localStorage.setItem('Events', JSON.stringify(eventList));
-    }
-
-    useEffect(() => {
-        let savedEvents = JSON.parse(localStorage.getItem('Events'))
-        if(savedEvents && savedEvents !== []){
-            setEventList([...savedEvents])
-        }
-    },[])
     return (
         <>
     

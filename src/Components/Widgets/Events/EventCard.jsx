@@ -5,7 +5,6 @@ import DeleteBtn from './Buttons/DeleteBtn'
 import GoogleBtn from './Buttons/GoogleBtn'
 
 const useStyles = makeStyles({
-
     card:{
         minHeight:'100px',
         padding:'0.5em',
@@ -44,7 +43,7 @@ function EventCard({ item,index, deleteEvent, syncGoogle }) {
                     <Typography variant='body1'>{item.location}</Typography>
                 </div>
                 <div className={classes.buttonContainer}>
-                    <DeleteBtn showBtn={showBtn} deleteEvent={deleteEvent} index={index}/>
+                    <DeleteBtn showBtn={showBtn} deleteEvent={deleteEvent} item={item}/>
                     <GoogleBtn showBtn={showBtn} syncGoogle={syncGoogle} item={item} index={index}/>
                 </div>
             </Card>

@@ -7,6 +7,15 @@ export const UserProvider = props => {
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
 
+    const value = {
+        userInfo,
+        setUserInfo,
+        name,
+        setName,
+        surname,
+        setSurname
+    }
+
     return (
         <UserContext.Provider value={{ userInfo: userInfo, setUserInfo: setUserInfo, name: name, setName: setName, surname: surname, setSurname: setSurname }}>
             { props.children }

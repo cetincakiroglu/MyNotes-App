@@ -1,5 +1,8 @@
-import React, { createContext, useState, useRef, useEffect } from 'react'
+import React, { createContext, useContext, useState, useRef, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { db } from '../Auth/firebase'
+import { AuthContext } from '../Context/AuthContext'
+
 export const NoteContext = createContext();
 
 export const NoteProvider = props => {
@@ -9,27 +12,39 @@ export const NoteProvider = props => {
     const [open, setOpen] = useState(false);
     const [noteId, setNoteId] = useState([0]); // used in handleSubmit to determine edit || create new note.
     const [header, setHeader] = useState([]);
+    const [dbLoading, setDbLoading] = useState(false);
     
+    const { userID, currentUser } = useContext(AuthContext);
+
     const title = useRef();
     const category = useRef();
-
-    function Note(obj){
-        this.id = uuidv4();
-        this.date = new Date().toDateString();
-        this.title = obj.title;
-        this.note = obj.note;
-        this.categories = obj.categories;
+    
+    // db ref
+    const notesRef = db.collection('Notes');
+    
+    // get Notes collection from db
+    function getNotes() {
+        setDbLoading(true);
+        notesRef.onSnapshot(querySnapshot => {
+            const items = [];
+            querySnapshot.forEach(doc => {
+                items.push(doc.data())
+            });
+            setDbLoading(false);
+            setNotes(items);
+        })
     }
-
-    const deleteNote = (num) => {
-        let notesArr = notes;
-        notesArr.splice(num,1);
-        setNotes([...notesArr]);
-        localStorage.setItem('Notes', JSON.stringify(notes))
+   
+    // delete from db
+    function deleteNote(note){
+        // console.log(obj);
+        notesRef.doc(note.id)
+           .delete()
+           .catch(err => console.log(err));
     }
 
     const editNote = (obj) => {
-        // TODO: change the update method, that's not viable.
+        // TODO: change the state update method, that's not a viable option.
         let arr = noteId;
         arr.unshift(obj.id)
         arr.pop();
@@ -38,7 +53,7 @@ export const NoteProvider = props => {
         let categories = obj.categories ? obj.categories : '';
         setOpen(true);
         setTextInput(obj.note);
-        setCategoryList([...categories]);
+        setCategoryList([...categories]);        
     }
 
     const addCategory = (e) => {
@@ -55,15 +70,6 @@ export const NoteProvider = props => {
         }
     }
 
-    function Note(obj){
-        this.id = uuidv4();
-        this.date = new Date().toDateString();
-        this.title = obj.title;
-        this.note = obj.note;
-        this.categories = obj.categories;
-        this.status = 'new'
-    }
-
     const openDrawer = () => {
         let arr = noteId;
         arr.unshift(0)
@@ -72,26 +78,41 @@ export const NoteProvider = props => {
         setOpen(true);
     }
 
+    // add note to db
     const handleSubmit = (e) => {
         e.preventDefault();
-        e.stopPropagation();
         let notesArr = notes;
         const noteTitle = title.current.value;
         const note = textInput;
         const tags = [...categoryList]
-
+        // user creds to make Note relational in db.
+        const ownerEmail = currentUser ? currentUser.email : 'unknown';
+        
         // check if note will be edited or it's a new note 
         if(noteId.join('') !== '0'){
-            console.log(noteId)
+            // submit edit
             let editedNote = {id: noteId.join(''), title: title.current.value, note: textInput, categories: tags}
             notesArr.map(item => item.id === noteId.join('') ? item.note = editedNote.note : item )
+            notesRef.doc(noteId.join(''))
+               .update(editedNote)
+               .catch(err => console.log(err))
 
         } else if(noteId.join('') === '0'){
-            const newNote = new Note({title: noteTitle, note:note, categories:tags});
-            notesArr.unshift(newNote);
+            // submit new note
+            const newNote = {
+                id         : uuidv4(),
+                ownerID    : userID ? userID : 'unknown',
+                ownerEmail : ownerEmail ? ownerEmail : 'unknown',
+                date       : new Date().toDateString(),
+                title      : noteTitle,
+                note       : note,
+                categories : tags,
+            };
+            notesRef.doc(newNote.id)
+               .set(newNote)
+               .catch(err => console.log(err))
         }
-        setNotes([...notesArr]);
-        localStorage.setItem('Notes', JSON.stringify(notes))    
+        // reset inputs
         title.current.value='';
         category.current.value='';
         setTextInput('');
@@ -99,12 +120,14 @@ export const NoteProvider = props => {
         setHeader([]);
     }
     
-    const handleChange = (e,editor) => {
+    // instant edit feature
+    const handleChange = (e,editor,obj) => {
         const data = editor.getData();
         setTextInput(data)
     }
     
-    const value={
+    const value = {
+        notesRef,
         header,
         setHeader,
         textInput, 
@@ -114,8 +137,7 @@ export const NoteProvider = props => {
         categoryList, 
         setCategoryList, 
         title, 
-        category, 
-        Note, 
+        category,
         deleteNote, 
         editNote, 
         open, 
@@ -127,6 +149,10 @@ export const NoteProvider = props => {
         setNoteId,
         openDrawer 
     }
+    useEffect(() => {
+        getNotes();
+        // eslint-disable-next-line
+    },[])
 
     useEffect(() => {
         let savedItems = JSON.parse(localStorage.getItem('Notes'))

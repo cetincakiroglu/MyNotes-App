@@ -54,11 +54,11 @@ function TaskListWidget() {
                    </Grid>
                </Grid>
                 <Grid container spacing={2}>
-                        {taskListInfo.map((item,index) => (
+                        {taskListInfo !== [] || taskListInfo !== undefined ? taskListInfo.map((item,index) => (
                             <Grid item xs={3}>
                                 <DisplayGroup item={item} index={index} key={index}/>
                             </Grid>
-                            ))}
+                            )): <Typography variant='body1'>It seems you don't have any task list yet. Let's create one!</Typography>}
                     <InputGroup openInputDrawer={openInputDrawer} setOpenInputDrawer={setOpenInputDrawer}/>
                 </Grid>
            </Paper>

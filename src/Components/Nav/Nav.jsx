@@ -3,6 +3,7 @@ import { withRouter, HashRouter } from 'react-router-dom'
 import { Drawer, Collapse, Divider, Avatar, CardHeader, ListItem, List, ListItemText, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { AuthContext } from './../Context/AuthContext';
+import { getDocs, collection } from "firebase/firestore"; 
 
 const useStyles = makeStyles({
     root: {
@@ -70,15 +71,6 @@ function Nav(props) {
         }
     }
 
-    
-    useEffect(() => {
-        const id = JSON.parse(sessionStorage.getItem('UID'))
-        //get userid
-        if(id){
-            db.collection('Users').doc(id).get().then(doc => setUserInfo({name: doc.data().name, email: doc.data().email})).then(console.log(userInfo));
-        }
-        
-    },[])
     return (
         <>
         

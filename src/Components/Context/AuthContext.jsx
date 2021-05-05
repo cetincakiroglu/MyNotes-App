@@ -53,7 +53,7 @@ export const AuthProvider = props => {
     //TODO: Get user data and set the state
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const [userInfo, setUserInfo] = useState([]);
+    const [userInfo, setUserInfo] = useState({});
      
     const email = useRef();
     const name = useRef();
@@ -86,6 +86,23 @@ export const AuthProvider = props => {
         db.collection('Users').doc(uid).set(userObj);
     }
 
+    // get user info from db
+    useEffect(() => {
+        const id = JSON.parse(sessionStorage.getItem('UID'))
+        // get userid
+        if(id){
+            db.collection('Users')
+              .doc(id)
+              .get()
+              .then(doc => {
+                let userInfoObj = userInfo;
+                userInfoObj.name = doc.data().name;
+                userInfoObj.email = doc.data().email;
+                setUserInfo({...userInfoObj})
+                }).catch(err => console.log(err))//TODO: update error handling
+        }
+        
+    },[])
     
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {

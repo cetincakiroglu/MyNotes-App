@@ -1,9 +1,9 @@
-import React,{ useContext } from 'react'
+import React from 'react'
 import { IconButton, Tooltip } from '@material-ui/core'
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
 import { makeStyles } from '@material-ui/core'
 
-function DeleteCardBtn({ showBtn, index, deleteCard }) {
+function DeleteCardBtn({ showBtn, deleteTaskList, item }) {
     const useStyles = makeStyles({
         deleteBtn:{
             display: showBtn ? 'block' : 'none',
@@ -13,7 +13,7 @@ function DeleteCardBtn({ showBtn, index, deleteCard }) {
     return (
         <>
             <Tooltip title='Delete List'>
-                <IconButton color='secondary' className={classes.deleteBtn} onClick={() => deleteCard(index)}>
+                <IconButton color='secondary' className={classes.deleteBtn} onClick={() => deleteTaskList(item)}>
                     <CloseRoundedIcon />
                 </IconButton>
             </Tooltip>

@@ -7,14 +7,17 @@ import { NoteProvider } from './Components/Context/NoteContext'
 import { TaskProvider } from './Components/Context/TaskContext'
 import { CardProvider } from './Components/Context/CardContext'
 import { AuthProvider } from './Components/Context/AuthContext'
+import { EventProvider } from './Components/Context/EventContext'
 
 ReactDOM.render(
   <AuthProvider>
       <NoteProvider>
         <TaskProvider>
-          <CardProvider>
-            <App />
-          </CardProvider>
+          <EventProvider>
+            <CardProvider>
+              <App />
+            </CardProvider>
+          </EventProvider>
         </TaskProvider>
       </NoteProvider>
   </AuthProvider>,

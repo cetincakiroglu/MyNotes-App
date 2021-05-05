@@ -3,7 +3,7 @@ import { Tooltip, IconButton } from '@material-ui/core'
 import DeleteOutline from '@material-ui/icons/DeleteOutline'
 import { makeStyles } from '@material-ui/styles'
 
-function DeleteBtn({ showBtn, deleteEvent, index }) {
+function DeleteBtn({ showBtn, deleteEvent, index, item }) {
     const useStyles = makeStyles({
         icon:{
             display: showBtn ? 'block' : 'none',
@@ -15,7 +15,7 @@ function DeleteBtn({ showBtn, deleteEvent, index }) {
     return (
         <>
             <Tooltip title='Remove Event'>
-                <IconButton color='secondary' className={classes.icon} onClick={() => deleteEvent(index)}>
+                <IconButton color='secondary' className={classes.icon} onClick={() => deleteEvent(item)}>
                     <DeleteOutline />
                 </IconButton>
             </Tooltip>

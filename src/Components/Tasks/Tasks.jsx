@@ -28,14 +28,9 @@ const useStyles = makeStyles({
 
 function Tasks() {
     const classes = useStyles();
-    const { taskListInfo, setTaskListInfo, setOpen, deleteCard, deleteTask } = useContext(TaskContext)
+    const { taskListInfo, setOpen, deleteTaskList, deleteTask } = useContext(TaskContext)
  
-    useEffect(() => {
-        let savedTaskList = JSON.parse(localStorage.getItem('Task List'));
-        if(savedTaskList){
-            setTaskListInfo([...savedTaskList])
-        }
-    },[])
+   
     return (
         <>
             <Paper className={classes.paper}>
@@ -51,7 +46,7 @@ function Tasks() {
                 </Grid>
                 <Grid container className={classes.container} spacing={5}>
                     {taskListInfo.length > 0 ? taskListInfo.map((item,index) => (
-                            <TaskCard item={item} index={index} key={index} deleteCard={deleteCard} deleteTask={deleteTask}/>
+                            <TaskCard item={item} index={index} key={index} deleteTaskList={deleteTaskList} deleteTask={deleteTask}/>
                     )): (<Typography variant='body2' className={classes.message}>You don't have a task list yet. Let's create one!</Typography>)}
                 </Grid>
                 <NewTaskDrawer />

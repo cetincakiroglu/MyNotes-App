@@ -4,7 +4,7 @@ import { Grid, Paper, Typography, TextField, Button } from '@material-ui/core'
 import { AuthContext } from './../Context/AuthContext';
 
 function Login() {
-    const { login, saveUserDB, currentUser,setCurrentUser, signInWithGoogle, email, password, classes, error, setError, userID, setUserID } = useContext(AuthContext);  
+    const { login, saveUserDB, currentUser, setCurrentUser, signInWithGoogle, email, password, classes, error, setError, userID, setUserID } = useContext(AuthContext);  
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState('')
     const history = useHistory();
@@ -31,7 +31,10 @@ function Login() {
             setLoading(true)
             // get user credentials
             const cred = await signInWithGoogle();
-            setUserID(cred.user.uid)
+            // setUserID(cred.user.uid)
+            setCurrentUser(cred.user)
+            
+           
             //save user to db
             saveUserDB(cred.user.uid, {name: cred.user.displayName, email: cred.user.email})
             // TODO: replace sessionStorage with cookies.

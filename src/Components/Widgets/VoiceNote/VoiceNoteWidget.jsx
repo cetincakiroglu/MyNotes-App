@@ -3,6 +3,7 @@ import { Grid, Paper, IconButton, Tooltip, Button, Card, CardContent, Typography
 import { makeStyles } from '@material-ui/styles'
 import MicRoundedIcon from '@material-ui/icons/MicRounded';
 import { NoteContext } from '../../Context/NoteContext'
+import { v4 as uuidv4 } from 'uuid'
 
 
 // to check if browser supports feature
@@ -21,7 +22,7 @@ try{
 function VoiceNoteWidget() {
     const [isListening, setIsListening] = useState(false)
     const [voiceNote, setVoiceNote] = useState('')
-    const { Note, notes, setNotes } = useContext(NoteContext);
+    const { Note, notes, setNotes, notesRef, userID, currentUser } = useContext(NoteContext);
     const [ showBtn, setShowBtn ] = useState(false);
 
     
@@ -51,13 +52,20 @@ function VoiceNoteWidget() {
     const classes = useStyles();
     
     const handleSave = () => {
-       
-        const newNote = new Note({title:'Voice Note', note: voiceNote });
-        let notesArr = notes;
-        notesArr.unshift(newNote);
-        setNotes([...notesArr]);
-
-        localStorage.setItem('Notes', JSON.stringify(notes))
+       // note object
+        const newNote = {
+             id : uuidv4(),
+            ownerID : userID ? userID : 'unknown',
+            ownerEmail : currentUser.email ? currentUser.email : 'unknown',
+            date : new Date().toDateString(),
+            title : 'Voice Note',
+            note : voiceNote,
+            categories : [],
+        }
+        // update db
+        notesRef.doc(newNote.id)
+                .set(newNote)
+                .catch(err => console.log(err));
          
         setVoiceNote('');
         setShowBtn(false)

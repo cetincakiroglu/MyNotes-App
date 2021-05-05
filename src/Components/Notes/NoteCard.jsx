@@ -7,20 +7,18 @@ import EditBtn from './Buttons/EditBtn'
 import OpenBtn from './Buttons/OpenBtn'
 
 function NoteCard({ item, index }) {
-    const { notes, setNotes} = useContext(NoteContext);
+
+    const { ref } = useContext(NoteContext);
     const { classes } = useContext(CardContext)
     const [showBtn, setShowBtn] = useState(false);
-    
-    const handleChange = (e) => {
-        let editedNote = e.target.textContent;
-        let notesArr = notes;
-        console.log(editedNote)
-        const noteObj = item;
-        noteObj.note = editedNote;
+
+    const handleChange = (e, item) => {
+        const editedNote = {...item}
+        editedNote.note = e.target.textContent;
         
-        notesArr.map(item => item.id === noteObj.id ? item.note = noteObj.note : item);
-        setNotes([...notesArr])
-        localStorage.setItem('Notes', JSON.stringify(notes))
+        ref.doc(item.id)
+           .update(editedNote)
+           .catch(err => console.log(err))
     }
 
     return (
@@ -28,7 +26,7 @@ function NoteCard({ item, index }) {
             <Paper elevation={5} onMouseEnter={() => setShowBtn(true)} onMouseLeave={() => setShowBtn(false)}>
                 <Card className={classes.cardWrapper}>
                     <div className={classes.deleteBtnContainer}>
-                        <DeleteBtn showBtn={showBtn} index={index} />
+                        <DeleteBtn showBtn={showBtn} index={index} item={item} />
                     </div>
                     <div className={classes.cardHeader}>
                         <Typography variant='h4' className={classes.header}>
@@ -40,7 +38,7 @@ function NoteCard({ item, index }) {
                     </div>
                     <CardContent className={classes.cardBody}>
                         <Divider />
-                        <div contentEditable='true' dangerouslySetInnerHTML={{__html: item.note}} className={classes.cardText} onMouseLeave={(e) => handleChange(e)}>
+                        <div contentEditable='true' dangerouslySetInnerHTML={{__html: item.note}} className={classes.cardText} onMouseLeave={(e) => handleChange(e, item)}>
                         </div>
                             <Divider />
                         <Typography variant='body1'>

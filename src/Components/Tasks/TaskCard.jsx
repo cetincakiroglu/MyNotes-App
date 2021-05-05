@@ -5,7 +5,7 @@ import { Grid, Paper, Typography, Divider, Card, CardContent, List } from '@mate
 import Task from './Task'
 import DeleteCardBtn from './DeleteCardBtn';
 
-function TaskCard({ item, index, deleteCard, deleteTask }) {
+function TaskCard({ item, deleteTaskList, deleteTask }) {
     const { handleCheckbox } = useContext(TaskContext);
     const { classes } = useContext(CardContext);
     const [showBtn, setShowBtn] = useState(false);
@@ -16,7 +16,7 @@ function TaskCard({ item, index, deleteCard, deleteTask }) {
             <Paper elevation={5} onMouseEnter={() => setShowBtn(true)} onMouseLeave={() => setShowBtn(false)}>
                 <Card  className={classes.cardWrapper}>
                     <div className={classes.deleteBtnContainer}>
-                        <DeleteCardBtn showBtn={showBtn} deleteCard={deleteCard}/>
+                        <DeleteCardBtn item={item} showBtn={showBtn} deleteTaskList={deleteTaskList}/>
                     </div>
                     <div className={classes.cardHeader}>
                         <Typography variant='h4' className={classes.header}>{item.title ? item.title : 'Untitled'}</Typography>
