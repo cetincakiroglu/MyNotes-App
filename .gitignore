@@ -7,3 +7,8 @@ firestore.indexes.json
 firestore.rules
 .firebase
 yarn.lock
+build
+functions
+.github
+.firebase
+.firebaserc

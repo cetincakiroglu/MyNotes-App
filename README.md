@@ -15,14 +15,14 @@
 - Context API
 - Material UI
 - Google APIs
-- Firebase auth & firestore (db is in progress).
-- Netlify
-- Figma
+- JS Speech Recognition
+- Firebase auth, firestore & firebase hosting.
 - 3rd party libraries ( CKEditor, Splidejs )
+- Figma
 
 **To use the demo, you can sign up with a dummy email (for exampple: xyz@asd.com).**  
 **Note that Voice Note feature is currently in experimental status and works best in Chrome.**  
-[Project DEMO](https://mynotes-web.netlify.app/) 
+[Project DEMO](https://mynotes-312617.web.app/) 
 ---  
 ### Project Images
 
@@ -93,12 +93,12 @@
     4. [x] Refactor Routing, add redirect.
 - [x] Build static components.
 - [ ] Refactor CSS, create a Context to distribute common styles.
-- [x] Deploy in Netlify.
+- [x] Deploy.
 ---
 #### Update List
 - [ ] Add user feedback, manage & display errors properly.
-- [ ] Improve Auth. Add Google, GitHub sign in methods.
-- [ ] Store user data in Firestore, create a data structure for every user & store everything.
+- [x] Improve Auth. Add Google sign in.
+- [x] Store user data in Firestore, create a data structure for every user & store everything.
 - [ ] Update events, sync user's all events from Google Calendar and display in widgets. Add reminders & send sms/email notification to users.
 - [ ] Update Voice Note feature, make it cross browser. Switch to Google Speech-to-Text API.
 - [ ] Update Note Editor. Allow users to upload documents & media files.
