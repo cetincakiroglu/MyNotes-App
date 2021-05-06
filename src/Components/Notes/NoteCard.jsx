@@ -8,17 +8,17 @@ import OpenBtn from './Buttons/OpenBtn'
 
 function NoteCard({ item, index }) {
 
-    const { ref } = useContext(NoteContext);
+    const { notesRef } = useContext(NoteContext);
     const { classes } = useContext(CardContext)
     const [showBtn, setShowBtn] = useState(false);
 
     const handleChange = (e, item) => {
         const editedNote = {...item}
         editedNote.note = e.target.textContent;
-        
-        ref.doc(item.id)
-           .update(editedNote)
-           .catch(err => console.log(err))
+        console.log(item)   
+        // notesRef.doc(item.id)
+        //    .update(editedNote)
+        //    .catch(err => console.log(err))
     }
 
     return (

@@ -3,6 +3,7 @@ import { Grid, Paper, IconButton, Tooltip, Button, Card, CardContent, Typography
 import { makeStyles } from '@material-ui/styles'
 import MicRoundedIcon from '@material-ui/icons/MicRounded';
 import { NoteContext } from '../../Context/NoteContext'
+import { AuthContext } from '../../Context/AuthContext'
 import { v4 as uuidv4 } from 'uuid'
 
 
@@ -22,9 +23,10 @@ try{
 function VoiceNoteWidget() {
     const [isListening, setIsListening] = useState(false)
     const [voiceNote, setVoiceNote] = useState('')
-    const { Note, notes, setNotes, notesRef, userID, currentUser } = useContext(NoteContext);
+    const { Note, notes, setNotes, notesRef } = useContext(NoteContext);
+    const { currentUser } = useContext(AuthContext)
     const [ showBtn, setShowBtn ] = useState(false);
-
+   
     
     const useStyles = makeStyles({
         buttonDisabled:{
@@ -54,12 +56,12 @@ function VoiceNoteWidget() {
     const handleSave = () => {
        // note object
         const newNote = {
-             id : uuidv4(),
-            ownerID : userID ? userID : 'unknown',
-            ownerEmail : currentUser.email ? currentUser.email : 'unknown',
-            date : new Date().toDateString(),
-            title : 'Voice Note',
-            note : voiceNote,
+            id         : uuidv4(),
+            ownerID    : currentUser ? currentUser.uid : 'unknown',
+            ownerEmail : currentUser ? currentUser.uid : 'unknown',
+            date       : new Date().toDateString(),
+            title      : 'Voice Note',
+            note       : voiceNote,
             categories : [],
         }
         // update db

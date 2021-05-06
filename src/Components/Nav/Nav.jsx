@@ -1,9 +1,8 @@
-import React, { useContext, useEffect } from 'react'
-import { withRouter, HashRouter } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { withRouter } from 'react-router-dom'
 import { Drawer, Collapse, Divider, Avatar, CardHeader, ListItem, List, ListItemText, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { AuthContext } from './../Context/AuthContext';
-import { getDocs, collection } from "firebase/firestore"; 
 
 const useStyles = makeStyles({
     root: {
@@ -34,7 +33,7 @@ const useStyles = makeStyles({
 function Nav(props) {
     const classes = useStyles();
     const { history } = props;
-    const { db,logout, error, setError, currentUser, userID, userInfo, setUserInfo } = useContext(AuthContext);
+    const { logout, error, setError, currentUser } = useContext(AuthContext);
 
     const navList = [
         {
@@ -75,11 +74,12 @@ function Nav(props) {
         <>
         
             <Drawer className={classes.drawer} classes={{paper:classes.drawerPaper}} variant='permanent' anchor='left'>
-                <CardHeader avatar={ <Avatar aria-label="recipe">
+                <CardHeader avatar={ <Avatar src={currentUser.photoURL ? currentUser.photoURL : null} aria-label="recipe">
                     R
                     </Avatar>
                     }
-                    title={userInfo.name ? userInfo.name : userInfo.email}
+                    title={currentUser.displayName ? currentUser.displayName : currentUser.email.split('@')[0]}
+            
                     />
                     <Divider />
                     <List className={classes.list}>
@@ -90,7 +90,6 @@ function Nav(props) {
                                     <ListItemText secondary={title} />
                                     <Collapse in={true}  timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding>
-
                                         </List>
                                     </Collapse>
                                 </ListItem>

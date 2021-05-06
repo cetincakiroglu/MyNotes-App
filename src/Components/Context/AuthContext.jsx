@@ -1,5 +1,6 @@
 import React, { useState, createContext, useEffect, useRef } from 'react'
-import { auth, googleProvider,db } from './../Auth/firebase'
+import { auth, googleProvider, db } from './../Auth/firebase'
+import firebase from '../Auth/firebase'
 import { makeStyles } from '@material-ui/styles'
 import background from '../Auth/background.jpg'
 
@@ -44,16 +45,13 @@ const useStyles = makeStyles({
     }
 })
 
-
 export const AuthContext = createContext();
 export const AuthProvider = props => {
     const classes = useStyles();
     const [currentUser, setCurrentUser] = useState();
-    const [userID,setUserID] = useState('');
     //TODO: Get user data and set the state
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const [userInfo, setUserInfo] = useState({});
      
     const email = useRef();
     const name = useRef();
@@ -85,36 +83,37 @@ export const AuthProvider = props => {
     const saveUserDB = (uid, userObj) => {
         db.collection('Users').doc(uid).set(userObj);
     }
-
-    // get user info from db
-    useEffect(() => {
-        const id = JSON.parse(sessionStorage.getItem('UID'))
-        // get userid
-        if(id){
-            db.collection('Users')
-              .doc(id)
-              .get()
-              .then(doc => {
-                let userInfoObj = userInfo;
-                userInfoObj.name = doc.data().name;
-                userInfoObj.email = doc.data().email;
-                setUserInfo({...userInfoObj})
-                }).catch(err => console.log(err))//TODO: update error handling
-        }
-        
-    },[])
-    
+   // get user info from db
+      
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
-            setCurrentUser(user);
-            setLoading(false);
+            setCurrentUser(user)
+            setLoading(false)
         })
-
+        sessionStorage.removeItem('UID');
         return unsubscribe;
+        // eslint-disable-next-line
     },[])
 
+    const value = {
+        db,
+        saveUserDB, 
+        signup, 
+        login, 
+        logout, 
+        signInWithGoogle, 
+        resetPassword, 
+        currentUser, 
+        password, 
+        email, 
+        passwordConfirm, 
+        name, 
+        surname, 
+        classes, 
+        error, 
+        setError, 
+    };
 
-    const value = { userInfo, setUserInfo ,db,saveUserDB, signup, login, logout, signInWithGoogle, resetPassword, currentUser, password, email, passwordConfirm, name, surname, classes, error, setError, userID, setUserID }
     return(
         <AuthContext.Provider value={value}>
             {!loading && props.children}

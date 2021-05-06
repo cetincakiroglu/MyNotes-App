@@ -14,22 +14,24 @@ export const EventProvider = props => {
     const eventSummary = useRef();
     const eventLocation = useRef();
 
-    const { userID, currentUser } = useContext(AuthContext)
-
+    const { currentUser } = useContext(AuthContext)
+    
     // db ref
     const eventsRef = db.collection('Events');
 
     // get Events collection
     function getEvents(){
-        setDbLoading(true);
-        eventsRef.onSnapshot(querySnapshot => {
-            const items= [];
-            querySnapshot.forEach(doc => {
-                items.push(doc.data())
-            });
-            setDbLoading(false);
-            setEventList(items);
-        })
+        if(currentUser){
+            setDbLoading(true);
+            eventsRef.where('ownerID', '==', currentUser.uid).onSnapshot(querySnapshot => {
+                const items= [];
+                querySnapshot.forEach(doc => {
+                   items.push(doc.data())
+                });
+                setDbLoading(false);
+                setEventList(items);
+            })
+        }
     }
 
     // add to db
@@ -37,7 +39,7 @@ export const EventProvider = props => {
         e.preventDefault();
         const newEvent = {
             id         : uuidv4(),
-            ownerID    : userID ? userID : 'unknown',
+            ownerID    : currentUser.uid ? currentUser.uid : 'unknown',
             ownerEmail : currentUser.email ? currentUser.email : 'unknown',
             date       : eventDate.current.value,
             time       : eventTime.current.value,
@@ -59,7 +61,15 @@ export const EventProvider = props => {
                  .catch(err => console.log(err))
     }
 
+    
+    // listen db
+    useEffect(() => {
+        getEvents();
+        // eslint-disable-next-line
+    },[])
+
     const value={
+        getEvents,
         deleteEvent,
         eventName,
         eventDate,
@@ -70,12 +80,6 @@ export const EventProvider = props => {
         eventList,
         setEventList,
     };
-
-    // listen db
-    useEffect(() => {
-        getEvents();
-        // eslint-disable-next-line
-    },[])
     return (
         <EventContext.Provider value={value}>
             {props.children}

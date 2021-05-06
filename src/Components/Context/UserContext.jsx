@@ -6,7 +6,7 @@ export const UserProvider = props => {
     const [userInfo, setUserInfo] = useState([]);
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
-
+    
     const value = {
         userInfo,
         setUserInfo,

@@ -1,4 +1,4 @@
-import React,{ useState, useEffect, useContext } from 'react'
+import React,{ useState, useContext } from 'react'
 import { Grid, Paper, Typography, IconButton, Tooltip } from '@material-ui/core'
 import AddRoundedIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/styles'
@@ -39,6 +39,7 @@ function RemindersWidget() {
         gapi.load('client:auth2', () => {
             console.log('loaded client');
             gapi.client.init({
+                //TODO: make them environment variables, store in a dotenv file.
                 apiKey:process.env.REACT_APP_GOOGLE_API_KEY,
                 clientId:process.env.REACT_APP_GOOGLE_CLIENT_ID,
                 discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
@@ -88,7 +89,6 @@ function RemindersWidget() {
 
     return (
         <>
-    
             <Paper className={classes.paper} elevation={5}>
                 <Grid container alignItems='center'>
                     <Grid item className={classes.title}>

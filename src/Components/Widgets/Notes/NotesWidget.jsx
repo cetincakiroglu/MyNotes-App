@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { Paper, Grid, Typography, Card, CardContent, IconButton, Tooltip, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { NoteContext } from './../../Context/NoteContext'
+import { AuthContext } from './../../Context/AuthContext'
 import { Splide, SplideSlide} from '@splidejs/react-splide'
 
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
@@ -64,10 +65,9 @@ const useStyles = makeStyles({
 
 function NotesWidget({setOpen}) {
     const classes = useStyles();
-    const { notes, setNotes, setTextInput, header, setHeader, openDrawer } = useContext(NoteContext);
+    const { notes, setTextInput, header, setHeader, openDrawer } = useContext(NoteContext);
     const history = useHistory();
   
-    
     const openInLarge = (item) => {
         history.push(`/New/${item.id}`)
         setTextInput(item.note)
@@ -96,11 +96,6 @@ function NotesWidget({setOpen}) {
         height:325,
     }
 
-    
-    useEffect(() => {
-        const savedItem = JSON.parse(localStorage.getItem('Notes'));
-        if(savedItem && savedItem !== []) setNotes([...savedItem])
-    },[])
     return (
         <>  
         <Paper className={classes.paper} elevation={5}>
@@ -117,7 +112,7 @@ function NotesWidget({setOpen}) {
                 </Grid>
                 <Grid item xs={12} >
                     <Splide options={splideOptions}>
-                        {notes.map((item,index) =>(
+                        {notes.length > 0 ? notes.map((item,index) =>(
                             <SplideSlide key={index}>
                                 <Card className={classes.noteCard} key={item.id} onClick={() => openInLarge(item)}>
                                     <div className={classes.cardHeader}>
@@ -132,7 +127,7 @@ function NotesWidget({setOpen}) {
                                     </CardContent>
                                 </Card>
                             </SplideSlide>
-                        ))}
+                        )): null}
                     </Splide>
                 </Grid>
             </Grid>

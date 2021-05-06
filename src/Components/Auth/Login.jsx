@@ -26,27 +26,22 @@ function Login() {
     }
 
     const handleGoogle = async () => {
+        setError('')
+        setLoading(true)
         try{
-            setError('');
-            setLoading(true)
             // get user credentials
             const cred = await signInWithGoogle();
-            // setUserID(cred.user.uid)
-            setCurrentUser(cred.user)
-            
-           
             //save user to db
             saveUserDB(cred.user.uid, {name: cred.user.displayName, email: cred.user.email})
             // TODO: replace sessionStorage with cookies.
             sessionStorage.setItem('UID', JSON.stringify(cred.user.uid))
             //redirect user
             history.push('/')
-            setMessage('Signed in with Google')
-            
         }catch(err){
             console.log(err);
             setError('Failed to sign in')
         }   
+        setMessage('Signed in with Google')
         setLoading(false);
     }
 

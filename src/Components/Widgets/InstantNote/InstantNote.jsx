@@ -30,24 +30,27 @@ function InstantNote() {
     })
     const classes = useStyles();
     const { textInput, setTextInput, notesRef } = useContext(NoteContext);
-    const { currentUser, userID } = useContext(AuthContext)
+    const { currentUser } = useContext(AuthContext)
     const formInput = useRef();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const newNote = {
-            id : uuidv4(),
-            ownerID : userID ? userID : 'unknown',
-            ownerEmail : currentUser.email ? currentUser.email : 'unknown',
-            date : new Date().toDateString(),
-            title : 'Untitled',
-            note : textInput,
+            id         : uuidv4(),
+            ownerID    : currentUser ? currentUser.uid : 'unknown',
+            ownerEmail : currentUser ? currentUser.email : 'unknown',
+            date       : new Date().toDateString(),
+            title      : 'Untitled',
+            note       : textInput,
             categories : [],
         };
         // update db
         notesRef.doc(newNote.id)
-           .set(newNote)
-           .catch(err => console.log(err));
+        .set(newNote)
+        .catch(err => console.log(err));
+        
+        formInput.current.value ='';
+        setTextInput('')
     }
 
     return (

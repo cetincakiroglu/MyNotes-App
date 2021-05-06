@@ -3,6 +3,7 @@ import { Grid, Paper, Typography, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import NoteCard from './NoteCard'
 import { NoteContext } from './../Context/NoteContext';
+import { AuthContext } from './../Context/AuthContext'
 import NoteEditor from './NoteEditor'
 
 const useStyles = makeStyles({
@@ -30,16 +31,9 @@ const useStyles = makeStyles({
     }
 })
 function Notes() {
-    const { open, setOpen, notes, setNotes, openDrawer } = useContext(NoteContext);
+    const { open, setOpen, notes, setNotes, openDrawer, notesRef, setDbLoading } = useContext(NoteContext);
     const classes = useStyles();
 
-   
-    useEffect(() => {
-        let savedNotes = JSON.parse(localStorage.getItem('Notes'));
-        if(savedNotes){
-            setNotes([...savedNotes])
-        }
-    },[])
     return (
         <>
         <Paper className={classes.paper}>

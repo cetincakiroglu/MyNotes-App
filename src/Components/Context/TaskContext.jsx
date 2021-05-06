@@ -16,21 +16,23 @@ export const TaskProvider = props => {
     const title = useRef();
     const taskListItem = useRef();
     const category = useRef();
+    const { currentUser } = useContext(AuthContext)
+    // db ref
     const tasksRef = db.collection('Tasks');
-
-    const { currentUser, userID } = useContext(AuthContext)
-
+    
     // get tasks collection from db
     function getTasks(){
-        setDbLoading(true);
-        tasksRef.onSnapshot(querySnapshot => {
-            const items = [];
-            querySnapshot.forEach(doc => {
-                items.push(doc.data())
-            });
-            setDbLoading(false);
-            setTaskListInfo(items);
-        })
+        if(currentUser){
+            setDbLoading(true);
+            tasksRef.where('ownerID', '==', currentUser.uid).onSnapshot(querySnapshot => {
+                const items = [];
+                querySnapshot.forEach(doc => {
+                    items.push(doc.data())
+                });
+                setDbLoading(false);
+                setTaskListInfo(items);
+            })
+        }
     }
 
     const addTask = () => {
@@ -100,7 +102,7 @@ export const TaskProvider = props => {
         //create new task list object
        const newTaskList = {
         id        : uuidv4(),
-        ownerID   : userID ? userID : 'unknown',
+        ownerID   : currentUser ? currentUser.uid : 'unknown',
         ownerEmail: currentUser.email ? currentUser.email : 'unknown',
         date      : new Date().toDateString(),
         title     : title.current.value, 
@@ -120,6 +122,7 @@ export const TaskProvider = props => {
     }
     
     const value={
+        getTasks,
         deleteTaskList,
         taskListInfo,
         setTaskListInfo,
@@ -145,7 +148,7 @@ export const TaskProvider = props => {
         getTasks();
         // eslint-disable-next-line
     },[])
-    
+
     return(
         <TaskContext.Provider value={value}>
             { props.children }

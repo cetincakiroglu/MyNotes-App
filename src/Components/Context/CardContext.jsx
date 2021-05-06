@@ -89,7 +89,7 @@ export const CardProvider = props => {
 
     const classes = useStyles();
     return (
-        <CardContext.Provider value={{classes: classes }}>
+        <CardContext.Provider value={{classes: classes}}>
             { props.children }
         </CardContext.Provider>
     )

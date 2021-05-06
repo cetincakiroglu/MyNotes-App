@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Typography, Paper, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import InstantNote from '../Widgets/InstantNote/InstantNote'
@@ -8,7 +8,10 @@ import RemindersWidget from '../Widgets/Events/EventsWidget'
 import NoteEditor from '../Notes/NoteEditor'
 import { NoteContext } from './../Context/NoteContext';
 import { AuthContext } from './../Context/AuthContext'
+import { TaskContext } from './../Context/TaskContext'
+import { EventContext } from './../Context/EventContext'
 import VoiceNoteWidget from '../Widgets/VoiceNote/VoiceNoteWidget'
+import { db } from '../Auth/firebase'
 
 const useStyles = makeStyles({
   paper:{
@@ -29,17 +32,25 @@ const useStyles = makeStyles({
 })
 
 function Home() {
-
   const classes = useStyles();
-  const {open, setOpen} = useContext(NoteContext);
-  const {userInfo} = useContext(AuthContext)
-  
+  const {getEvents} = useContext(EventContext);
+  const {getTasks} = useContext(TaskContext);
+  const {open, setOpen, getNotes } = useContext(NoteContext);
+  const {currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    getTasks();
+    getNotes();
+    getEvents();
+    // eslint-disable-next-line
+},[])
+ 
   return (
         <>
         <Paper className={classes.paper}>
           <Grid container>
             <Grid item xs={12}>
-              <Typography className={classes.message} variant='h1'>{`Welcome, ${userInfo.name ? userInfo.name : ''} !`}</Typography>
+              <Typography className={classes.message} variant='h1'>{`Welcome, ${currentUser.displayName ? currentUser.displayName.split(' ')[0] : currentUser.email.split('@')[0]} !`}</Typography>
             </Grid>
           </Grid>
             {/* Note widgets */}

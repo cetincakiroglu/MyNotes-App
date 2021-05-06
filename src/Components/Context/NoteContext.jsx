@@ -14,18 +14,18 @@ export const NoteProvider = props => {
     const [header, setHeader] = useState([]);
     const [dbLoading, setDbLoading] = useState(false);
     
-    const { userID, currentUser } = useContext(AuthContext);
+    const { currentUser } = useContext(AuthContext);
+   
 
     const title = useRef();
     const category = useRef();
-    
     // db ref
     const notesRef = db.collection('Notes');
     
     // get Notes collection from db
     function getNotes() {
         setDbLoading(true);
-        notesRef.onSnapshot(querySnapshot => {
+        notesRef.where('ownerID', '==', currentUser.uid).onSnapshot(querySnapshot => {
             const items = [];
             querySnapshot.forEach(doc => {
                 items.push(doc.data())
@@ -53,7 +53,7 @@ export const NoteProvider = props => {
         let categories = obj.categories ? obj.categories : '';
         setOpen(true);
         setTextInput(obj.note);
-        setCategoryList([...categories]);        
+        setCategoryList([...categories]);
     }
 
     const addCategory = (e) => {
@@ -85,8 +85,6 @@ export const NoteProvider = props => {
         const noteTitle = title.current.value;
         const note = textInput;
         const tags = [...categoryList]
-        // user creds to make Note relational in db.
-        const ownerEmail = currentUser ? currentUser.email : 'unknown';
         
         // check if note will be edited or it's a new note 
         if(noteId.join('') !== '0'){
@@ -101,8 +99,8 @@ export const NoteProvider = props => {
             // submit new note
             const newNote = {
                 id         : uuidv4(),
-                ownerID    : userID ? userID : 'unknown',
-                ownerEmail : ownerEmail ? ownerEmail : 'unknown',
+                ownerID    : currentUser.uid ? currentUser.uid : 'unknown',
+                ownerEmail : currentUser ? currentUser.email : 'unknown',
                 date       : new Date().toDateString(),
                 title      : noteTitle,
                 note       : note,
@@ -125,8 +123,26 @@ export const NoteProvider = props => {
         const data = editor.getData();
         setTextInput(data)
     }
+    function getNotes(){
+        if(currentUser){
+            notesRef.where('ownerID', '==', currentUser.uid).onSnapshot(querySnapshot => {
+            const items = [];
+            querySnapshot.forEach(doc => {
+                items.push(doc.data())
+                });
+                setDbLoading(false);
+                setNotes(items);
+            })
+        }
+    }
+    // listen db
+    useEffect(() => {
+        getNotes();
+        // eslint-disable-next-line
+    },[])
     
     const value = {
+        getNotes,
         notesRef,
         header,
         setHeader,
@@ -149,17 +165,13 @@ export const NoteProvider = props => {
         setNoteId,
         openDrawer 
     }
-    useEffect(() => {
-        getNotes();
-        // eslint-disable-next-line
-    },[])
+    
+    // listen db
+    // useEffect(() => {
+    //     getNotes();
+    //     // eslint-disable-next-line
+    // },[])
 
-    useEffect(() => {
-        let savedItems = JSON.parse(localStorage.getItem('Notes'))
-        if(savedItems){
-            setNotes([...savedItems])
-        }
-    },[])
     return (
         <NoteContext.Provider value={value}>
             { props.children }
