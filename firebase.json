@@ -7,7 +7,6 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "site":"mynotes-web",
     "public": "public",
     "ignore": [
       "firebase.json",

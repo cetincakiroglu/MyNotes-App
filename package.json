@@ -15,6 +15,8 @@
     "@testing-library/user-event": "^12.1.10",
     "file": "^0.2.2",
     "firebase": "^8.4.2",
+    "firebase-tools": "^9.10.1",
+    "global": "^4.4.0",
     "raw-loader": "3",
     "react": "^17.0.2",
     "react-datepicker": "^3.8.0",

@@ -6,3 +6,4 @@ firebase.json
 firestore.indexes.json
 firestore.rules
 .firebase
+yarn.lock
