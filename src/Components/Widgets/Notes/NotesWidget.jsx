@@ -1,11 +1,12 @@
 import '@splidejs/splide/dist/css/themes/splide-default.min.css';
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Paper, Grid, Typography, Card, CardContent, IconButton, Tooltip, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { NoteContext } from './../../Context/NoteContext'
 import { AuthContext } from './../../Context/AuthContext'
 import { Splide, SplideSlide} from '@splidejs/react-splide'
+import useWindowDimensions from '../../Hooks/useWindowDimensions'
 
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
 
@@ -21,10 +22,10 @@ const useStyles = makeStyles({
         backgroundColor:'#242424',
         width:'180px',
         height:'300px',
-        margin:'0 auto',
+        margin:'15px auto',
         '&:hover':{
             cursor:'pointer',
-            transform: 'scale(1.01)',
+            transform: 'translateY(-5px)',
             transition:'.1s ease',
         }
     },
@@ -63,25 +64,27 @@ const useStyles = makeStyles({
 })
 
 
-function NotesWidget({setOpen}) {
+function NotesWidget(props) {
+    const { setOpen } = props;
+    const { width } = useWindowDimensions();
     const classes = useStyles();
     const { notes, setTextInput, header, setHeader, openDrawer } = useContext(NoteContext);
     const history = useHistory();
-  
+    
     const openInLarge = (item) => {
         history.push(`/New/${item.id}`)
         setTextInput(item.note)
         let headerArr = header;
          headerArr.unshift(item.title);
-        setHeader([...headerArr])
-      
+        setHeader([...headerArr]) 
     }
-    const splideOptions={
+    
+    const splideOptions = {
         type        : 'slide',
         rewind      : true,
         gap         : '1em',
         pagination  : false,
-        perPage     : 5,
+        perPage     : (width > 1000 ? 5 : 2),
         perMove     : 1,
         cover       : false,
         focus       : 'end',
@@ -127,7 +130,7 @@ function NotesWidget({setOpen}) {
                                     </CardContent>
                                 </Card>
                             </SplideSlide>
-                        )): null}
+                        )): <Typography variant='body1'>You have 0 notes.</Typography>}
                     </Splide>
                 </Grid>
             </Grid>

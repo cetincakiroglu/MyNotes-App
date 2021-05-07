@@ -19,6 +19,7 @@ function GoogleBtn({ showBtn, syncGoogle, item }) {
                     <img src="https://img.icons8.com/fluent/48/000000/google-logo.png" className={classes.icon} alt='google logo'/>
                 </IconButton>
             </Tooltip>
+            
         </>
     )
 }

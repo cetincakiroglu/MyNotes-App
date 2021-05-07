@@ -51,6 +51,7 @@ function InstantNote() {
         
         formInput.current.value ='';
         setTextInput('')
+        setShowBtn(false)
     }
 
     return (

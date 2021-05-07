@@ -1,26 +1,27 @@
 import React, { useState, createContext, useEffect, useRef } from 'react'
 import { auth, googleProvider, db } from './../Auth/firebase'
-import firebase from '../Auth/firebase'
 import { makeStyles } from '@material-ui/styles'
 import background from '../Auth/background.jpg'
 
 const useStyles = makeStyles({
     paper:{
-        height:'100vh',
+        minHeight:'100vh',
         width:'100vw',
         borderRadius:'0',
+        zIndex:'100 !important',
     },
     formWrapper:{
-        height:'100vh',
+        zIndex:'100 !important',
         display:'flex',
-        alignContent:'center'
+        alignContent:'center',
     },
     bgWrapper:{
         minHeight:'100vh',
         backgroundImage:`url(${background})`,
         backgroundRepeat:'no-repeat',
         backgroundSize:'cover',
-        filter:'grayscale(1) blur(3px)'
+        filter:'grayscale(1) blur(3px)',
+
     },
     form:{
         flexShrink:'0',
@@ -42,6 +43,22 @@ const useStyles = makeStyles({
     button:{
         padding:'0.5em 4em',
         margin:'1em auto'
+    },
+    googleCard:{
+        display:'flex',
+        justifyContent:'center',
+        maxWidth:'250px',
+        margin:'20px auto',
+        alignItems:'center',
+        filter:'grayscale(1)',
+        transition:'.2s ease',
+        height:'50px',
+        marginTop:'30px',
+        '&:hover':{
+            filter:'grayscale(0)',
+            cursor:'pointer',
+            
+        }
     }
 })
 
@@ -49,9 +66,8 @@ export const AuthContext = createContext();
 export const AuthProvider = props => {
     const classes = useStyles();
     const [currentUser, setCurrentUser] = useState();
-    //TODO: Get user data and set the state
+    const [userInfo, setUserInfo] = useState();
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
      
     const email = useRef();
     const name = useRef();
@@ -96,6 +112,8 @@ export const AuthProvider = props => {
     },[])
 
     const value = {
+        userInfo,
+        setUserInfo,
         db,
         saveUserDB, 
         signup, 
@@ -110,8 +128,6 @@ export const AuthProvider = props => {
         name, 
         surname, 
         classes, 
-        error, 
-        setError, 
     };
 
     return(

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Typography, Paper, Grid } from '@material-ui/core'
+import React, { useContext, useEffect } from 'react'
+import { Typography, Paper, Grid, IconButton, Hidden } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import InstantNote from '../Widgets/InstantNote/InstantNote'
 import NotesWidget from '../Widgets/Notes/NotesWidget'
@@ -11,10 +11,12 @@ import { AuthContext } from './../Context/AuthContext'
 import { TaskContext } from './../Context/TaskContext'
 import { EventContext } from './../Context/EventContext'
 import VoiceNoteWidget from '../Widgets/VoiceNote/VoiceNoteWidget'
-import { db } from '../Auth/firebase'
+import MenuIcon from '@material-ui/icons/Menu';
+
 
 const useStyles = makeStyles({
   paper:{
+    position:'relative',
     height:'100vh',
     width:'100%',
     borderRadius:'0',
@@ -22,12 +24,24 @@ const useStyles = makeStyles({
     overflowY:'scroll',
     scrollbarWidth:'none'
   },
-  message:{
-    margin:'20px 50px'
-  },
   widgetWrapper:{
     padding:'50px'
   },
+  header:{
+    margin:'20px 50px',
+  },
+  alert:{
+    position:'absolute',
+    width:'100%'
+  },
+  date:{
+    opacity:'0.1',
+    marginRight:'50px'
+  },
+  icon:{
+    position:'sticky',
+    top:'10px'
+  }
 
 })
 
@@ -35,30 +49,41 @@ function Home() {
   const classes = useStyles();
   const {getEvents} = useContext(EventContext);
   const {getTasks} = useContext(TaskContext);
-  const {open, setOpen, getNotes } = useContext(NoteContext);
-  const {currentUser } = useContext(AuthContext);
-
+  const {open, setOpen, getNotes, mobileOpen, setMobileOpen } = useContext(NoteContext);
+  const { currentUser } = useContext(AuthContext);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen)
+  }
+ 
   useEffect(() => {
     getTasks();
     getNotes();
     getEvents();
     // eslint-disable-next-line
-},[])
- 
+  },[])
+  
   return (
         <>
         <Paper className={classes.paper}>
-          <Grid container>
-            <Grid item xs={12}>
+            <Hidden  smUp implementation='css' className={classes.icon} >
+              <IconButton color='primary' onClick={handleDrawerToggle}>
+                <MenuIcon />
+              </IconButton>
+            </Hidden>
+          <Grid container className={classes.header}>
+            <Grid item xs={12} md={10}>
               <Typography className={classes.message} variant='h1'>{`Welcome, ${currentUser.displayName ? currentUser.displayName.split(' ')[0] : currentUser.email.split('@')[0]} !`}</Typography>
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <Typography variant='h1' className={classes.date}>{new Date().toDateString()}</Typography>
             </Grid>
           </Grid>
             {/* Note widgets */}
-            <Grid container spacing={3} className={classes.widgetWrapper} justify='space-between'>
+            <Grid container spacing={5} className={classes.widgetWrapper} justify='space-between'>
                 <Grid item xs={12} md={5}>
                   <InstantNote />
                 </Grid>
-                {window.SpeechRecognition || window.webkitSpeechRecognition ? (<Grid item xs={5}><VoiceNoteWidget /></Grid>) : (<></>)}
+                {window.SpeechRecognition || window.webkitSpeechRecognition ? (<Grid item xs={12} md={5}><VoiceNoteWidget /></Grid>) : (<></>)}
             </Grid>
             <Grid container spacing={3} className={classes.widgetWrapper}>
                 <Grid item xs={12}>

@@ -13,6 +13,7 @@ export const NoteProvider = props => {
     const [noteId, setNoteId] = useState([0]); // used in handleSubmit to determine edit || create new note.
     const [header, setHeader] = useState([]);
     const [dbLoading, setDbLoading] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
     
     const { currentUser } = useContext(AuthContext);
    
@@ -23,18 +24,20 @@ export const NoteProvider = props => {
     const notesRef = db.collection('Notes');
     
     // get Notes collection from db
-    function getNotes() {
-        setDbLoading(true);
-        notesRef.where('ownerID', '==', currentUser.uid).onSnapshot(querySnapshot => {
+    function getNotes(){
+        if(currentUser){
+            setDbLoading(true);
+            notesRef.where('ownerID', '==', currentUser.uid).onSnapshot(querySnapshot => {
             const items = [];
             querySnapshot.forEach(doc => {
                 items.push(doc.data())
-            });
-            setDbLoading(false);
-            setNotes(items);
-        })
+                });
+                setDbLoading(false);
+                setNotes(items);
+            })
+        }
     }
-   
+    
     // delete from db
     function deleteNote(note){
         // console.log(obj);
@@ -123,18 +126,7 @@ export const NoteProvider = props => {
         const data = editor.getData();
         setTextInput(data)
     }
-    function getNotes(){
-        if(currentUser){
-            notesRef.where('ownerID', '==', currentUser.uid).onSnapshot(querySnapshot => {
-            const items = [];
-            querySnapshot.forEach(doc => {
-                items.push(doc.data())
-                });
-                setDbLoading(false);
-                setNotes(items);
-            })
-        }
-    }
+   
     // listen db
     useEffect(() => {
         getNotes();
@@ -142,6 +134,8 @@ export const NoteProvider = props => {
     },[])
     
     const value = {
+        mobileOpen,
+        setMobileOpen,
         getNotes,
         notesRef,
         header,

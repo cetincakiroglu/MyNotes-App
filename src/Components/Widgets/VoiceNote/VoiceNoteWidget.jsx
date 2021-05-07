@@ -83,21 +83,16 @@ function VoiceNoteWidget() {
         } else {
             mic.stop()
             mic.onend = () => {
-                console.log('Stopped Mic on Click')
+                setShowBtn(true)
             }
         }
-        mic.onstart = () => {
-            console.log('Mics on')
-        }
-        
         mic.onresult = event => {
             const transcript = Array.from(event.results)
             .map(result => result[0])
             .map(result => result.transcript)
             .join('')
             setVoiceNote(transcript)
-            setShowBtn(true)
-
+    
             mic.onerror = event => {
                 console.log(event.error)
             }

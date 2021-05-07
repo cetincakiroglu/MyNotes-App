@@ -90,7 +90,7 @@ const useStyles = makeStyles({
 
 function App() {
   const { currentUser } = useContext(AuthContext);
- 
+
   const classes = useStyles();
   return (
     <>
