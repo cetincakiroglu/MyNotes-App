@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Paper, TextField, IconButton, Button, Divider, Grid, List, ListItem, Typography, Tooltip} from '@material-ui/core'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import { makeStyles } from '@material-ui/core/styles'
 import { TaskContext } from './../../Context/TaskContext'
 import './drawer.css'
@@ -19,8 +19,7 @@ const useStyles = makeStyles({
         height:'100%'
     },
     title:{
-        width:'',
-        marginTop:'1em',
+        marginTop:'30px',
     },
     divider:{
         maxWidth:'16em'
@@ -31,8 +30,7 @@ const useStyles = makeStyles({
         maxWidth:'17em',
     },
     taskList:{
-        minHeight:'5em',
-        maxHeight:'12em',
+        height:'5em',
         overflowY:'scroll',
         overflowX:'hidden',
         scrollbarWidth:'none'
@@ -50,8 +48,8 @@ const useStyles = makeStyles({
         alignSelf:'flex-start !important',
     },
     button:{
-        maxWidth:'10em',
-        margin:'1em auto 0 auto',
+        width:'100px',
+        margin:'10px auto',
         display:'block'
     },
     buttonDisabled:{
@@ -69,6 +67,7 @@ const useStyles = makeStyles({
         '&:hover':{
             backgroundColor:'transparent !important'
         }
+
     }
 })
 
@@ -87,16 +86,16 @@ function InputGroup({openInputDrawer, setOpenInputDrawer}) {
     } = useContext(TaskContext);
     const drawerStyles = makeStyles({
         paper:{
-            width:openInputDrawer ? '300px' : 0,
+            width:openInputDrawer ? '250px' : 0,
             display: openInputDrawer ? 'block' : 'none',
             position: openInputDrawer ? 'absolute' : 'relative',
             right:1,
             top:1,
             zIndex:100,
-            animation:openInputDrawer ? 'openTaskList .1s' : 'none',
+            transition:'ease-in-out',
+            animation:openInputDrawer ? 'openTaskList .1s ease-in-out' : 'none',
             padding:'0 1em',
             height:'100%',
-            
         }
     })
     const drawer = drawerStyles();
@@ -104,22 +103,23 @@ function InputGroup({openInputDrawer, setOpenInputDrawer}) {
         <>
             <Paper className={drawer.paper} elevation={5}>
                 <Tooltip title='Close'>
-                    <IconButton color='secondary' className={classes.closeIcon}>
-                        <CloseRoundedIcon onClick={() => setOpenInputDrawer(false)}/>
+                    <IconButton color='secondary' className={classes.closeIcon} onClick={() => setOpenInputDrawer(false)}>
+                        <ArrowForwardIosRoundedIcon />
                     </IconButton>
                 </Tooltip>
                 <form  onSubmit={handleSubmit}>
                     <TextField
-                    inputRef={title} 
-                    className={classes.title} 
-                   
-                    id='outlined-basic' 
-                    label='Title'/>
+                        inputRef={title} 
+                        className={classes.title} 
+                        id='outlined-basic' 
+                        label='Title'
+                    />
                     <div className={classes.taskInput}>
-                        <TextField inputRef={taskListItem} 
-                        variant='standard' 
-                        label='Add Task' 
-                        id='standard-basic' 
+                        <TextField 
+                            inputRef={taskListItem} 
+                            variant='standard' 
+                            label='Add Task' 
+                            id='standard-basic' 
                         />
                         <IconButton color='primary' onClick={addTask}>
                             <AddRoundedIcon />
@@ -153,7 +153,9 @@ function InputGroup({openInputDrawer, setOpenInputDrawer}) {
                                 className={classes.categories}>
                                 Categories:
                                 {categoryList.map((item,index) => (
-                                    `#${item}`
+                                    <span key={index}>
+                                        #{item}
+                                    </span>
                                     ))}
                             </Typography>
                             <Button 

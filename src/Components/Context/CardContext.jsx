@@ -20,8 +20,8 @@ export const CardProvider = props => {
         },
         cardWrapper:{
             backgroundColor:'#161616',
-            minWidth:'10em',
-            height:'28em',
+            minWidth:'250px',
+            height:'470px',
             margin:'0 auto',
             position:'relative'
         },
@@ -61,25 +61,20 @@ export const CardProvider = props => {
             overflowX:'hidden',
             scrollbarWidth:'none'
         },
-        button:{
-
-        },
         btnDisabled:{
             display:'none'
         },
-        divider:{
 
-        },
         deleteBtnContainer:{
             float:'right',
             clear:'left'
         },
-
         btnContainer:{
             width:'100%',
+            margin:'auto',
             display:'flex',
             justifyContent:'center',
-            alignContent:'center'
+            alignContent:'center',
         },
         closeBtn:{
             float:'right',

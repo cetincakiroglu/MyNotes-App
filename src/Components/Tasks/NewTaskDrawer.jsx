@@ -12,10 +12,9 @@ const useStyles = makeStyles({
         margin:'1em 0'
     },
     paper:{
-        minHeight:'100%',
-        minWidth:'30vw',
+        height:'100vh',
         backgroundColor:'#161616',
-        margin:'auto'
+        margin:'auto',
     },
     inputContainer:{
         width:'100%',
@@ -24,14 +23,16 @@ const useStyles = makeStyles({
     },
     icon:{
         flexShrink:'0',
-        //TODO: + tuşu yanlardan basık üstlerden şişkin görünüyor, düzelt.
+       
     },
     form:{
-        padding:'2em',
-        // height:'100%'
+        padding:'0em 2em',
+        minWidth:'30vw',
+        maxWidth:'100vw',
+        minHeight:'600px',
     },
     list:{
-        height:'55vh',
+        height:'40vh',
     },
     listItem:{
         display:'flex',
@@ -40,6 +41,7 @@ const useStyles = makeStyles({
         margin:'0'
     },
     categories:{
+        margin:'1em 0',
         overflow:'hidden',
         textOverflow:'ellipsis'
     },
@@ -51,6 +53,9 @@ const useStyles = makeStyles({
     buttonDisabled:{
         display:'none'
     },
+    icon:{
+        alignSelf:'center'
+    }
 })
 function NewTaskDrawer() {
     const { 
@@ -95,11 +100,13 @@ function NewTaskDrawer() {
                         label='Add Task'
                         id='standard-basic-3'
                         />
-                        <Tooltip title='Add Task'>
-                            <IconButton className={classes.icon} color='primary' onClick={addTask}>
-                                <AddRoundedIcon />
-                            </IconButton>
-                        </Tooltip>
+                        <div className={classes.icon}>
+                            <Tooltip title='Add Task'>
+                                <IconButton color='primary' onClick={addTask}>
+                                    <AddRoundedIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </div>
                     </div>
                     <Divider />
                     <Grid item>
@@ -121,11 +128,13 @@ function NewTaskDrawer() {
                         </List>
                         <div className={classes.inputContainer}>
                             <TextField className={classes.inputField} inputRef={category} variant='standard' label='Add Category' id='standard-basic-1'/>
-                            <Tooltip title='Add Category'>
-                                <IconButton onClick={addCategory} color='primary'>
-                                    <AddRoundedIcon />
-                                </IconButton>
-                            </Tooltip>
+                            <div className={classes.icon}>
+                                <Tooltip title='Add Category'>
+                                    <IconButton onClick={addCategory} color='primary'>
+                                        <AddRoundedIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </div>
                         </div>   
                             <Typography
                             variant='body1' 

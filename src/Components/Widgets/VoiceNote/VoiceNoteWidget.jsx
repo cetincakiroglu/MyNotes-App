@@ -37,14 +37,14 @@ function VoiceNoteWidget() {
             margin:'25px auto',
         },
         paper:{
-            height:'410px',
+            height:'420px',
             backgroundColor:'#161616',
             padding:'0 20px'
             
         },
         card:{
             height:'60%',
-            margin:'15px 0',
+            margin:'22px auto',
             backgroundColor:'#242424'
         },
         title:{

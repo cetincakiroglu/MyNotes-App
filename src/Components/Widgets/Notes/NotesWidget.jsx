@@ -1,10 +1,9 @@
 import '@splidejs/splide/dist/css/themes/splide-default.min.css';
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Paper, Grid, Typography, Card, CardContent, IconButton, Tooltip, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { NoteContext } from './../../Context/NoteContext'
-import { AuthContext } from './../../Context/AuthContext'
 import { Splide, SplideSlide} from '@splidejs/react-splide'
 import useWindowDimensions from '../../Hooks/useWindowDimensions'
 
@@ -16,17 +15,17 @@ const useStyles = makeStyles({
         padding:'0 15px',
         backgroundColor:'#161616',
         position:'relative',
-        minHeight:'410px',
+        minHeight:'450px',
     },
     noteCard:{
         backgroundColor:'#242424',
         width:'180px',
         height:'300px',
         margin:'15px auto',
+        transition:'.1s ease-in-out',
         '&:hover':{
             cursor:'pointer',
             transform: 'translateY(-5px)',
-            transition:'.1s ease',
         }
     },
     cardHeader:{
@@ -65,7 +64,6 @@ const useStyles = makeStyles({
 
 
 function NotesWidget(props) {
-    const { setOpen } = props;
     const { width } = useWindowDimensions();
     const classes = useStyles();
     const { notes, setTextInput, header, setHeader, openDrawer } = useContext(NoteContext);

@@ -31,7 +31,7 @@ const useStyles = makeStyles({
   } 
 })
 function NewNote() {
-  const { setHeader,notes, title, category, categoryList, setCategoryList, textInput, setNoteId, header, addCategory, handleChange, handleSubmit } = useContext(NoteContext);
+  const { notes, title, category, categoryList, setCategoryList, textInput, setNoteId, header, addCategory, handleChange, handleSubmit } = useContext(NoteContext);
   
   const params = useParams();
   const { id } = params;
@@ -50,8 +50,8 @@ function NewNote() {
 
   return (
       <>
-        <Grid container>
           <Paper className={classes.paper}>
+        <Grid container>
             <Grid item xs={12} className={classes.header}>
               <Typography variant='h2'>Note Editor</Typography>
             </Grid>
@@ -59,10 +59,10 @@ function NewNote() {
             <form onSubmit={handleSubmit} className={classes.form}>
               <Grid container spacing={5} style={{padding:'2em 0em'}}>
                 <Grid item xs={4}>
-                  <TextField id='standard-basic' inputRef={title} value={header.join('')} variant='outlined' label='Title' style={{width:'100%'}}/>
+                  <TextField id='standard-basic' inputRef={title} placeholder={header} variant='outlined' style={{width:'100%'}}/>
                 </Grid>
                 <Grid item xs={4}>
-                  <TextField inputRef={category} id='basic' variant='standard' label='Add Category' onKeyDown={(e) => e.key==='Enter' && addCategory(e)} style={{width:'90%'}}/>
+                  <TextField inputRef={category} id='basic' variant='standard' label='Add Category' onKeyDown={(e) => e.key==='Enter' && addCategory(e)} style={{width:'80%'}}/>
                   <Tooltip title='Add Category'>
                       <IconButton color='primary' onClick={addCategory}>
                           <AddRoundedIcon />
@@ -89,8 +89,8 @@ function NewNote() {
               </Grid>
             </form>
           </Grid>
-          </Paper>
         </Grid>
+          </Paper>
       </>
   )
 }

@@ -5,18 +5,19 @@ import { makeStyles } from '@material-ui/core/styles'
 import { TaskContext } from './../../Context/TaskContext'
 import InputGroup from './InputGroup'
 import DisplayGroup from './DisplayGroup'
+import useWindowDimensions from '../../Hooks/useWindowDimensions'
 
 function TaskListWidget() {
-    
-    const { taskListInfo, setTaskListInfo } = useContext(TaskContext);
+    const {width} = useWindowDimensions();
+    const { taskListInfo } = useContext(TaskContext);
     const [openInputDrawer, setOpenInputDrawer] = useState(false)
 
     const useStyles = makeStyles({
         paper:{
-            padding:'0em 15px',
+            padding:'0 15px',
             backgroundColor:'#161616',
             position:'relative',
-            minHeight:'410px'
+            minHeight: width > 500 ? '450px' : '520px',
         },
         wrapper:{
             minHeight:'25em',
@@ -27,16 +28,16 @@ function TaskListWidget() {
         },
         button:{
             marginLeft:'10px'
+        },
+        taskListContainer:{
+            overflowY:'scroll',
+            overflowX:'hidden',
+            scrollbarWidth:'none',
+            maxHeight: width > 500 ? '450px' : '520px',
         }
     })
     const classes = useStyles();
-    
-    useEffect(() => {
-        let savedTaskList = JSON.parse(localStorage.getItem('Task List'));
-        if(savedTaskList && savedTaskList !==[]){
-            setTaskListInfo(savedTaskList);
-        }
-    },[])
+
     
     return (
         <>
@@ -53,11 +54,12 @@ function TaskListWidget() {
                         </Tooltip>  
                    </Grid>
                </Grid>
-                <Grid container spacing={2}>
+                <Grid container spacing={3} className={classes.taskListContainer}>
                         {taskListInfo !== [] || taskListInfo !== undefined ? taskListInfo.map((item,index) => (
-                            <Grid item xs={3}>
+                            <Grid item xs={12} md={3}>
                                 <DisplayGroup item={item} index={index} key={index}/>
                             </Grid>
+                            
                             )): <Typography variant='body1'>It seems you don't have any task list yet. Let's create one!</Typography>}
                     <InputGroup openInputDrawer={openInputDrawer} setOpenInputDrawer={setOpenInputDrawer}/>
                 </Grid>

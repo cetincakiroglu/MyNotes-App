@@ -8,14 +8,19 @@ import NewTaskDrawer from './NewTaskDrawer'
 
 const useStyles = makeStyles({
     paper:{
-        minHeight:'100vh',
-        width:'100vw',
+        width:'100%',
         borderRadius:'0',
-        padding:'2em'
+        overflow:'hidden',
+        minHeight:'100vh',
+        scrollbarWidth:'none',
     },
     container:{
-        marginTop:'3em',
-        flexWrap:'wrap',
+        marginTop:'40px',
+        overflowX:'hidden',
+        overflowY:'scroll',
+        scrollbarWidth:'none',
+        maxHeight:'80vh',
+        padding:'30px',
     },
     button:{
         width:'100%',
@@ -34,11 +39,11 @@ function Tasks() {
     return (
         <>
             <Paper className={classes.paper}>
-                <Grid container>
-                    <Grid item xs={2}>
+                <Grid container  style={{padding:'30px'}}>
+                    <Grid item xs={6} md={2}>
                         <Typography variant='h2' color='primary'>Task Lists</Typography>
                     </Grid>
-                    <Grid item xs={1}>
+                    <Grid item xs={6} md={1}>
                         <Button variant='contained' color='primary' className={classes.button} aria-label='open drawer' onClick={() => setOpen(true)}>
                             New List
                         </Button>

@@ -25,7 +25,8 @@ function InstantNote() {
             display: showBtn ? 'block' : 'none',
         },
         form:{
-           position:'relative'
+           position:'relative',
+           height:'420px'
         }
     })
     const classes = useStyles();

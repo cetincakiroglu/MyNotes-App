@@ -1,5 +1,6 @@
 .MuiOutlinedInput-multiline{
-    height:410px !important;
+    min-height:420px !important;
+    margin:0 !important;
     position:relative !important;
 }
 

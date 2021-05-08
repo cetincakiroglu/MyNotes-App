@@ -11,7 +11,7 @@ export const NoteProvider = props => {
     const [categoryList, setCategoryList] = useState([]);
     const [open, setOpen] = useState(false);
     const [noteId, setNoteId] = useState([0]); // used in handleSubmit to determine edit || create new note.
-    const [header, setHeader] = useState([]);
+    const [header, setHeader] = useState('');
     const [dbLoading, setDbLoading] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     

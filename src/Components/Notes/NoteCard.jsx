@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Card, Typography, Divider, CardContent, Paper } from '@material-ui/core'
+import { Card, Typography, Divider, CardContent, Paper,Grid } from '@material-ui/core'
 import { NoteContext } from './../Context/NoteContext';
 import { CardContext } from './../Context/CardContext'
 import DeleteBtn from './Buttons/DeleteBtn'
@@ -23,6 +23,7 @@ function NoteCard({ item, index }) {
 
     return (
         <> 
+            <Grid item xs={12} md={3}>
             <Paper elevation={5} onMouseEnter={() => setShowBtn(true)} onMouseLeave={() => setShowBtn(false)}>
                 <Card className={classes.cardWrapper}>
                     <div className={classes.deleteBtnContainer}>
@@ -51,6 +52,7 @@ function NoteCard({ item, index }) {
                     </div>
                 </Card>
             </Paper>
+            </Grid>
         </>
     )
 }

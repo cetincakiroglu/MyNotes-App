@@ -1,4 +1,5 @@
 import React,{ useContext } from 'react'
+import { useHistory } from 'react-router-dom';
 import { Card, Typography, Divider, CardContent, List, ListItem, Checkbox, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { TaskContext } from './../../Context/TaskContext'
@@ -21,11 +22,15 @@ const useStyles = makeStyles({
     },
     taskCard:{
         backgroundColor:'#242424',
-        boxShadow:'none',
         minWidth:'5em',
         height:'15em',
         display:'flex',
         flexDirection:'column',
+        transition:'.1s ease-in-out',
+        '&:hover':{
+            transform: 'translateY(-5px)',
+            cursor:'pointer'
+        }
     },
     cardContent:{
         height:'80%',
@@ -59,10 +64,11 @@ const useStyles = makeStyles({
 function DisplayGroup({ item, index }) {
     const classes = useStyles();
     const { handleCheckbox } = useContext(TaskContext);
-    
+    const history = useHistory();
+
         return (
-            <>
-                <Card className={classes.taskCard} key={index}>
+            <> 
+                <Card className={classes.taskCard} key={index} onClick={() => history.push('/Tasks') }>
                     <div className={classes.cardHeader}>
                         <Typography variant='caption' className={classes.subheader}>{item.date}</Typography>
                         <Typography variant='h4'className={classes.header}>{item.title ? item.title : 'Untitled'}</Typography>
@@ -80,7 +86,7 @@ function DisplayGroup({ item, index }) {
                             )) : <Typography variant='body1'>It seems you don't have any task list yet. Let's create one!</Typography> }
                         </List>
                     </CardContent>
-                </Card>           
+                </Card>
             </>
         )
     

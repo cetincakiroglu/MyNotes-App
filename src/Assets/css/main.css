@@ -53,9 +53,10 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 } 
+
 ::-webkit-scrollbar{
   overflow-y:scroll !important;
   overflow-x:hidden !important;
-  width:0 !important;
+  width:none !important;
 }
 /*# sourceMappingURL=main.css.map */

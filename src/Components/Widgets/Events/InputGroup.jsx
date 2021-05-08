@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Paper, TextField, IconButton, Tooltip, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles'
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
+import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import { EventContext } from './../../Context/EventContext'
 
 const useStyles = makeStyles({
@@ -18,8 +18,8 @@ const useStyles = makeStyles({
         height:'100%'
     },
     button:{
-        maxWidth:'10em',
-        margin:'1em auto 0 auto',
+        width:'100px',
+        margin:'10px auto',
         display:'block'
     },
     buttonDisabled:{
@@ -37,7 +37,6 @@ const useStyles = makeStyles({
         '&:hover':{
             backgroundColor:'transparent !important'
         }
-
     },
     inputWrapper:{
         marginTop:'30px',
@@ -47,11 +46,11 @@ const useStyles = makeStyles({
 
 function InputGroup (props) {
     const { openInputDrawer, setOpenInputDrawer } = props;
-    const {eventName, eventDate, eventTime, eventSummary, eventLocation, handleSubmit, dbLoading } = useContext(EventContext);
+    const {eventName, eventDate, eventTime, eventSummary, eventLocation, handleSubmit } = useContext(EventContext);
     const classes = useStyles();
     const drawerStyles = makeStyles({
         paper:{
-            width:openInputDrawer ? '300px' : 0,
+            width:openInputDrawer ? '250px' : 0,
             display: openInputDrawer ? 'block' : 'none',
             position: openInputDrawer ? 'absolute' : 'relative',
             right:1,
@@ -69,7 +68,7 @@ function InputGroup (props) {
         <Paper className={drawer.paper} elevation={5}>
             <Tooltip title='Close'>
                 <IconButton color='secondary' className={classes.closeIcon} onClick={() => setOpenInputDrawer(false)} >
-                    <CloseRoundedIcon />
+                    <ArrowForwardIosRoundedIcon />
                 </IconButton>
             </Tooltip>
             <form onSubmit={handleSubmit} className={classes.form}>

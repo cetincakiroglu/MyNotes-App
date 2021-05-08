@@ -1,13 +1,17 @@
 import React from 'react'
 import { Tooltip, IconButton } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-
+import { FcGoogle } from 'react-icons/fc'
+import useWindowDimensions from './../../../Hooks/useWindowDimensions';
 
 function GoogleBtn({ showBtn, syncGoogle, item }) {
+    const { width } = useWindowDimensions();
     const useStyles = makeStyles({
         icon:{
-            display:showBtn ? 'block' : 'none',
-            width:'70%'
+            display: showBtn ? 'block' : 'none',
+        },
+        iconMobile: {
+            display: 'block'
         }
     })
     const classes = useStyles();
@@ -15,8 +19,8 @@ function GoogleBtn({ showBtn, syncGoogle, item }) {
     return (
         <>
              <Tooltip title='Add to Google Calendar'>
-                <IconButton onClick={() => syncGoogle(item)}>
-                    <img src="https://img.icons8.com/fluent/48/000000/google-logo.png" className={classes.icon} alt='google logo'/>
+                <IconButton className={width < 500 ? classes.iconMobile : classes.icon} onClick={() => syncGoogle(item)}>
+                    <FcGoogle />
                 </IconButton>
             </Tooltip>
             

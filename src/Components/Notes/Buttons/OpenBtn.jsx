@@ -18,11 +18,7 @@ function OpenBtn({ showBtn, item }) {
     const openInLarge = (item) => {
         history.push(`/New/${item.id}`)
         setTextInput(item.note)
-        let headerArr = header;
-         headerArr.unshift(item.title);
-         headerArr.pop();
-        setHeader([...headerArr])
-        //TODO: method is not good to update state. Fix this.
+        setHeader(item.title)
     }
     return (
         <>

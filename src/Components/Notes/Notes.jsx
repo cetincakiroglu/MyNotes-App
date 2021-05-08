@@ -3,24 +3,23 @@ import { Grid, Paper, Typography, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import NoteCard from './NoteCard'
 import { NoteContext } from './../Context/NoteContext';
-import { AuthContext } from './../Context/AuthContext'
 import NoteEditor from './NoteEditor'
 
 const useStyles = makeStyles({
     paper:{
         width:'100%',
-        minHeight:'100vh',
         borderRadius:'0',
-        padding:'2em',
-        
-    },
-    noteContainer:{
-        width:'300px',
-       
+        overflow:'hidden',
+        minHeight:'100vh',
+        scrollbarWidth:'none',
     },
     container:{
-        marginTop:'3em',
-    
+        marginTop:'40px',
+        overflowX:'hidden',
+        overflowY:'scroll',
+        scrollbarWidth:'none',
+        maxHeight:'80vh',
+        padding:'30px',
     },
     button:{
         width:'100%',
@@ -37,11 +36,11 @@ function Notes() {
     return (
         <>
         <Paper className={classes.paper}>
-            <Grid container>
-                <Grid item xs={2}>
+            <Grid container style={{padding:'30px'}}>
+                <Grid item xs={6} md={2}>
                     <Typography variant='h2' color='primary'>Notes</Typography>
                 </Grid>
-                <Grid item xs={1}>
+                <Grid item xs={6} md={1}>
                     <Button color='primary' variant='contained' className={classes.button} onClick={openDrawer}>
                         New Note
                     </Button>
@@ -50,9 +49,7 @@ function Notes() {
             <Grid container spacing={5} className={classes.container}>
                     {notes.length > 0 ? notes.map((item,index) => (
                         <>
-                            <Grid item xs={3} key={item} className={classes.noteContainer}>
-                                <NoteCard item={item} index={index} />
-                            </Grid>
+                            <NoteCard item={item} index={index} />
                         </>
                     )): (<Typography variant='body2' className={classes.message}>You don't have any note yet. It's a beautiful day to write one!</Typography>)}
             </Grid>

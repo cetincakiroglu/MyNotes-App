@@ -78,7 +78,6 @@ function Home() {
               <Typography variant='h1' className={classes.date}>{new Date().toDateString()}</Typography>
             </Grid>
           </Grid>
-            {/* Note widgets */}
             <Grid container spacing={5} className={classes.widgetWrapper} justify='space-between'>
                 <Grid item xs={12} md={5}>
                   <InstantNote />

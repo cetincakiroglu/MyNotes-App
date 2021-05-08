@@ -7,37 +7,40 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import { makeStyles } from '@material-ui/core/styles';
 import { NoteContext } from './../Context/NoteContext';
+import useWindowDimensions from './../Hooks/useWindowDimensions';
 
-
-const useStyles = makeStyles({
-    paper:{
-        minHeight:'100%',
-        minWidth:'30vw',
-        backgroundColor:'#161616',
-        margin:'auto'
-    },
-    form:{
-        padding:'2em',
-        maxWidth:'28vw'
-    },
-    button:{
-        width:'16em',
-        margin:'4em auto 0 auto',
-        display:'block'
-    },
-    buttonDisabled:{
-        display:'none'
-    },
-    header:{
-        margin:'1em 0',
-        width:'100%'
-    },
-    categories:{
-        margin:'1em 0'
-    }
-})
 function NoteEditor({ open, setOpen }) {
-    const {textInput, categoryList, title, category, addCategory, handleChange, handleSubmit } = useContext(NoteContext);
+    const { width } = useWindowDimensions();
+    const { textInput, categoryList, title, category, addCategory, handleChange, handleSubmit } = useContext(NoteContext);
+    const useStyles = makeStyles({
+        paper:{
+            height:'100vh',
+            backgroundColor:'#161616',
+            margin:'auto',
+        },
+        form:{
+            padding:'0em 2em',
+            width: width > 600 ? '30vw' : '80vw',
+            minHeight:'600px',
+        },
+        button:{
+            width:'16em',
+            margin:'2em auto 0 auto',
+            display:'block'
+        },
+        buttonDisabled:{
+            display:'none'
+        },
+        header:{
+            margin:'1em 0',
+            width:'100%'
+        },
+        categories:{
+            margin:'1em 0',
+            overflow:'hidden',
+            textOverflow:'ellipsis',
+        }
+    })
     const classes = useStyles();
 
     return (
@@ -70,7 +73,7 @@ function NoteEditor({ open, setOpen }) {
                                 </div>
                                 <Typography variant='body1' className={classes.categories}>Categories:
                                  {categoryList.map(item => (
-                                    `#${item}`
+                                    <span key={item}>#{item}</span>
                                 ))}
                                 </Typography>
                                 <Button color='primary' type='submit' variant='contained' className={textInput ? classes.button : classes.buttonDisabled}>Save</Button>

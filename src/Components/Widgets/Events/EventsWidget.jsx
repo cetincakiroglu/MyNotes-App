@@ -8,23 +8,21 @@ import {EventContext} from '../../Context/EventContext'
 
 const useStyles = makeStyles({
     paper:{
-        maxWidth:'95%',
-        padding:'0em 15px',
+        padding:'0 15px',
         backgroundColor:'#161616',
         position:'relative',
-        height:'500px',
-        overflowX:'hidden',
-        overflowY:'scroll',
-        scrollbarWidth:0,
-    },
-    displayContainer:{
-        maxHeight:'325px',
     },
     title:{
         margin:'20px 0px'
     },
     button:{
         marginLeft:'10px',
+    },
+    container:{
+        overflowX:'hidden',
+        overflowY:'scroll',
+        scrollbarWidth:'none',
+        maxHeight:'450px',
     }
 })
 
@@ -102,16 +100,14 @@ function RemindersWidget() {
                         </Tooltip>  
                    </Grid>
                 </Grid>
-                <Grid container>
-                    <Grid container spacing={2} justify='center' >
+                    <Grid container spacing={3} justify='center' className={classes.container}>
                         {eventList.length > 0 ? eventList.map((item,index) => (
-                            <Grid item xs={12}>
+                            <Grid item xs={12} key={item.id}>
                                 <EventCard item={item} index={index} key={item.id} eventList={eventList} setEventList={setEventList} deleteEvent={deleteEvent} syncGoogle={syncGoogle}/>
                             </Grid>
                         )): (<Typography variant='body1'>You have 0 upcoming events.</Typography>)}
                     </Grid>
                         <InputGroup openInputDrawer={openInputDrawer} setOpenInputDrawer={setOpenInputDrawer} eventList={eventList} setEventList={setEventList} />
-                </Grid>
             </Paper>
         </>
     )
