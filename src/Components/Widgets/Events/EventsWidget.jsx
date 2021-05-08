@@ -11,6 +11,7 @@ const useStyles = makeStyles({
         padding:'0 15px',
         backgroundColor:'#161616',
         position:'relative',
+        minHeight:'500px'
     },
     title:{
         margin:'20px 0px'
@@ -23,6 +24,10 @@ const useStyles = makeStyles({
         overflowY:'scroll',
         scrollbarWidth:'none',
         maxHeight:'450px',
+    },
+    subtitle:{
+        height:'325px',
+        margin:'auto'
     }
 })
 
@@ -105,7 +110,7 @@ function RemindersWidget() {
                             <Grid item xs={12} key={item.id}>
                                 <EventCard item={item} index={index} key={item.id} eventList={eventList} setEventList={setEventList} deleteEvent={deleteEvent} syncGoogle={syncGoogle}/>
                             </Grid>
-                        )): (<Typography variant='body1'>You have 0 upcoming events.</Typography>)}
+                        )): (<Typography variant='body1' className={classes.subtitle}>You have 0 upcoming events.</Typography>)}
                     </Grid>
                         <InputGroup openInputDrawer={openInputDrawer} setOpenInputDrawer={setOpenInputDrawer} eventList={eventList} setEventList={setEventList} />
             </Paper>

@@ -34,10 +34,13 @@ function TaskListWidget() {
             overflowX:'hidden',
             scrollbarWidth:'none',
             maxHeight: width > 500 ? '450px' : '520px',
+        },
+        subtitle:{
+            height:'325px',
+            margin:'0 20%'
         }
     })
     const classes = useStyles();
-
     
     return (
         <>
@@ -55,12 +58,11 @@ function TaskListWidget() {
                    </Grid>
                </Grid>
                 <Grid container spacing={3} className={classes.taskListContainer}>
-                        {taskListInfo !== [] || taskListInfo !== undefined ? taskListInfo.map((item,index) => (
+                        {taskListInfo.length > 0 ? taskListInfo.map((item,index) => (
                             <Grid item xs={12} md={3}>
                                 <DisplayGroup item={item} index={index} key={index}/>
                             </Grid>
-                            
-                            )): <Typography variant='body1'>It seems you don't have any task list yet. Let's create one!</Typography>}
+                            )): <Typography variant='body1' className={classes.subtitle}>Create a task list.</Typography>}
                     <InputGroup openInputDrawer={openInputDrawer} setOpenInputDrawer={setOpenInputDrawer}/>
                 </Grid>
            </Paper>

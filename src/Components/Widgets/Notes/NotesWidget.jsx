@@ -59,6 +59,10 @@ const useStyles = makeStyles({
     },
     button:{
         marginLeft:'10px'
+    },
+    subtitle:{
+        height:'325px',
+        margin:'auto'
     }
 })
 
@@ -128,7 +132,7 @@ function NotesWidget(props) {
                                     </CardContent>
                                 </Card>
                             </SplideSlide>
-                        )): <Typography variant='body1'>You have 0 notes.</Typography>}
+                        )): <Typography variant='body1' className={classes.subtitle}>Create a note.</Typography>}
                     </Splide>
                 </Grid>
             </Grid>
