@@ -88,7 +88,6 @@ function Nav(props) {
     ]
 
     const handleLogOut = async () => {
-        setError('');
         try{
             await logout();
             history.push('/Login')

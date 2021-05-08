@@ -43,7 +43,7 @@ export const NoteProvider = props => {
         // console.log(obj);
         notesRef.doc(note.id)
            .delete()
-           .catch(err => console.log(err));
+           .catch(err => console.error(err));
     }
 
     const editNote = (obj) => {
@@ -96,7 +96,7 @@ export const NoteProvider = props => {
             notesArr.map(item => item.id === noteId.join('') ? item.note = editedNote.note : item )
             notesRef.doc(noteId.join(''))
                .update(editedNote)
-               .catch(err => console.log(err))
+               .catch(err => console.error(err))
 
         } else if(noteId.join('') === '0'){
             // submit new note
@@ -111,7 +111,7 @@ export const NoteProvider = props => {
             };
             notesRef.doc(newNote.id)
                .set(newNote)
-               .catch(err => console.log(err))
+               .catch(err => console.error(err))
         }
         // reset inputs
         title.current.value='';
