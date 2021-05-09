@@ -8,7 +8,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 const useStyles = makeStyles({
     card:{
-        minHeight:'110px',
+        minHeight:'130px',
         padding:'0.5em',
         backgroundColor:'#242424',
         transition:'.1s ease-in-out',

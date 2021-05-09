@@ -44,7 +44,7 @@ const useStyles = makeStyles({
         textOverflow:'ellipsis',
         overflow:'hidden',
         WebkitLineClamp: '8',
-   
+        fontSize:'12px',
     },
     subheader:{
         alignSelf:'flex-end'
@@ -121,8 +121,8 @@ function NotesWidget() {
                             <SplideSlide key={index}>
                                 <Card className={classes.noteCard} key={item.id} onClick={() => openInLarge(item)}>
                                     <div className={classes.cardHeader}>
-                                        <Typography variant='h4'className={classes.header}> {item.title ? item.title : 'Untitled Note'} </Typography>
                                         <Typography variant='caption' className={classes.subheader}>{item.date}</Typography>
+                                        <Typography variant='h4'className={classes.header}> {item.title ? item.title : 'Untitled Note'} </Typography>
                                     </div>
                                         <Divider />
                                     <CardContent >
