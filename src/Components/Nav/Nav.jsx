@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react'
-import { withRouter } from 'react-router-dom'
+import React, { useContext  } from 'react'
+import { withRouter, useHistory } from 'react-router-dom'
 import { Drawer, Collapse, Divider, Avatar, CardHeader, ListItem, List, ListItemText, Button, Hidden } from '@material-ui/core'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -50,15 +50,12 @@ const useStyles = makeStyles(theme => ({
       },
 }))
 
-function Nav(props) {
+function Nav() {
     const classes = useStyles();
-    const { history, window } = props;
+    const history = useHistory();
     const {mobileOpen, setMobileOpen} = useContext(NoteContext)
     const { logout, setError, currentUser } = useContext(AuthContext);
     
-    const container =
-    window !== undefined ? () => window().document.body : undefined;
-
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen)
       }
@@ -118,7 +115,6 @@ function Nav(props) {
         <>
         <Hidden smUp implementation='css'>
             <Drawer
-            container={container}
             className={classes.drawer} 
             classes={{ paper:classes.drawerPaper }} 
             modalProps={{ keepMounted: true }} 
