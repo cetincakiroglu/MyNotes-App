@@ -67,8 +67,8 @@ const useStyles = makeStyles({
 })
 
 
-function NotesWidget(props) {
-    const { width } = useWindowDimensions();
+function NotesWidget() {
+    const { width } = useWindowDimensions(); // listen screen size change.
     const classes = useStyles();
     const { notes, setTextInput, header, setHeader, openDrawer } = useContext(NoteContext);
     const history = useHistory();
@@ -77,7 +77,7 @@ function NotesWidget(props) {
         history.push(`/New/${item.id}`)
         setTextInput(item.note)
         let headerArr = header;
-         headerArr.unshift(item.title);
+        headerArr.unshift(item.title);
         setHeader([...headerArr]) 
     }
     
@@ -126,9 +126,9 @@ function NotesWidget(props) {
                                     </div>
                                         <Divider />
                                     <CardContent >
-                                        <Typography variant='body2' className={classes.cardContent}>
-                                            {item.note}
-                                        </Typography>
+                                        <div className={classes.cardContent} dangerouslySetInnerHTML = {{__html: item.note}}>
+                                       
+                                        </div>
                                     </CardContent>
                                 </Card>
                             </SplideSlide>

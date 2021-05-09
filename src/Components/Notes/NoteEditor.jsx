@@ -11,7 +11,7 @@ import useWindowDimensions from './../Hooks/useWindowDimensions';
 
 function NoteEditor({ open, setOpen }) {
     const { width } = useWindowDimensions();
-    const { textInput, categoryList, title, category, addCategory, handleChange, handleSubmit } = useContext(NoteContext);
+    const { textInput, categoryList, title, category, addCategory, handleSubmit, setTextInput } = useContext(NoteContext);
     const useStyles = makeStyles({
         paper:{
             height:'100vh',
@@ -42,6 +42,10 @@ function NoteEditor({ open, setOpen }) {
         }
     })
     const classes = useStyles();
+    const handleChange = (e,editor,obj) => {
+        const data = editor.getData();
+        setTextInput(data)
+    }
 
     return (
         <>  
@@ -54,7 +58,7 @@ function NoteEditor({ open, setOpen }) {
                             </IconButton>
                         </Tooltip>
                         <div>
-                            <form onKeyPress={(e) => e.key === 'Enter' && e.preventDefault()} onSubmit={handleSubmit} className={classes.form}>
+                            <form onSubmit={handleSubmit} className={classes.form}>
                                 <TextField id='standard-basic' inputRef={title} variant='outlined' label='Title' className={classes.header}/>
                                 <CKEditor
                                     editor={ClassicEditor}
@@ -64,7 +68,7 @@ function NoteEditor({ open, setOpen }) {
                                     >
                                 </CKEditor>
                                 <div>
-                                    <TextField inputRef={category} id='basic' variant='standard' label='Add Category' onKeyDown={(e) => e.key==='Enter' && addCategory(e)}/>
+                                    <TextField inputRef={category} id='basic' variant='standard' label='Add Category' />
                                     <Tooltip title='Add Category'>
                                         <IconButton color='primary' onClick={addCategory}>
                                             <AddRoundedIcon />

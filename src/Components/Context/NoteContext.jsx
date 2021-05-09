@@ -120,12 +120,6 @@ export const NoteProvider = props => {
         setCategoryList([]);
         setHeader([]);
     }
-    
-    // instant edit feature
-    const handleChange = (e,editor,obj) => {
-        const data = editor.getData();
-        setTextInput(data)
-    }
    
     // listen db
     useEffect(() => {
@@ -154,7 +148,6 @@ export const NoteProvider = props => {
         setOpen, 
         handleSubmit, 
         addCategory, 
-        handleChange, 
         noteId, 
         setNoteId,
         openDrawer 
