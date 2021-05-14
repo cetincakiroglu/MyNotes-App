@@ -17,7 +17,6 @@ export const NoteProvider = props => {
     
     const { currentUser } = useContext(AuthContext);
    
-
     const title = useRef();
     const category = useRef();
     // db ref
@@ -153,12 +152,6 @@ export const NoteProvider = props => {
         openDrawer 
     }
     
-    // listen db
-    // useEffect(() => {
-    //     getNotes();
-    //     // eslint-disable-next-line
-    // },[])
-
     return (
         <NoteContext.Provider value={value}>
             { props.children }

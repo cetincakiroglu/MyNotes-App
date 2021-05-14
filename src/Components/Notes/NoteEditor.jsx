@@ -31,7 +31,7 @@ function NoteEditor({ open, setOpen }) {
         buttonDisabled:{
             display:'none'
         },
-        header:{
+        title:{
             margin:'1em 0',
             width:'100%'
         },
@@ -59,7 +59,7 @@ function NoteEditor({ open, setOpen }) {
                         </Tooltip>
                         <div>
                             <form onSubmit={handleSubmit} className={classes.form}>
-                                <TextField id='standard-basic' inputRef={title} variant='outlined' label='Title' className={classes.header}/>
+                                <TextField id='standard-basic' inputRef={title} variant='outlined' label='Title' className={classes.title}/>
                                 <CKEditor
                                     editor={ClassicEditor}
                                     data={textInput}

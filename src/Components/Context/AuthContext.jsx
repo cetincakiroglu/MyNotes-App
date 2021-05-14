@@ -21,7 +21,6 @@ const useStyles = makeStyles({
         backgroundRepeat:'no-repeat',
         backgroundSize:'cover',
         filter:'grayscale(1) blur(3px)',
-
     },
     form:{
         flexShrink:'0',

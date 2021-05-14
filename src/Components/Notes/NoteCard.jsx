@@ -1,16 +1,16 @@
 import React, { useContext, useState } from 'react'
-import { Card, Typography, Divider, CardContent, Paper,Grid } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
+import { Card, Typography, Divider, CardContent, Paper, Grid, Menu, MenuItem } from '@material-ui/core'
 import { NoteContext } from './../Context/NoteContext';
 import { CardContext } from './../Context/CardContext'
-import DeleteBtn from './Buttons/DeleteBtn'
-import EditBtn from './Buttons/EditBtn'
-import OpenBtn from './Buttons/OpenBtn'
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 function NoteCard({ item, index }) {
 
-    const { notesRef } = useContext(NoteContext);
-    const { classes } = useContext(CardContext)
-    const [showBtn, setShowBtn] = useState(false);
+    const { setTextInput, setHeader, editNote, deleteNote } = useContext(NoteContext);
+    const { classes } = useContext(CardContext);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const history = useHistory();
 
     const handleChange = (e, item) => {
         const editedNote = {...item}
@@ -20,15 +20,37 @@ function NoteCard({ item, index }) {
         //    .update(editedNote)
         //    .catch(err => console.log(err))
     }
+    const handleClick = (e) => {
+        setAnchorEl(e.currentTarget)
+    }
+    const handleClose = () => {
+        setAnchorEl(null)
+    }
+
+    const openInLarge = (item) => {
+        history.push(`/New/${item.id}`)
+        setTextInput(item.note)
+        setHeader(item.title)
+        handleClose();
+    }
 
     return (
         <> 
             <Grid item xs={12} md={3}>
-            <Paper elevation={5} onMouseEnter={() => setShowBtn(true)} onMouseLeave={() => setShowBtn(false)}>
+            <Paper elevation={5}>
                 <Card className={classes.cardWrapper}>
-                    <div className={classes.deleteBtnContainer}>
-                        <DeleteBtn showBtn={showBtn} index={index} item={item} />
-                    </div>
+                    <MoreHorizIcon onClick={handleClick} className={classes.menuBtn}/>
+                        <Menu
+                            id="simple-menu"
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                            >
+                            <MenuItem onClick={() => {editNote(item); handleClose()}}>Edit</MenuItem>
+                            <MenuItem onClick={() => openInLarge(item)}>Open in Editor</MenuItem>
+                            <MenuItem onClick={() => {deleteNote(item); handleClose()}}>Delete</MenuItem>
+                            </Menu>
                     <div className={classes.cardHeader}>
                         <Typography variant='h4' className={classes.header}>
                             {item.title ? item.title : 'Untitled Note'}
@@ -46,10 +68,6 @@ function NoteCard({ item, index }) {
                             Categories: {item.categories && item.categories.map(item => (`#${item}`))}
                         </Typography>
                     </CardContent>
-                    <div className={classes.btnContainer}>
-                            <EditBtn showBtn={showBtn} item={item} index={index}/>
-                            <OpenBtn showBtn={showBtn} item={item}/>
-                    </div>
                 </Card>
             </Paper>
             </Grid>

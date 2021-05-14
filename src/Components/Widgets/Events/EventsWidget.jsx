@@ -1,10 +1,11 @@
-import React,{ useState, useContext } from 'react'
+import React,{ useState, useContext, useEffect } from 'react'
 import { Grid, Paper, Typography, IconButton, Tooltip } from '@material-ui/core'
 import AddRoundedIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/styles'
 import EventCard from './EventCard'
-import InputGroup from './InputGroup'
+import EventDrawer from './EventDrawer'
 import {EventContext} from '../../Context/EventContext'
+import { AuthContext } from './../../Context/AuthContext';
 
 const useStyles = makeStyles({
     paper:{
@@ -35,14 +36,14 @@ function RemindersWidget() {
     const classes = useStyles();
     const { eventList, setEventList, deleteEvent } = useContext(EventContext);
     const [openInputDrawer, setOpenInputDrawer] = useState(false);
+    const { currentUser } = useContext(AuthContext)
 
-    let gapi = window.gapi;
+    const gapi = window.gapi;
     const syncGoogle = (obj) => {
        
         gapi.load('client:auth2', () => {
             console.log('loaded client');
             gapi.client.init({
-                //TODO: make them environment variables, store in a dotenv file.
                 apiKey:process.env.REACT_APP_GOOGLE_API_KEY,
                 clientId:process.env.REACT_APP_GOOGLE_CLIENT_ID,
                 discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
@@ -90,9 +91,36 @@ function RemindersWidget() {
         })
     }
 
+    const getEventsFromGoogle = () => {
+        gapi.load('client:auth2', () => {
+            gapi.client.init({
+                apiKey:process.env.REACT_APP_GOOGLE_API_KEY,
+                clientId:process.env.REACT_APP_GOOGLE_CLIENT_ID,
+                discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
+                scope: "https://www.googleapis.com/auth/calendar.events",
+            })
+            gapi.client.load('calendar', 'v3', () => console.log('Calendar loaded!'));
+            gapi.auth2.getAuthInstance().signIn()
+            .then(() => {
+                gapi.client.calendar.events.list({
+                    calendarId:'primary',
+                    timeMin: new Date().toISOString(),
+                    showDeleted: false,
+                    singleEvents: true,
+                    maxResults: 10,
+                    orderBy: 'startTime'
+                })
+                .then(res => console.log('EVENTS', res.body));
+                // TODO: Display all events
+            })
+        })
+
+    }
+
     return (
         <>
             <Paper className={classes.paper} elevation={5}>
+                <button onClick={getEventsFromGoogle}>hey</button>
                 <Grid container alignItems='center'>
                     <Grid item className={classes.title}>
                         <Typography variant='h3' color='primary'>Events</Typography>
@@ -112,7 +140,7 @@ function RemindersWidget() {
                             </Grid>
                         )): (<Typography variant='body1' className={classes.subtitle}>You have 0 upcoming events.</Typography>)}
                     </Grid>
-                        <InputGroup openInputDrawer={openInputDrawer} setOpenInputDrawer={setOpenInputDrawer} eventList={eventList} setEventList={setEventList} />
+                        <EventDrawer openInputDrawer={openInputDrawer} setOpenInputDrawer={setOpenInputDrawer} eventList={eventList} setEventList={setEventList} />
             </Paper>
         </>
     )

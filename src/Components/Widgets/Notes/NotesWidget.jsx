@@ -4,9 +4,8 @@ import { useHistory } from 'react-router-dom'
 import { Paper, Grid, Typography, Card, CardContent, IconButton, Tooltip, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { NoteContext } from './../../Context/NoteContext'
-import { Splide, SplideSlide} from '@splidejs/react-splide'
+import { Splide, SplideSlide } from '@splidejs/react-splide'
 import useWindowDimensions from '../../Hooks/useWindowDimensions'
-
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
 
 const useStyles = makeStyles({
@@ -66,19 +65,16 @@ const useStyles = makeStyles({
     }
 })
 
-
 function NotesWidget() {
     const { width } = useWindowDimensions(); // listen screen size change.
     const classes = useStyles();
-    const { notes, setTextInput, header, setHeader, openDrawer } = useContext(NoteContext);
+    const { notes, setTextInput, setHeader, openDrawer } = useContext(NoteContext);
     const history = useHistory();
     
     const openInLarge = (item) => {
         history.push(`/New/${item.id}`)
         setTextInput(item.note)
-        let headerArr = header;
-        headerArr.unshift(item.title);
-        setHeader([...headerArr]) 
+        setHeader(item.title)
     }
     
     const splideOptions = {

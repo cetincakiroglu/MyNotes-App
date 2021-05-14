@@ -64,17 +64,12 @@ export const CardProvider = props => {
         btnDisabled:{
             display:'none'
         },
-
-        deleteBtnContainer:{
+        menuBtn:{
             float:'right',
-            clear:'left'
-        },
-        btnContainer:{
-            width:'100%',
-            margin:'auto',
-            display:'flex',
-            justifyContent:'center',
-            alignContent:'center',
+            clear:'left',
+            '&:hover':{
+               cursor:'pointer' 
+            }
         },
         closeBtn:{
             float:'right',

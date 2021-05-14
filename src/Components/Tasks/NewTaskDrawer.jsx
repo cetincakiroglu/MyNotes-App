@@ -5,6 +5,7 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import { TaskContext } from '../Context/TaskContext';
+import useWindowDimensions from './../Hooks/useWindowDimensions';
 
 const useStyles = makeStyles({
     inputField:{
@@ -23,16 +24,6 @@ const useStyles = makeStyles({
     },
     icon:{
         flexShrink:'0',
-       
-    },
-    form:{
-        padding:'0em 2em',
-        minWidth:'30vw',
-        maxWidth:'100vw',
-        minHeight:'600px',
-    },
-    list:{
-        height:'40vh',
     },
     listItem:{
         display:'flex',
@@ -46,17 +37,15 @@ const useStyles = makeStyles({
         textOverflow:'ellipsis'
     },
     button:{
-        width:'16em',
+        width:'100px',
         margin:'4em auto 0 auto',
         display:'block'
     },
     buttonDisabled:{
         display:'none'
     },
-    icon:{
-        alignSelf:'center'
-    }
 })
+
 function NewTaskDrawer() {
     const { 
         taskList, 
@@ -71,9 +60,28 @@ function NewTaskDrawer() {
         open,
         setOpen 
     } = useContext(TaskContext);
+    const { width } = useWindowDimensions();
 
+    // conditional styling
+    const listStyles = makeStyles({
+        taskList:{
+            height:width > 500 ? '500px' : '400px',
+            overflowY:'scroll',
+            overflowX:'hidden',
+            scrollbarWidth:'none',
+        }
+    })
+    const formStyles = makeStyles({
+        form:{
+            padding:'0em 2em',
+            width: width > 600 ? '30vw' : '80vw',
+            minHeight:'500px',
+        },
+    })
+
+    const formClasses = formStyles();
+    const listClasses = listStyles();
     const classes = useStyles();
-
     return (
         <>
         <div>
@@ -84,7 +92,7 @@ function NewTaskDrawer() {
                         <ArrowForwardIosRoundedIcon />
                     </IconButton>
                 </Tooltip>
-                <form className={classes.form} onSubmit={handleSubmit}>
+                <form className={formClasses.form} onSubmit={handleSubmit}>
                     <TextField
                     className={classes.inputField} 
                     inputRef={title}
@@ -110,7 +118,7 @@ function NewTaskDrawer() {
                     </div>
                     <Divider />
                     <Grid item>
-                        <List className={classes.list}>
+                        <List className={listClasses.taskList}>
                         {taskList.map((item,index) => (
                             <ListItem  className={classes.listItem} key={index}>
                                 <div className={classes.task}>

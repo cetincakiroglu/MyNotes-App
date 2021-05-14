@@ -39,7 +39,7 @@ function Login() {
             sessionStorage.setItem('UID', JSON.stringify(cred.user.uid))
             //redirect user
             setMessage(`Signed in with Google as`)
-            history.push('/')
+            history.push('/');
         }catch(err){
             console.log(err);
             setError('Failed to sign in')

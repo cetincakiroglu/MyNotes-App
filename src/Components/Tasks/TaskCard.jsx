@@ -15,7 +15,7 @@ function TaskCard({ item, deleteTaskList, deleteTask }) {
         <Grid item xs={12} sm={12} md={3} >
             <Paper elevation={5} onMouseEnter={() => setShowBtn(true)} onMouseLeave={() => setShowBtn(false)}>
                 <Card  className={classes.cardWrapper}>
-                    <div className={classes.deleteBtnContainer}>
+                    <div className={classes.menuBtn}>
                         <DeleteCardBtn item={item} showBtn={showBtn} deleteTaskList={deleteTaskList}/>
                     </div>
                     <div className={classes.cardHeader}>

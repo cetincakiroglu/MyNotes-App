@@ -6,13 +6,13 @@ import NotesWidget from '../Widgets/Notes/NotesWidget'
 import TaskListWidget from '../Widgets/TaskList/TaskListWidget';
 import RemindersWidget from '../Widgets/Events/EventsWidget'
 import NoteEditor from '../Notes/NoteEditor'
+import NewTaskDrawer from './../Tasks/NewTaskDrawer';
 import { NoteContext } from './../Context/NoteContext';
 import { AuthContext } from './../Context/AuthContext'
 import { TaskContext } from './../Context/TaskContext'
 import { EventContext } from './../Context/EventContext'
 import VoiceNoteWidget from '../Widgets/VoiceNote/VoiceNoteWidget'
 import MenuIcon from '@material-ui/icons/Menu';
-
 
 const useStyles = makeStyles({
   paper:{
@@ -54,6 +54,7 @@ function Home() {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
   }
+  
  const date = new Date();
  const formatDate = date.toLocaleDateString("en-US", { day: 'numeric' })+ " "+ date.toLocaleDateString("en-US", { month: 'short' })+ " " + date.toLocaleDateString("en-US", { year: 'numeric' });
  const hours = date.getHours();
@@ -99,6 +100,7 @@ function Home() {
               <Grid item xs={12}>
                 <TaskListWidget />
               </Grid>
+              <NewTaskDrawer />
             </Grid>
             <Grid container className={classes.widgetWrapper}>
               <Grid item xs={12} md={6}>
