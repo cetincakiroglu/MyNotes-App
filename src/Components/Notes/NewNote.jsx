@@ -1,4 +1,4 @@
-import React,{ useContext, useEffect, useState } from 'react'
+import React,{ useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Grid, Paper, Typography, TextField, Button, Tooltip, IconButton } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
@@ -45,7 +45,7 @@ function NewNote() {
     
     let categoryArr = noteObject.categories ? noteObject.categories : '';
     setCategoryList([...categoryArr]);
-
+    // eslint-disable-next-line
   },[])
 
   return (

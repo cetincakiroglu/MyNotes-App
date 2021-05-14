@@ -120,7 +120,7 @@ function RemindersWidget() {
     return (
         <>
             <Paper className={classes.paper} elevation={5}>
-                <button onClick={getEventsFromGoogle}>hey</button>
+                {/* <button onClick={getEventsFromGoogle}>hey</button> */}
                 <Grid container alignItems='center'>
                     <Grid item className={classes.title}>
                         <Typography variant='h3' color='primary'>Events</Typography>

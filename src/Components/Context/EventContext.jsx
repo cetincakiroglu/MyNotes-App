@@ -48,9 +48,17 @@ export const EventProvider = props => {
             location   : eventLocation.current.value,
             timeZone   : Intl.DateTimeFormat().resolvedOptions().timeZone, 
         }
+
         eventsRef.doc(newEvent.id)
                  .set(newEvent)
                  .catch(err => console.log(err))
+
+        // reset inputs
+        eventDate.current.value = '';
+        eventTime.current.value = '';
+        eventName.current.value = '';
+        eventSummary.current.value = '';
+        eventLocation.current.value = '';
     }
     
     // delete from db
@@ -60,7 +68,6 @@ export const EventProvider = props => {
                  .delete()
                  .catch(err => console.log(err))
     }
-
     
     // listen db
     useEffect(() => {
