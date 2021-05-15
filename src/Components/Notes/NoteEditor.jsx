@@ -1,5 +1,5 @@
 import './editor.css'
-import { Paper, Drawer, Tooltip, IconButton, Button, TextField, Typography } from '@material-ui/core'
+import { Paper, Drawer, Tooltip, IconButton, Button, TextField, Typography, Grid } from '@material-ui/core'
 import React,{ useContext } from 'react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
@@ -39,6 +39,9 @@ function NoteEditor({ open, setOpen }) {
             margin:'1em 0',
             overflow:'hidden',
             textOverflow:'ellipsis',
+        },
+        categoryInput:{
+            width:'100%'
         }
     })
     const classes = useStyles();
@@ -57,23 +60,33 @@ function NoteEditor({ open, setOpen }) {
                                 <ArrowForwardIosRoundedIcon />
                             </IconButton>
                         </Tooltip>
-                        <div>
                             <form onSubmit={handleSubmit} className={classes.form}>
-                                <TextField id='standard-basic' inputRef={title} variant='outlined' label='Title' className={classes.title}/>
-                                <CKEditor
-                                    editor={ClassicEditor}
-                                    data={textInput}
-                                    className='ck-content'
-                                    onChange={handleChange}
-                                    >
-                                </CKEditor>
+                                <Grid container alignItems='center' spacing={3}>
+                                    <Grid item xs={6}>
+                                        <TextField id='note-title' inputRef={title} variant='outlined' label='Title' className={classes.title}/>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <TextField 
+                                        onKeyDown={addCategory}
+                                        inputRef={category} id='note-category' variant='standard' label='Add Category' className={classes.categoryInput}/>
+                                        {/* TODO: Temporary disabled due to keyboard support. Fix */}
+                                        {/* <Tooltip title='Add Category'>
+                                            <IconButton color='primary' onClick={addCategory}>
+                                                <AddRoundedIcon />
+                                            </IconButton>
+                                        </Tooltip> */}
+                                    </Grid>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <CKEditor
+                                        editor={ClassicEditor}
+                                        data={textInput}
+                                        className='ck-content'
+                                        onChange={handleChange}
+                                        >
+                                    </CKEditor>
+                                </Grid>
                                 <div>
-                                    <TextField inputRef={category} id='basic' variant='standard' label='Add Category' />
-                                    <Tooltip title='Add Category'>
-                                        <IconButton color='primary' onClick={addCategory}>
-                                            <AddRoundedIcon />
-                                        </IconButton>
-                                    </Tooltip>
                                 </div>
                                 <Typography variant='body1' className={classes.categories}>Categories:
                                  {categoryList.map(item => (
@@ -82,7 +95,6 @@ function NoteEditor({ open, setOpen }) {
                                 </Typography>
                                 <Button color='primary' type='submit' variant='contained' className={textInput ? classes.button : classes.buttonDisabled}>Save</Button>
                             </form>
-                        </div>
                     </Paper>
                 </Drawer>
             </div>

@@ -59,16 +59,19 @@ export const NoteProvider = props => {
     }
 
     const addCategory = (e) => {
-        e.stopPropagation();
-
-        let categoryItem = category.current.value;
-        if(categoryItem !== '' && categoryItem !== ' '){
-            categoryItem = categoryItem.replace(/\s+/g, '');
-
-            let categoryArr = categoryList;
-            categoryArr.unshift(categoryItem);
-            setCategoryList([...categoryArr]);
-            category.current.value='';
+        // keyboard support
+        if(e.keyCode === 13){
+            e.stopPropagation();
+            e.preventDefault();
+            
+            let categoryItem = category.current.value;
+            if(categoryItem !== '' && categoryItem !== ' '){
+                categoryItem = categoryItem.replace(/\s+/g, '');
+                let categoryArr = categoryList;
+                categoryArr.unshift(categoryItem);
+                setCategoryList([...categoryArr]);
+                category.current.value='';
+            }
         }
     }
 

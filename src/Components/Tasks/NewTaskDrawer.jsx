@@ -82,6 +82,17 @@ function NewTaskDrawer() {
     const formClasses = formStyles();
     const listClasses = listStyles();
     const classes = useStyles();
+
+    // focus next input on enter
+    const handleEnter = (e) => {
+        if(e.keyCode === 13) {
+            e.stopPropagation();
+            e.preventDefault();
+            const form = e.target.form;
+            const index = Array.prototype.indexOf.call(form, e.target);
+            form.elements[index+1].focus();
+        }
+    }
     return (
         <>
         <div>
@@ -94,27 +105,30 @@ function NewTaskDrawer() {
                 </Tooltip>
                 <form className={formClasses.form} onSubmit={handleSubmit}>
                     <TextField
+                    onKeyDown={handleEnter}
                     className={classes.inputField} 
                     inputRef={title}
                     variant='outlined'
-                    id='outlined-basic-3'
+                    id='task-title'
                     label='Title'
                     />
                     <div className={classes.inputContainer}>
                         <TextField
+                        onKeyDown={addTask}
                         className={classes.inputField}
                         inputRef={taskListItem}
                         variant='standard'
                         label='Add Task'
-                        id='standard-basic-3'
+                        id='task-add'
                         />
-                        <div className={classes.icon}>
+                        {/* TODO: Temporary disabled. */}
+                        {/* <div className={classes.icon}>
                             <Tooltip title='Add Task'>
                                 <IconButton color='primary' onClick={addTask}>
                                     <AddRoundedIcon />
                                 </IconButton>
                             </Tooltip>
-                        </div>
+                        </div> */}
                     </div>
                     <Divider />
                     <Grid item>
@@ -135,14 +149,22 @@ function NewTaskDrawer() {
                         ))} 
                         </List>
                         <div className={classes.inputContainer}>
-                            <TextField className={classes.inputField} inputRef={category} variant='standard' label='Add Category' id='standard-basic-1'/>
-                            <div className={classes.icon}>
+                            <TextField
+                                onKeyDown={addCategory}
+                                className={classes.inputField} 
+                                inputRef={category} 
+                                variant='standard' 
+                                label='Add Category' 
+                                id='task-category'
+                            />
+                             {/* TODO: Temporary disabled. */}
+                            {/* <div className={classes.icon}>
                                 <Tooltip title='Add Category'>
                                     <IconButton onClick={addCategory} color='primary'>
                                         <AddRoundedIcon />
                                     </IconButton>
                                 </Tooltip>
-                            </div>
+                            </div> */}
                         </div>   
                             <Typography
                             variant='body1' 

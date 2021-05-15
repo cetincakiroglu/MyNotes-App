@@ -35,21 +35,25 @@ export const TaskProvider = props => {
         }
     }
 
-    const addTask = () => {
-        const textInput = taskListItem.current.value;
-        if(textInput && (textInput !== '' || textInput !== ' ')){
-            const taskObj = {
-                task: textInput,
-                status: false
-            };
-      
-            let arr = taskList;
-            arr.unshift(taskObj);
-            setTaskList([...arr]);
-            console.log('TASKS',taskList)
-            taskListItem.current.value='';
-        } else{
-            console.log('NO')
+    const addTask = (e) => {
+        if(e.keyCode === 13){
+            e.stopPropagation();
+            e.preventDefault();
+            const textInput = taskListItem.current.value;
+            if(textInput && (textInput !== '' || textInput !== ' ')){
+                const taskObj = {
+                    task: textInput,
+                    status: false
+                };
+          
+                let arr = taskList;
+                arr.unshift(taskObj);
+                setTaskList([...arr]);
+                console.log('TASKS',taskList)
+                taskListItem.current.value='';
+            } else{
+                console.log('NO')
+            }
         }
     }
     // remove task inside input group
@@ -59,15 +63,20 @@ export const TaskProvider = props => {
         setTaskList([...taskArr]);
     }
     
-    const addCategory = () => {
-        let categoryItem = category.current.value;
-        categoryItem = categoryItem.replace(/\s+/g, '');
-
-        let categoryArr = categoryList;
-        categoryArr.unshift(categoryItem);
-        setCategoryList([...categoryArr]);
-        // TODO: make it keyboard friendly. Check keyCode
-        category.current.value='';
+    const addCategory = (e) => {
+        // TODO: keyboard support makes onClick disabled, fix it.
+        if( e.keyCode === 13 ) {
+            console.log(e.currentTarget)
+            e.preventDefault();
+            e.stopPropagation();
+            let categoryItem = category.current.value;
+            categoryItem = categoryItem.replace(/\s+/g, '');
+    
+            let categoryArr = categoryList;
+            categoryArr.unshift(categoryItem);
+            setCategoryList([...categoryArr]);
+            category.current.value='';
+        }
     }
 
     // delete from db

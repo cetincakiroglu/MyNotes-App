@@ -45,6 +45,16 @@ function EventDrawer (props) {
     
     const formClasses = formStyles();
     const classes = useStyles();
+
+    // focus next input on enter
+    const handleEnter = (e) => {
+        if(e.keyCode === 13) {
+            const form = e.target.form;
+            const index = Array.prototype.indexOf.call(form, e.target);
+            form.elements[index+1].focus();
+            e.preventDefault();
+        }
+    }
    
     return (
         <>
@@ -59,52 +69,57 @@ function EventDrawer (props) {
                      <form onSubmit={handleSubmit} className={formClasses.form}>
                          <Grid container className={formClasses.inputWrapper} spacing={2}>
                             <Grid item xs={12} md={6}>
-                                <TextField  
+                                <TextField
+                                onKeyDown={handleEnter}
                                 id='event-name' 
                                 label='Event Name' type='text'
                                 inputRef={eventName} required 
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                            <TextField 
-                                id='event-location' type='text'
-                                label='Event Location' 
-                                inputRef={eventLocation} 
-                            />
+                                <TextField
+                                    onKeyDown={handleEnter}
+                                    id='event-location' type='text'
+                                    label='Event Location' 
+                                    inputRef={eventLocation} 
+                                />
                             </Grid>
                             <Grid item xs={6}>
-                            <TextField 
-                                className={classes.date}
-                                id='date' 
-                                aria-label='Select Date' 
-                                type='date'
-                                inputRef={eventDate} 
-                                required color='primary'
-                                variant='outlined'
-                            />
+                                <TextField
+                                    onKeyDown={handleEnter}
+                                    className={classes.date}
+                                    id='date' 
+                                    aria-label='Select Date' 
+                                    type='date'
+                                    inputRef={eventDate} 
+                                    required color='primary'
+                                    variant='outlined'
+                                />
                             </Grid>
                             <Grid item xs={6}>
-                            <TextField
-                                className={classes.date}
-                                id='time' 
-                                aria-label='Select Time' 
-                                type='time'
-                                inputRef={eventTime} 
-                                required color='primary'
-                                variant='outlined'
-                            />
+                                <TextField
+                                    onKeyDown={handleEnter}
+                                    className={classes.date}
+                                    id='time' 
+                                    aria-label='Select Time' 
+                                    type='time'
+                                    inputRef={eventTime} 
+                                    required color='primary'
+                                    variant='outlined'
+                                />
                             </Grid>
                             <Grid item xs={12}>
-                            <TextField 
-                                id='event-summary' 
-                                type='text'
-                                label='Event Summary' 
-                                inputRef={eventSummary}
-                                rows={10}
-                                multiline
-                                variant='outlined'
-                                className={classes.summary}
-                            />
+                                <TextField
+                                    onKeyDown={handleEnter}
+                                    id='event-summary' 
+                                    type='text'
+                                    label='Event Summary' 
+                                    inputRef={eventSummary}
+                                    rows={10}
+                                    multiline
+                                    variant='outlined'
+                                    className={classes.summary}
+                                />
                             </Grid>
                          </Grid>
                          <Button color='primary' type='submit' variant='contained'
