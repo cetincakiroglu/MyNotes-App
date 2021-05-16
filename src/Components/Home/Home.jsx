@@ -13,6 +13,7 @@ import { TaskContext } from './../Context/TaskContext'
 import { EventContext } from './../Context/EventContext'
 import VoiceNoteWidget from '../Widgets/VoiceNote/VoiceNoteWidget'
 import MenuIcon from '@material-ui/icons/Menu';
+import moment from 'moment'
 
 const useStyles = makeStyles({
   paper:{
@@ -56,10 +57,7 @@ function Home() {
   }
   
  const date = new Date();
- const formatDate = date.toLocaleDateString("en-US", { day: 'numeric' })+ " "+ date.toLocaleDateString("en-US", { month: 'short' })+ " " + date.toLocaleDateString("en-US", { year: 'numeric' });
- const hours = date.getHours();
- const minutes = date.getMinutes();
-
+ 
   useEffect(() => {
     getTasks();
     getNotes();
@@ -80,8 +78,8 @@ function Home() {
               <Typography className={classes.message} variant='h1'>{`Welcome, ${currentUser.displayName ? currentUser.displayName.split(' ')[0] : currentUser.email.split('@')[0]} !`}</Typography>
             </Grid>
             <Grid item xs={12} md={2}>
-            <Typography variant='h1' className={classes.date} align='center'>{hours}:{minutes}</Typography>
-              <Typography variant='h1' className={classes.date} align='center'>{formatDate}</Typography>
+            <Typography variant='h1' className={classes.date} align='center'>{moment(date).format(' h:mm A, MMMM Do')}</Typography>
+              <Typography variant='h1' className={classes.date} align='center'>{date.getFullYear()}</Typography>
             </Grid>
           </Grid>
             <Grid container spacing={5} className={classes.widgetWrapper} justify='space-between'>

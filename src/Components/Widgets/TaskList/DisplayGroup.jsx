@@ -9,8 +9,8 @@ const useStyles = makeStyles({
         display:'flex',
         flexWrap:'nowrap',
         flexDirection:'column',
-        height:'3em',
-        padding:'0.25em',
+        height:'60px',
+        padding:'5px',
     },
     header:{
        textOverflow:'ellipsis',

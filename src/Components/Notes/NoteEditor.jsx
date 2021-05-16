@@ -3,7 +3,7 @@ import { Paper, Drawer, Tooltip, IconButton, Button, TextField, Typography, Grid
 import React,{ useContext } from 'react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-import AddRoundedIcon from '@material-ui/icons/AddRounded'
+// import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import { makeStyles } from '@material-ui/core/styles';
 import { NoteContext } from './../Context/NoteContext';

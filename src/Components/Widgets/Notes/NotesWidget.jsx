@@ -31,12 +31,12 @@ const useStyles = makeStyles({
         display:'flex',
         flexWrap:'nowrap',
         flexDirection:'column',
-        height:'3em',
-        padding:'0.25em',
+        height:'60px',
+        padding:'5px',
     },
     cardContent:{
         margin:'10px 0px',
-        lineHeight: '1.5rem',
+        lineHeight: '1.2rem',
         maxHeight: '100%',
         WebkitBoxOrient: 'vertical',
         display: '-webkit-box',
@@ -49,6 +49,7 @@ const useStyles = makeStyles({
         alignSelf:'flex-end'
     },
     header:{
+        padding:'5px 10px ',
         textOverflow:'ellipsis',
         whiteSpace:'nowrap',
         overflow:'hidden'
