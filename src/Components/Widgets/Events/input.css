@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300&display=swap");
+
+.rdt {
+    font-family: "Montserrat", sans-serif;
+}
+
+.rdt input:focus-visible {
+    outline: none !important;
+}
+
+.rdt input {
+    padding: 18px 0px;
+    text-align: center;
+    border: 1px solid rgba(238, 238, 238, 0.315);
+    border-radius: 5px;
+    background: none;
+    box-sizing: content-box;
+    color: #eee;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.rdtPicker {
+    border: 0 !important;
+    border-radius: 5px !important;
+    background: #242424 !important;
+    color: #eee;
+    position: fixed !important;
+}
+
+.rdtActive {
+    background-color: #76cb01 !important;
+    color: #242424 !important;
+}
+
+.rdtToday {
+    /* background-color: #eee !important; */
+    color: #eee !important;
+}
+
+.rdtPicker td.rdtToday:before {
+    border-bottom: 7px solid #76cb01 !important;
+}
+
+.rdtDay:hover {
+    background-color: #eee !important;
+    color: #3a3a3a !important;
+    transition: .2s ease-in-out !important;
+}
+
+.rdtDay {
+    border-radius: 5px;
+}
+
+.rdtPrev:hover,
+.rdtNext:hover,
+.rdtSwitch:hover {
+    background-color: transparent !important;
+}
+
+.rdtPrev,
+.rdtNext,
+.rdtSwitch {
+    border-bottom: 1px solid rgba(238, 238, 238, 0.3) !important;
+}
+
+.rdtTimeToggle {
+    border-radius: 5px;
+}
+
+.rdtTimeToggle:hover {
+    background-color: #eee !important;
+    color: #3a3a3a !important;
+    transition: .2s ease-in-out !important;
+}
+
+.rdtBtn {
+    color: rgba(238, 238, 238, 0.30) !important;
+}
+
+.rdtBtn:hover {
+    background-color: transparent !important;
+}

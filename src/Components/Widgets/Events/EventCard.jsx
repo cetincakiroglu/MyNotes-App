@@ -5,16 +5,17 @@ import DeleteBtn from './Buttons/DeleteBtn'
 import GoogleBtn from './Buttons/GoogleBtn'
 import useWindowDimensions from './../../Hooks/useWindowDimensions';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import moment from 'moment'
 
 const useStyles = makeStyles({
     card:{
         minHeight:'130px',
-        padding:'0.5em',
+        padding:'10px',
         backgroundColor:'#242424',
         transition:'.1s ease-in-out',
         '&:hover':{
             transform:'translateY(-5px)'
-        }
+        },
     },
     locationIcon:{
         transform:'scale(0.8)',
@@ -22,14 +23,17 @@ const useStyles = makeStyles({
     },
     divider:{
         display:'none'
+    },
+    container:{
+        margin:'auto'
     }
 })
 
 function EventCard({ item,index, deleteEvent, syncGoogle }) {
     const [showBtn, setShowBtn] = useState(false);
-    const classes = useStyles();
     const { width } = useWindowDimensions();
-
+    
+    // conditional styling
     const mobileStyles = makeStyles({
         buttonContainer:{
             display:'flex',
@@ -42,24 +46,26 @@ function EventCard({ item,index, deleteEvent, syncGoogle }) {
         },
         divider:{
             display:'block',
-        }
-
+        },
     })
+    
     const mobileClasses = mobileStyles();
+    const classes = useStyles();
+
     return (
         <>
             <Card className={classes.card} onMouseOver={() => setShowBtn(true)} onMouseLeave={() => setShowBtn(false)}>
-                <Grid container justifyContent='space-between' direction={`${width > 500 ? 'row' : 'column'}`}>
-                    <Grid item xs={false} md={1}></Grid>
-                    <Grid item xs={width > 500 ? 3 : 12} className={width < 500 ? mobileClasses.text : null}>
-                        <Typography variant='body2'>{item.date}</Typography>
-                        <Typography variant='body2'>{item.time}</Typography>
+                <Grid container justify='space-between' alignItems='center' direction={`${width > 500 ? 'row' : 'column'}`} spacing={1}>
+                    <Grid item xs={width > 500 ? 4 : 12} className={width < 500 ? mobileClasses.text : null}>
+                        <Typography variant='body2'>Start: {moment(item.start.dateTime).format('MMMM Do, h:mm A')}</Typography>
+                        <Typography variant='body2'>End: {moment(item.end.dateTime).format('MMMM Do, h:mm A')}</Typography>
                     </Grid>
                     <Divider />
                     <Grid item xs={width > 500 ? 6 : 12} className={width < 500 ? mobileClasses.text : null}>
-                        <Typography variant='h4' color='primary' noWrap>{item.name}</Typography>
+                        <Typography variant='h4' color='primary' noWrap>{item.description}</Typography>
                         <Typography variant='body1' noWrap>{item.summary}</Typography>
-                        <Typography variant='body1'>{item.location} <LocationOnIcon className={classes.locationIcon}/></Typography>
+                        <Typography variant='body1'><LocationOnIcon className={classes.locationIcon}/>{item.location}</Typography>
+                        {/* {item.htmlLink && <Typography variant='body1'><Link to={{ pathname: `${item.htmlLink}`}} target='_blank'>See on Google</Link></Typography>} */}
                     </Grid>
                     <Divider className={width > 500 ? classes.divider : mobileClasses.divider}/>
                     <Grid item xs={width > 500 ? 1 : 12} className={width < 500 ? mobileClasses.buttonContainer : null}>

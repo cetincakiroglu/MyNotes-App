@@ -1,15 +1,17 @@
+import './input.css' // modifies & overrides react-datetime css
+import "react-datetime/css/react-datetime.css";
 import React, { useContext } from 'react'
-import { Paper, TextField, IconButton, Tooltip, Button, Drawer, Grid } from '@material-ui/core';
+import { Paper, TextField, IconButton, Tooltip, Button, Drawer, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles'
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import { EventContext } from '../../Context/EventContext'
 import useWindowDimensions from '../../Hooks/useWindowDimensions'
+import DateTime from 'react-datetime'
 
 const useStyles = makeStyles({
     button:{
         width:'100px',
-        margin:'10px auto',
-        display:'block'
+        margin:'10px auto'
     },
     paper:{
         height:'100vh',
@@ -27,7 +29,7 @@ const useStyles = makeStyles({
 function EventDrawer (props) {
     const { openInputDrawer, setOpenInputDrawer } = props;
     const {width} = useWindowDimensions();
-    const {eventName, eventDate, eventTime, eventSummary, eventLocation, handleSubmit } = useContext(EventContext);
+    const {eventName, startDate, setStartDate, endDate, setEndDate, eventSummary, eventLocation, handleSubmit } = useContext(EventContext);
     
     // conditional styles
     const formStyles = makeStyles({
@@ -38,8 +40,7 @@ function EventDrawer (props) {
         },
         inputWrapper:{
             marginTop:'30px',
-            padding:'0 15px',
-            height: width > 600 ? '600px' : '300px'
+            height: width > 600 ? 'auto' : '300px'
         },
     })
     
@@ -55,7 +56,7 @@ function EventDrawer (props) {
             e.preventDefault();
         }
     }
-   
+    
     return (
         <>
          <div>
@@ -67,13 +68,14 @@ function EventDrawer (props) {
                          </IconButton>
                      </Tooltip>
                      <form onSubmit={handleSubmit} className={formClasses.form}>
-                         <Grid container className={formClasses.inputWrapper} spacing={2}>
+                         <Grid container className={formClasses.inputWrapper} spacing={4} alignItems='center'>
                             <Grid item xs={12} md={6}>
                                 <TextField
                                 onKeyDown={handleEnter}
                                 id='event-name' 
                                 label='Event Name' type='text'
                                 inputRef={eventName} required 
+                                className={classes.date}
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
@@ -82,32 +84,35 @@ function EventDrawer (props) {
                                     id='event-location' type='text'
                                     label='Event Location' 
                                     inputRef={eventLocation} 
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    onKeyDown={handleEnter}
                                     className={classes.date}
-                                    id='date' 
-                                    aria-label='Select Date' 
-                                    type='date'
-                                    inputRef={eventDate} 
-                                    required color='primary'
-                                    variant='outlined'
                                 />
                             </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    onKeyDown={handleEnter}
-                                    className={classes.date}
-                                    id='time' 
-                                    aria-label='Select Time' 
-                                    type='time'
-                                    inputRef={eventTime} 
-                                    required color='primary'
-                                    variant='outlined'
-                                />
-                            </Grid>
+                            {/* start date */}
+                          
+                                <Grid item xs={6} md={6}>
+                                    <Typography variant='body1'>Start Date</Typography>
+                                </Grid>
+                               <Grid item xs={6} md={6}>
+                                   <DateTime 
+                                   value={startDate}
+                                   onChange={val => setStartDate(val)}
+                                   timeFormat={true}
+                                   dateFormat={true}
+                                   />
+                               </Grid>
+                                    
+                                <Grid item xs={6} md={6}>
+                                    <Typography variant='body1'>End Date</Typography>
+                                </Grid>
+                                <Grid item xs={6} md={6}>
+                                <DateTime 
+                                   value={endDate}
+                                   onChange={val => setEndDate(val)}
+                                   timeFormat={true}
+                                   dateFormat={true}
+                                   />
+                                </Grid>
+                               
                             <Grid item xs={12}>
                                 <TextField
                                     onKeyDown={handleEnter}
@@ -121,9 +126,9 @@ function EventDrawer (props) {
                                     className={classes.summary}
                                 />
                             </Grid>
-                         </Grid>
                          <Button color='primary' type='submit' variant='contained'
                              className={classes.button}>Save</Button>
+                         </Grid>
                      </form>
                  </Paper>
              </Drawer>
@@ -133,3 +138,70 @@ function EventDrawer (props) {
 }
 
 export default EventDrawer
+
+
+// <DatePicker
+// selected={startDate}
+// selectsStart
+// onChange={date => setStartDate(date)}
+// timeInputLabel="Time:"
+// dateFormat="MM/dd/yyyy h:mm aa"
+// showTimeInput
+// />
+
+// <DatePicker
+// selected={endDate}
+// selectsEnd
+// onChange={date => setEndDate(date)}
+// timeInputLabel="Time:"
+// dateFormat="MM/dd/yyyy h:mm aa"
+// showTimeInput
+// />
+
+// <Grid item xs={6} md={8}>
+// <TextField
+//     onKeyDown={handleEnter}
+//     className={classes.date}
+//     id='date' 
+//     aria-label='Select Date' 
+//     type='date'
+//     inputRef={endDate} 
+//     required color='primary'
+//     variant='outlined'
+// />
+// </Grid>
+
+// <TextField
+// onKeyDown={handleEnter}
+// className={classes.date}
+// id='date' 
+// aria-label='Select Date' 
+// type='date'
+// inputRef={startDate} 
+// required color='primary'
+// variant='outlined'
+// /> 
+
+// <TextField
+// onKeyDown={handleEnter}
+// className={classes.date}
+// id='time' 
+// aria-label='Select Time' 
+// type='time'
+// inputRef={eventStartTime} 
+// required color='primary'
+// variant='outlined'
+// /> 
+
+// <Grid item xs={4} md={3}>
+// <TextField
+//     onKeyDown={handleEnter}
+//     className={classes.date}
+//     id='time' 
+//     aria-label='Select Time' 
+//     type='time'
+//     inputRef={eventEndTime} 
+//     required color='primary'
+//     variant='outlined'
+// />
+// </Grid> 

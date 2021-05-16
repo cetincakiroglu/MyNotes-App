@@ -12,6 +12,7 @@ import useWindowDimensions from './../Hooks/useWindowDimensions';
 function NoteEditor({ open, setOpen }) {
     const { width } = useWindowDimensions();
     const { textInput, categoryList, title, category, addCategory, handleSubmit, setTextInput } = useContext(NoteContext);
+    
     const useStyles = makeStyles({
         paper:{
             height:'100vh',
@@ -44,6 +45,7 @@ function NoteEditor({ open, setOpen }) {
             width:'100%'
         }
     })
+
     const classes = useStyles();
     const handleChange = (e,editor,obj) => {
         const data = editor.getData();

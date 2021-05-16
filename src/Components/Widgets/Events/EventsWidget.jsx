@@ -1,4 +1,4 @@
-import React,{ useState, useContext, useEffect } from 'react'
+import React,{ useState, useContext } from 'react'
 import { Grid, Paper, Typography, IconButton, Tooltip } from '@material-ui/core'
 import AddRoundedIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/styles'
@@ -6,6 +6,7 @@ import EventCard from './EventCard'
 import EventDrawer from './EventDrawer'
 import {EventContext} from '../../Context/EventContext'
 import { AuthContext } from './../../Context/AuthContext';
+import { db } from '../../Auth/firebase'
 
 const useStyles = makeStyles({
     paper:{
@@ -37,6 +38,9 @@ function RemindersWidget() {
     const { eventList, setEventList, deleteEvent } = useContext(EventContext);
     const [openInputDrawer, setOpenInputDrawer] = useState(false);
     const { currentUser } = useContext(AuthContext)
+    
+    // db ref
+    const eventsRef = db.collection('Events');
 
     const gapi = window.gapi;
     const syncGoogle = (obj) => {
@@ -54,16 +58,16 @@ function RemindersWidget() {
             gapi.auth2.getAuthInstance().signIn()
             .then(() => {
                 var event = {
-                    'summary': obj.name,
+                    'summary': obj.description,
                     'location': obj.location,
                     'description': obj.summary,
                     'start': {
-                      'dateTime': new Date(obj.date).toISOString(),
-                      'timeZone': obj.timeZone
+                      'dateTime': new Date(obj.start.dateTime).toISOString(),
+                      'timeZone': obj.start.timeZone
                     },
                     'end': {
-                      'dateTime': new Date(obj.date).toISOString(),
-                      'timeZone': obj.timeZone 
+                      'dateTime': new Date(obj.end.dateTime).toISOString(),
+                      'timeZone': obj.end.timeZone 
                     },
                     'recurrence': [
                       'RRULE:FREQ=DAILY;COUNT=1'
@@ -110,8 +114,16 @@ function RemindersWidget() {
                     maxResults: 10,
                     orderBy: 'startTime'
                 })
-                .then(res => console.log('EVENTS', res.result.items));
+                .then(res => {
+                    let arr = eventList;
+                    const responseArr = res.result.items;
+                    arr = arr.concat(responseArr);
+                    setEventList([...arr]);
+                    console.log('EVENT LIST', eventList)
+                })
+                
                 // TODO: Display all events
+                // calendar + firebase functions tut https://medium.com/zero-equals-false/integrating-firebase-cloud-functions-with-google-calendar-api-9a5ac042e869
             })
         })
 
@@ -120,7 +132,7 @@ function RemindersWidget() {
     return (
         <>
             <Paper className={classes.paper} elevation={5}>
-                <button onClick={getEventsFromGoogle}>hey</button>
+                {/* <button onClick={getEventsFromGoogle}>hey</button> */}
                 <Grid container alignItems='center'>
                     <Grid item className={classes.title}>
                         <Typography variant='h3' color='primary'>Events</Typography>
