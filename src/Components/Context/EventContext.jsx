@@ -30,7 +30,7 @@ export const EventProvider = props => {
                 'eventId': event_id,
             });
             request.execute((res) => {
-                if(res.error || res == false){
+                if(res.error || res === false){
                     console.log('error', res.error)
                 }else {
                     console.log('EVENT DELETED');

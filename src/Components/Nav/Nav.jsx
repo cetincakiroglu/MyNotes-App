@@ -55,7 +55,7 @@ function Nav() {
     const classes = useStyles();
     const history = useHistory();
     const {mobileOpen, setMobileOpen} = useContext(NoteContext)
-    const { logout, setError, currentUser, userInfo } = useContext(AuthContext);
+    const { logout, setError, currentUser } = useContext(AuthContext);
     
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen)
@@ -125,7 +125,7 @@ function Nav() {
             open={mobileOpen} 
             onClose={handleDrawerToggle}
             >
-                <CardHeader avatar={ <Avatar src={currentUser ? userInfo.user.photoURL : null} aria-label="recipe">
+                <CardHeader avatar={ <Avatar src={currentUser ? currentUser.photoURL : null} aria-label="recipe">
                     R
                     </Avatar>
                     }

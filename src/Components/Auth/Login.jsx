@@ -89,7 +89,7 @@ function Login() {
                             />
                         </Grid>
                             <Button variant='contained' color='primary' type='submit' className={classes.button} disabled={loading} >Login</Button>
-                        <Grid item xs={8} justify='center'>
+                        <Grid item xs={8}>
                             <Typography variant='body1' align='center'>Don't have an account? <Link to='/Signup' className={classes.link}>Signup</Link></Typography>
                             <Typography variant='body1' align='center'>Forgot your password? <Link to='/Forgot-password' className={classes.link}>Reset</Link></Typography>
                         </Grid>
