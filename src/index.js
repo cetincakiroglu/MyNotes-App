@@ -11,15 +11,15 @@ import { EventProvider } from './Components/Context/EventContext'
 
 ReactDOM.render(
   <AuthProvider>
-      <NoteProvider>
-        <TaskProvider>
-          <EventProvider>
-            <CardProvider>
-              <App />
-            </CardProvider>
-          </EventProvider>
-        </TaskProvider>
-      </NoteProvider>
+    <NoteProvider>
+      <TaskProvider>
+        <EventProvider>
+          <CardProvider>
+            <App />
+          </CardProvider>
+        </EventProvider>
+      </TaskProvider>
+    </NoteProvider>
   </AuthProvider>,
   document.getElementById('root')
 );

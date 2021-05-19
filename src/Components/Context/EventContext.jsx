@@ -1,19 +1,18 @@
-import React, { createContext, useRef, useEffect, useState, useContext } from 'react'
+import React, { createContext, useRef, useState, useContext, useEffect } from 'react'
 import { db } from '../Auth/firebase'
 import { AuthContext } from './AuthContext';
-import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment'
-
 
 export const EventContext = createContext();
 export const EventProvider = props => {
     const [eventList, setEventList] = useState([]);
+    // eslint-disable-next-line
     const [dbLoading, setDbLoading] = useState(false); // will be used later to make spinner
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-    
+    const [summary, setSummary] = useState('');
     const eventName = useRef();
-    const eventSummary = useRef();
+    // const eventSummary = useRef();
     const eventLocation = useRef();
 
     const { currentUser } = useContext(AuthContext)
@@ -21,12 +20,68 @@ export const EventProvider = props => {
     // db ref
     const eventsRef = db.collection('Events');
 
-    // get Events collection
+    // delete from db
+    const deleteEvent = (eventObj) => {
+        const event_id = eventObj.id.split('_',1).join('');
+        console.log(event_id)
+        gapi.client.load('calendar', 'v3', () => {
+            var request = gapi.client.calendar.events.delete({
+                'calendarId': 'primary',
+                'eventId': event_id,
+            });
+            request.execute((res) => {
+                if(res.error || res == false){
+                    console.log('error', res.error)
+                }else {
+                    console.log('EVENT DELETED');
+                }
+            })
+        })
+        eventsRef.doc(event_id)
+                 .delete()
+                 .catch(err => console.log(err))
+    }
+    
+    // init gapi
+    const gapi = window.gapi;
+    // init client
+   function initClient(){
+        gapi.load('client', () => {
+            console.log('CLIENT LOADED');
+                gapi.client.init({
+                apiKey:process.env.REACT_APP_GOOGLE_API_KEY,
+                clientId:process.env.REACT_APP_GOOGLE_CLIENT_ID,
+                discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
+                scope: "https://www.googleapis.com/auth/calendar",
+            });
+            gapi.client.load('calendar', 'v3', () => console.log('CALENDAR LOADED'))
+        })
+    }
+
+    // get events from Google Calendar
+    const getCalendar = () => {
+        gapi.client.calendar.events.list({
+            calendarId:'primary',
+            timeMin: new Date().toISOString(),
+            showDeleted: false,
+            singleEvents: true,
+            maxResults: 10,
+            orderBy: 'startTime'
+        }).then(res => {
+            // save to db
+            console.log(res.result.items)
+            res.result.items.forEach(item => {
+               eventsRef.doc(item.id.split('_',1).join('')).set(item).catch(err => console.error(err))
+            }) 
+        })
+    }
+
+    // get events collection from db
     function getEvents(){
         if(currentUser){
             setDbLoading(true);
             eventsRef.where('creator.email', '==', currentUser.email).onSnapshot(querySnapshot => {
-                const items= [];
+                const items = [];
                 querySnapshot.forEach(doc => {
                    items.push(doc.data())
                 });
@@ -36,76 +91,63 @@ export const EventProvider = props => {
         }
     }
 
-    // add to db
-    const handleSubmit = (e) => {
+    // insert events
+    const insertEvent = (e) => {
         e.preventDefault();
-        const newEvent = {
-            id       :uuidv4(),
-            kind     :'calendar#event',
-            // created  : 'timestamp',
-            location : eventLocation.current.value,
-            summary  : eventSummary.current.value,
-            description: eventName.current.value,
-            status   : 'confirmed',
-            creator  : {
-                email: currentUser.email ? currentUser.email : 'unknown',
-                self: true
+        var event = {
+            'summary': summary,
+            'location': eventLocation.current.value,
+            'description': eventName.current.value,
+            'start': {
+                'dateTime': moment(startDate).format(),
+                'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone,
             },
-            organizer: {
-                email: currentUser.email ? currentUser.email : 'unknown',
-                self:true,
+            'end': {
+                'dateTime': moment(endDate).format(),
+                'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone,
             },
-            start: {
-                // dateTime: startDate.current.value,
-                dateTime: moment(startDate).format(),
-                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            },
-            end: {
-                // dateTime: endDate.current.value,
-                dateTime: moment(endDate).format(),
-                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            },
-            originalStartTime: {
-                dateTime: moment(startDate).format(),
-                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            },
-            htmlLink: null,
-            eventType:'default',
-            reminders: {
-                overrides: [
-                    {method: 'email', minutes: 1440},
-                    {method: 'email', minutes: 10}
+            'recurrence': [
+                'RRULE:FREQ=DAILY;COUNT=1'
+            ],
+            'attendees': false,
+            'reminders': {
+                'useDefault': false,
+                'overrides': [
+                {'method': 'email', 'minutes': 24 * 60},
+                {'method': 'popup', 'minutes': 10}
                 ]
-            },
-        }
-        console.log(newEvent)
+            }
+        };
 
-        eventsRef.doc(newEvent.id)
-                 .set(newEvent)
-                 .catch(err => console.log(err))
-
+        var request = gapi.client.calendar.events.insert({
+            'calendarId':'primary',
+            'resource': event
+        })
+        // add event to db & Google Calendar
+        request.execute((event) => {
+            const event_id = event.result.id.split('_',1).join('');
+            eventsRef.doc(event_id)
+                     .set(event.result)
+                     .catch(err => console.log(err));
+                     console.log('EVENT CREATED', event)
+                     console.log('EVENT ID', event.result.id)
+        })
+        // reset inputs
         setStartDate('');
         setEndDate('');
         eventName.current.value = '';
-        eventSummary.current.value = '';
+        // eventSummary.current.value = '';
         eventLocation.current.value = '';
+        // call calendar API to refresh
+        getCalendar();
     }
-    
-    // delete from db
-    const deleteEvent = (eventObj) => {
-        console.log(eventObj)
-        eventsRef.doc(eventObj.id)
-                 .delete()
-                 .catch(err => console.log(err))
-    }
-    
-    // listen db
-    useEffect(() => {
-        getEvents();
-        // eslint-disable-next-line
-    },[])
 
+    // get Events collection from db
+   
     const value={
+        getCalendar,
+        initClient,
+        insertEvent,
         startDate,
         setStartDate,
         endDate,
@@ -113,12 +155,18 @@ export const EventProvider = props => {
         getEvents,
         deleteEvent,
         eventName,
-        eventSummary,
+        summary,
+        setSummary,
         eventLocation,
-        handleSubmit,
         eventList,
         setEventList,
+        eventsRef
     };
+
+    useEffect(() => {
+        initClient();
+        // eslint-disable-next-line
+    },[])
     return (
         <EventContext.Provider value={value}>
             {props.children}

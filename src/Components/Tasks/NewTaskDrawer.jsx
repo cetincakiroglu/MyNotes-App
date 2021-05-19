@@ -1,7 +1,6 @@
 import React,{ useContext } from 'react'
 import { Drawer, Grid, Paper, Typography, IconButton, List, ListItem, Divider, Button, TextField, Tooltip } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import { TaskContext } from '../Context/TaskContext';

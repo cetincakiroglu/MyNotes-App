@@ -1,18 +1,22 @@
 import React,{ useState, useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { Grid, Paper, Typography, TextField, Button, SvgIcon } from '@material-ui/core'
+import { Grid, Paper, Typography, TextField, Button } from '@material-ui/core'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import { AuthContext } from './../Context/AuthContext';
-import { FcGoogle } from 'react-icons/fc'
-
+import {GoogleLogin} from 'react-google-login'
+import { auth, googleProvider } from './../Auth/firebase'
+import { EventContext } from './../Context/EventContext';
 
 function Login() {
-    const { login, saveUserDB, signInWithGoogle, email, password, classes } = useContext(AuthContext);  
+    const { login, saveUserDB, email, password, classes, setUserInfo, userInfo } = useContext(AuthContext);
+    const { getCalendar } = useContext(EventContext);
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const history = useHistory();
+    // eslint-disable-next-line
     const [message, setMessage] = useState('')
 
+    // email & pw login
     const handleSubmit = async(e) => {
         e.preventDefault();
         try{
@@ -27,26 +31,33 @@ function Login() {
         setLoading(false)
     }
 
-    const handleGoogle = async () => {
-        setError('')
+    // Google Sign In w/ react-google-login
+    const responseGoogle = async (response) => {
+        setError('');
         setLoading(true)
         try{
-            // get user credentials
-            const cred = await signInWithGoogle();
-            //save user to db
-            saveUserDB(cred.user.uid, {name: cred.user.displayName, email: cred.user.email})
-            // TODO: replace sessionStorage with cookies.
-            sessionStorage.setItem('UID', JSON.stringify(cred.user.uid))
-            //redirect user
-            setMessage(`Signed in with Google as`)
+            const idToken = response.qc.id_token;
+            const user = {...response.profileObj}
+            // pass id_token & save user in Firebase
+            const creds = await googleProvider.credential(idToken);
+            const firebaseCreds = await auth.signInWithCredential(creds);
+            saveUserDB(firebaseCreds.user.uid, user);
+            setUserInfo(firebaseCreds);
+            console.log('USERINFO', userInfo)
+            sessionStorage.setItem('UID', JSON.stringify(firebaseCreds.user.uid))
+            // redirect user
+            setMessage(`Signed in with Google`)
             history.push('/');
+            // activate calendarAPI
+            getCalendar();
+            
         }catch(err){
-            console.log(err);
+            console.error(err);
             setError('Failed to sign in')
-        }   
+        }
         setLoading(false);
     }
-
+    
     return (
         <>
         <Paper className={classes.paper}>
@@ -84,11 +95,14 @@ function Login() {
                         </Grid>
                     </Grid>
                 </form>
-                <Paper elevation={5}  className={classes.googleCard} onClick={handleGoogle}>
-                        <Typography color='primary'>Continue with</Typography>
-                        <SvgIcon viewBox='0'>
-                                <FcGoogle />
-                        </SvgIcon>
+                <Paper elevation={5}  className={classes.googleCard}>
+                    <GoogleLogin 
+                        clientId={process.env.REACT_APP_CLIENT_ID}
+                        buttonText='Continue with Google'
+                        onSuccess={responseGoogle}
+                        onFailure={responseGoogle}
+                        cookiePolicy={'single_host_origin'}
+                    />    
                 </Paper>
                 </Paper>
               </Grid>

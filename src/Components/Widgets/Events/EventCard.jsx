@@ -63,7 +63,7 @@ function EventCard({ item,index, deleteEvent, syncGoogle }) {
                     <Divider />
                     <Grid item xs={width > 500 ? 6 : 12} className={width < 500 ? mobileClasses.text : null}>
                         <Typography variant='h4' color='primary' noWrap>{item.description}</Typography>
-                        <Typography variant='body1' noWrap>{item.summary}</Typography>
+                        <div dangerouslySetInnerHTML={{__html: item.summary}}></div>
                         <Typography variant='body1'><LocationOnIcon className={classes.locationIcon}/>{item.location}</Typography>
                         {/* {item.htmlLink && <Typography variant='body1'><Link to={{ pathname: `${item.htmlLink}`}} target='_blank'>See on Google</Link></Typography>} */}
                     </Grid>

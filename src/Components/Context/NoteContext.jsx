@@ -12,6 +12,7 @@ export const NoteProvider = props => {
     const [open, setOpen] = useState(false);
     const [noteId, setNoteId] = useState([0]); // used in handleSubmit to determine edit || create new note.
     const [header, setHeader] = useState('');
+    // eslint-disable-next-line
     const [dbLoading, setDbLoading] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     
@@ -111,6 +112,7 @@ export const NoteProvider = props => {
                 note       : note,
                 categories : tags,
             };
+            // save to db
             notesRef.doc(newNote.id)
                .set(newNote)
                .catch(err => console.error(err))

@@ -10,8 +10,8 @@ export const TaskProvider = props => {
     const [taskList, setTaskList] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
     const [open, setOpen] = useState(false);
+    // eslint-disable-next-line
     const [dbLoading, setDbLoading] = useState(false)
-    //TODO: Make Db Context & move it there.
 
     const title = useRef();
     const taskListItem = useRef();

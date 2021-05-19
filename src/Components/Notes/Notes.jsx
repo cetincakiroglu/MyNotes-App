@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Grid, Paper, Typography, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import NoteCard from './NoteCard'
@@ -30,7 +30,7 @@ const useStyles = makeStyles({
     }
 })
 function Notes() {
-    const { open, setOpen, notes, setNotes, openDrawer, notesRef, setDbLoading } = useContext(NoteContext);
+    const { open, setOpen, notes, openDrawer } = useContext(NoteContext);
     const classes = useStyles();
 
     return (

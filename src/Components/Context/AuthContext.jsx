@@ -92,14 +92,13 @@ export const AuthProvider = props => {
     }
 
     const signInWithGoogle = () => {
-        return auth.signInWithPopup(googleProvider)
+        return auth.signInWithPopup(googleProvider);
     }
-//TODO: make context for db functions.
+
     const saveUserDB = (uid, userObj) => {
         db.collection('Users').doc(uid).set(userObj);
     }
-   // get user info from db
-      
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             setCurrentUser(user)
@@ -111,6 +110,7 @@ export const AuthProvider = props => {
     },[])
 
     const value = {
+        // googleLogin,
         userInfo,
         setUserInfo,
         db,

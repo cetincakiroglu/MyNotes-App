@@ -3,7 +3,7 @@
 - MyNotes is a hybrit note taking web app based on widgets.
 - Users can signup or login with mail.
 - Users can take notes with advanced editor, voice notes, create task lists, set events and sync with Google Calendar.
-- **This project is a result of 2 weeks personal sprint period. Some features are not cross browser yet. Google Chrome is recommended browser to test demo.**
+- **Some features are not cross browser yet. Google Chrome is recommended browser to test demo.**
 - MyNotes is a final personal project of **Social Hackers Academy Front End Development Course**
 - More features, bug fixes, updates will come as the development process continues.
 - Project is divided in 3 paths, at the end of production there will be 3 versions. Web (React), Mobile (React Native) & Desktop (Electron).

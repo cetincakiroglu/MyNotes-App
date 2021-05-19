@@ -1,10 +1,11 @@
-import React, { useContext  } from 'react'
+import React, { useContext } from 'react'
 import { withRouter, useHistory } from 'react-router-dom'
 import { Drawer, Collapse, Divider, Avatar, CardHeader, ListItem, List, ListItemText, Button, Hidden } from '@material-ui/core'
-
 import { makeStyles } from '@material-ui/core/styles'
 import { AuthContext } from './../Context/AuthContext';
 import { NoteContext } from './../Context/NoteContext';
+// import { HashLink } from 'react-router-hash-link';
+//TODO: Do hash navigation
 
 
 const drawerWidth = 230;
@@ -54,7 +55,7 @@ function Nav() {
     const classes = useStyles();
     const history = useHistory();
     const {mobileOpen, setMobileOpen} = useContext(NoteContext)
-    const { logout, setError, currentUser } = useContext(AuthContext);
+    const { logout, setError, currentUser, userInfo } = useContext(AuthContext);
     
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen)
@@ -76,6 +77,7 @@ function Nav() {
         {
             title: 'Events',
             onClick: () => history.push('/')
+            // window.focus('#eventsWidget')
             //TODO: refactor with in-component navigation.
         },
         {
@@ -110,7 +112,7 @@ function Nav() {
         })}
         </List>
     )
-    
+
     return (
         <>
         <Hidden smUp implementation='css'>
@@ -123,7 +125,7 @@ function Nav() {
             open={mobileOpen} 
             onClose={handleDrawerToggle}
             >
-                <CardHeader avatar={ <Avatar src={currentUser.photoURL ? currentUser.photoURL : null} aria-label="recipe">
+                <CardHeader avatar={ <Avatar src={currentUser ? userInfo.user.photoURL : null} aria-label="recipe">
                     R
                     </Avatar>
                     }

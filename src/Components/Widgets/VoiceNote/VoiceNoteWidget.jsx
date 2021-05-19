@@ -23,7 +23,7 @@ try{
 function VoiceNoteWidget() {
     const [isListening, setIsListening] = useState(false)
     const [voiceNote, setVoiceNote] = useState('')
-    const { Note, notes, setNotes, notesRef } = useContext(NoteContext);
+    const { notesRef } = useContext(NoteContext);
     const { currentUser } = useContext(AuthContext)
     const [ showBtn, setShowBtn ] = useState(false);
    
@@ -101,7 +101,8 @@ function VoiceNoteWidget() {
     
     
     useEffect(() => {
-      handleListen()
+      handleListen();
+      // eslint-disable-next-line
     }, [isListening])
     
     return (

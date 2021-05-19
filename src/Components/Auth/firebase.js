@@ -2,7 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 
-const firebaseConfig ={
+const firebaseConfig={
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
     databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
@@ -13,8 +13,8 @@ const firebaseConfig ={
 }
 firebase.initializeApp(firebaseConfig);
 
-export const auth = firebase.auth()
+export const auth = firebase.auth();
 export const db = firebase.firestore();
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 db.settings({timestampsInSnapshots:true});
-export default firebase
+export default firebase;

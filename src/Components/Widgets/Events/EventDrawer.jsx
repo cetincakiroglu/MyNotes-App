@@ -1,12 +1,16 @@
 import './input.css' // modifies & overrides react-datetime css
 import "react-datetime/css/react-datetime.css";
-import React, { useContext } from 'react'
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+import DateTime from 'react-datetime'
+import React, { useContext, useState } from 'react'
 import { Paper, TextField, IconButton, Tooltip, Button, Drawer, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles'
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import { EventContext } from '../../Context/EventContext'
 import useWindowDimensions from '../../Hooks/useWindowDimensions'
-import DateTime from 'react-datetime'
+import moment from 'moment'
 
 const useStyles = makeStyles({
     button:{
@@ -29,8 +33,8 @@ const useStyles = makeStyles({
 function EventDrawer (props) {
     const { openInputDrawer, setOpenInputDrawer } = props;
     const {width} = useWindowDimensions();
-    const {eventName, startDate, setStartDate, endDate, setEndDate, eventSummary, eventLocation, handleSubmit } = useContext(EventContext);
-    
+    const {eventName, startDate, setStartDate, endDate, setEndDate, eventLocation, insertEvent, summary, setSummary } = useContext(EventContext);
+
     // conditional styles
     const formStyles = makeStyles({
         form:{
@@ -56,7 +60,19 @@ function EventDrawer (props) {
             e.preventDefault();
         }
     }
-    
+
+    // validate date
+    const yesterday = moment().subtract(1,'day');
+    const checkDate = (current) => {
+        return current.isAfter(yesterday)
+    }
+
+    // Editor Handler
+    const handleChange = (e,editor) => {
+        const data = editor.getData();
+        setSummary(data);
+    }
+
     return (
         <>
          <div>
@@ -67,7 +83,7 @@ function EventDrawer (props) {
                              <ArrowForwardIosRoundedIcon />
                          </IconButton>
                      </Tooltip>
-                     <form onSubmit={handleSubmit} className={formClasses.form}>
+                     <form onSubmit={insertEvent} className={formClasses.form}>
                          <Grid container className={formClasses.inputWrapper} spacing={4} alignItems='center'>
                             <Grid item xs={12} md={6}>
                                 <TextField
@@ -98,6 +114,7 @@ function EventDrawer (props) {
                                    onChange={val => setStartDate(val)}
                                    timeFormat={true}
                                    dateFormat={true}
+                                   isValidDate={checkDate}
                                    />
                                </Grid>
                                     
@@ -114,16 +131,44 @@ function EventDrawer (props) {
                                 </Grid>
                                
                             <Grid item xs={12}>
-                                <TextField
+                                {/* <TextField
                                     onKeyDown={handleEnter}
                                     id='event-summary' 
                                     type='text'
                                     label='Event Summary' 
                                     inputRef={eventSummary}
-                                    rows={10}
+                                    rows={20}
                                     multiline
                                     variant='outlined'
                                     className={classes.summary}
+                                /> */}
+                                <CKEditor 
+                                    editor={ClassicEditor}
+                                    data={summary}
+                                    onChange = {handleChange}
+                                    config={{
+                                        toolbar: [
+                                            "heading",
+                                            "code",
+                                            "|",
+                                            "bold",
+                                            "italic",
+                                            "link",
+                                            "bulletedList",
+                                            "numberedList",
+                                            "blockQuote",
+                                            "|",
+                                            "autoFormat",
+                                            "|",
+                                            "insertTable",
+                                            "tableColumn",
+                                            "tableRow",
+                                            "mergeTableCells",
+                                            "|",
+                                            "undo",
+                                            "redo"
+                                        ]
+                                    }}
                                 />
                             </Grid>
                          <Button color='primary' type='submit' variant='contained'
@@ -138,70 +183,3 @@ function EventDrawer (props) {
 }
 
 export default EventDrawer
-
-
-// <DatePicker
-// selected={startDate}
-// selectsStart
-// onChange={date => setStartDate(date)}
-// timeInputLabel="Time:"
-// dateFormat="MM/dd/yyyy h:mm aa"
-// showTimeInput
-// />
-
-// <DatePicker
-// selected={endDate}
-// selectsEnd
-// onChange={date => setEndDate(date)}
-// timeInputLabel="Time:"
-// dateFormat="MM/dd/yyyy h:mm aa"
-// showTimeInput
-// />
-
-// <Grid item xs={6} md={8}>
-// <TextField
-//     onKeyDown={handleEnter}
-//     className={classes.date}
-//     id='date' 
-//     aria-label='Select Date' 
-//     type='date'
-//     inputRef={endDate} 
-//     required color='primary'
-//     variant='outlined'
-// />
-// </Grid>
-
-// <TextField
-// onKeyDown={handleEnter}
-// className={classes.date}
-// id='date' 
-// aria-label='Select Date' 
-// type='date'
-// inputRef={startDate} 
-// required color='primary'
-// variant='outlined'
-// /> 
-
-// <TextField
-// onKeyDown={handleEnter}
-// className={classes.date}
-// id='time' 
-// aria-label='Select Time' 
-// type='time'
-// inputRef={eventStartTime} 
-// required color='primary'
-// variant='outlined'
-// /> 
-
-// <Grid item xs={4} md={3}>
-// <TextField
-//     onKeyDown={handleEnter}
-//     className={classes.date}
-//     id='time' 
-//     aria-label='Select Time' 
-//     type='time'
-//     inputRef={eventEndTime} 
-//     required color='primary'
-//     variant='outlined'
-// />
-// </Grid> 

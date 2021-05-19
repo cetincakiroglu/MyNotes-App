@@ -7,9 +7,10 @@ import { AuthContext } from './../Context/AuthContext';
 
 function Signup() {
 
-    const { saveUserDB ,signup, signInWithGoogle, currentUser, classes, email, password, passwordConfirm } = useContext(AuthContext);
+    const { saveUserDB ,signup, signInWithGoogle, classes, email, password, passwordConfirm } = useContext(AuthContext);
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+    // eslint-disable-next-line
     const [message, setMessage] = useState('')
     const history = useHistory();
     const name = useRef();

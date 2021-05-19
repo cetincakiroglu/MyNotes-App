@@ -1,16 +1,15 @@
 import React,{ useState, useContext } from 'react'
-import { Link, useHistory } from 'react-router-dom'
 import { Grid, Paper, Typography, TextField, Button } from '@material-ui/core'
 import { AuthContext } from './../Context/AuthContext';
 
 
 function ResetPassword() {
     
-    const { resetPassword, currentUser, email, error, setError, classes } = useContext(AuthContext);
-
+    const { resetPassword, email, setError, classes } = useContext(AuthContext);
     const [loading, setLoading] = useState(false)
+    // eslint-disable-next-line
     const [message, setMessage] = useState('')
-    const history = useHistory();
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();

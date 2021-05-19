@@ -48,10 +48,12 @@ const useStyles = makeStyles({
 
 function Home() {
   const classes = useStyles();
-  const {getEvents} = useContext(EventContext);
-  const {getTasks} = useContext(TaskContext);
-  const {open, setOpen, getNotes, mobileOpen, setMobileOpen } = useContext(NoteContext);
+  const { getEvents } = useContext(EventContext);
+  const { getTasks } = useContext(TaskContext);
+  const { open, setOpen, getNotes, mobileOpen, setMobileOpen } = useContext(NoteContext);
   const { currentUser } = useContext(AuthContext);
+  
+  // mobile menu handler
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
   }
@@ -102,7 +104,7 @@ function Home() {
             </Grid>
             <Grid container className={classes.widgetWrapper}>
               <Grid item xs={12} md={6}>
-                <RemindersWidget />
+                <RemindersWidget id='#eventsWidget'/>
               </Grid>
             </Grid>
         </Paper>

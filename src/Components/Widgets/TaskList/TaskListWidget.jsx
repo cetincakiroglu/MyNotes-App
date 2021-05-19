@@ -57,7 +57,7 @@ function TaskListWidget() {
                </Grid>
                 <Grid container spacing={3} className={classes.taskListContainer}>
                     {taskListInfo.length > 0 ? taskListInfo.map((item,index) => (
-                        <Grid item xs={12} md={3}>
+                        <Grid item xs={12} md={3} key={index}>
                             <DisplayGroup item={item} index={index} key={index}/>
                         </Grid>
                         )): <Typography variant='body1' className={classes.subtitle}>Create a task list.</Typography>}
