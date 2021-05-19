@@ -9,10 +9,12 @@ import Tasks from './Components/Tasks/Tasks'
 import NewNote from './Components/Notes/NewNote'
 import Signup from './Components/Auth/Signup'
 import Login from './Components/Auth/Login'
+import Events from './Components/Events/Events'
 import ResetPassword from './Components/Auth/ResetPassword'
 import PrivateRoute from './Components/Auth/PrivateRoute';
 import { AuthContext } from './Components/Context/AuthContext';
 
+// MUI custom theme
 const theme = createMuiTheme({
   palette: {
     type: 'dark',
@@ -90,8 +92,8 @@ const useStyles = makeStyles({
 
 function App() {
   const { currentUser } = useContext(AuthContext);
-
   const classes = useStyles();
+
   return (
     <>
       <BrowserRouter>
@@ -106,6 +108,7 @@ function App() {
                   <PrivateRoute exact path ='/' component={Home}/>
                   <PrivateRoute exact path ='/Notes' component ={Notes}/>
                   <PrivateRoute exact path ='/Tasks' component ={Tasks}/>
+                  <PrivateRoute exact path ='/Events' component={Events}/>
                   <PrivateRoute exact path ='/New' component ={NewNote}/>
                   <PrivateRoute path ='/New/:id' component ={NewNote}/>
                 </Switch>

@@ -4,10 +4,8 @@ import { Drawer, Collapse, Divider, Avatar, CardHeader, ListItem, List, ListItem
 import { makeStyles } from '@material-ui/core/styles'
 import { AuthContext } from './../Context/AuthContext';
 import { NoteContext } from './../Context/NoteContext';
-// import { HashLink } from 'react-router-hash-link';
-//TODO: Do hash navigation
 
-
+// conditional & responsive styling
 const drawerWidth = 230;
 const useStyles = makeStyles(theme => ({
     root: {
@@ -76,9 +74,7 @@ function Nav() {
         },
         {
             title: 'Events',
-            onClick: () => history.push('/')
-            // window.focus('#eventsWidget')
-            //TODO: refactor with in-component navigation.
+            onClick: () => history.push('/Events')
         },
         {
             title: 'Info',

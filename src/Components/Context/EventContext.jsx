@@ -11,6 +11,7 @@ export const EventProvider = props => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [summary, setSummary] = useState('');
+    const [initialEvs, setInitialEvs] = useState([]);
     const eventName = useRef();
     // const eventSummary = useRef();
     const eventLocation = useRef();
@@ -19,7 +20,9 @@ export const EventProvider = props => {
     
     // db ref
     const eventsRef = db.collection('Events');
-
+    // init gapi
+    const gapi = window.gapi;
+    
     // delete from db
     const deleteEvent = (eventObj) => {
         const event_id = eventObj.id.split('_',1).join('');
@@ -38,14 +41,12 @@ export const EventProvider = props => {
             })
         })
         eventsRef.doc(event_id)
-                 .delete()
-                 .catch(err => console.log(err))
+        .delete()
+        .catch(err => console.log(err))
     }
     
-    // init gapi
-    const gapi = window.gapi;
-    // init client
-   function initClient(){
+    // init Google client
+    function initClient(){
         gapi.load('client', () => {
             console.log('CLIENT LOADED');
                 gapi.client.init({
@@ -69,7 +70,6 @@ export const EventProvider = props => {
             orderBy: 'startTime'
         }).then(res => {
             // save to db
-            console.log(res.result.items)
             res.result.items.forEach(item => {
                eventsRef.doc(item.id.split('_',1).join('')).set(item).catch(err => console.error(err))
             }) 
@@ -118,7 +118,7 @@ export const EventProvider = props => {
                 ]
             }
         };
-
+       
         var request = gapi.client.calendar.events.insert({
             'calendarId':'primary',
             'resource': event
@@ -160,7 +160,10 @@ export const EventProvider = props => {
         eventLocation,
         eventList,
         setEventList,
-        eventsRef
+        eventsRef,
+        initialEvs,
+        setInitialEvs,
+        gapi
     };
 
     useEffect(() => {
