@@ -99,7 +99,7 @@
 - [ ] Add user feedback, manage & display errors properly.
 - [x] Improve Auth. Add Google sign in.
 - [x] Store user data in Firestore, create a data structure for every user & store everything.
-- [ ] Update events, sync user's all events from Google Calendar and display in widgets. Add reminders & send sms/email notification to users.
+- [x] Update events, sync user's all events from Google Calendar and display in widgets. Add reminders & send sms/email notification to users.
 - [ ] Update Voice Note feature, make it cross browser. Switch to Google Speech-to-Text API.
 - [ ] Update Note Editor. Allow users to upload documents & media files.
 - [ ] Update Instant Note, add Balloon Editor.
