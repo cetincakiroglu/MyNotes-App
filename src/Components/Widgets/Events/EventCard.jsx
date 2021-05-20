@@ -2,14 +2,13 @@ import React,{ useState } from 'react'
 import { Card, Typography, Grid, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import DeleteBtn from './Buttons/DeleteBtn'
-import GoogleBtn from './Buttons/GoogleBtn'
 import useWindowDimensions from './../../Hooks/useWindowDimensions';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import moment from 'moment'
 
 const useStyles = makeStyles({
     card:{
-        minHeight:'130px',
+        minHeight:'100px',
         padding:'10px',
         backgroundColor:'#242424',
         transition:'.1s ease-in-out',
@@ -68,9 +67,8 @@ function EventCard({ item,index, deleteEvent, syncGoogle }) {
                         {/* {item.htmlLink && <Typography variant='body1'><Link to={{ pathname: `${item.htmlLink}`}} target='_blank'>See on Google</Link></Typography>} */}
                     </Grid>
                     <Divider className={width > 500 ? classes.divider : mobileClasses.divider}/>
-                    <Grid item xs={width > 500 ? 1 : 12} className={width < 500 ? mobileClasses.buttonContainer : null}>
+                    <Grid item xs={width > 500 ? 1 : 12} className={width < 500 ? mobileClasses.buttonContainer : null} align='center'>
                         <DeleteBtn showBtn={showBtn} deleteEvent={deleteEvent} item={item}/>
-                        <GoogleBtn showBtn={showBtn} syncGoogle={syncGoogle} item={item} index={index}/>
                     </Grid>
                 </Grid>
             </Card>

@@ -9,7 +9,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { NoteContext } from './../Context/NoteContext';
 import useWindowDimensions from './../Hooks/useWindowDimensions';
 
-function NoteEditor({ open, setOpen }) {
+function NoteEditor(props) {
+    const { open, setOpen } = props;
     const { width } = useWindowDimensions();
     const { textInput, categoryList, title, category, addCategory, handleSubmit, setTextInput } = useContext(NoteContext);
     
@@ -25,8 +26,8 @@ function NoteEditor({ open, setOpen }) {
             minHeight:'600px',
         },
         button:{
-            width:'16em',
-            margin:'2em auto 0 auto',
+            width:'100px',
+            margin:'20px auto 0 auto',
             display:'block'
         },
         buttonDisabled:{

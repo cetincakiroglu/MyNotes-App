@@ -29,6 +29,7 @@ const useStyles = makeStyles({
         marginLeft:'25px'
     }
 })
+
 function Notes() {
     const { open, setOpen, notes, openDrawer } = useContext(NoteContext);
     const classes = useStyles();
@@ -48,9 +49,10 @@ function Notes() {
             </Grid>
             <Grid container spacing={5} className={classes.container}>
                     {notes.length > 0 ? notes.map((item,index) => (
-                        <>
+                        <Grid item xs={12} md={3} key={item.id}>
                             <NoteCard item={item} index={index} />
-                        </>
+                        </Grid>
+                        
                     )): (<Typography variant='body2' className={classes.message}>You don't have any note yet. It's a beautiful day to write one!</Typography>)}
             </Grid>
         <NoteEditor open={open} setOpen={setOpen} />

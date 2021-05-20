@@ -15,11 +15,11 @@ function NoteCard({ item, index }) {
     const handleChange = (e, item) => {
         const editedNote = {...item}
         editedNote.note = e.target.textContent;
-        console.log(item)   
         // notesRef.doc(item.id)
         //    .update(editedNote)
         //    .catch(err => console.log(err))
     }
+
     const handleClick = (e) => {
         setAnchorEl(e.currentTarget)
     }
@@ -35,8 +35,7 @@ function NoteCard({ item, index }) {
     }
 
     return (
-        <> 
-            <Grid item xs={12} md={3}>
+        <>
             <Paper elevation={5}>
                 <Card className={classes.cardWrapper}>
                     <MoreHorizIcon onClick={handleClick} className={classes.menuBtn}/>
@@ -70,7 +69,6 @@ function NoteCard({ item, index }) {
                     </CardContent>
                 </Card>
             </Paper>
-            </Grid>
         </>
     )
 }

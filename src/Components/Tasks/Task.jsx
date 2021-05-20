@@ -42,7 +42,7 @@ function Task({ el, index, item, handleCheckbox, deleteTask }) {
             <ListItem className={classes.listItem} key={index} onMouseOver={() => setShow(true)} onMouseLeave={() => setShow(false)}>
                 <div className={classes.taskBox}>
                     <Checkbox checked={el.status} value={el.status} color='primary' onChange={(e) => handleCheckbox(e, index, item)}/>
-                    <Typography variant={el.status ? 'body1' : 'body2'} contentEditable='true' className={classes.text}>
+                    <Typography variant={el.status ? 'body1' : 'body2'} className={classes.text}>
                         {el.task}
                     </Typography>
                 </div>

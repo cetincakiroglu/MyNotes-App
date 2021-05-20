@@ -2,7 +2,6 @@ import './input.css' // modifies & overrides react-datetime css
 import "react-datetime/css/react-datetime.css";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
 import DateTime from 'react-datetime'
 import React, { useContext } from 'react'
 import { Paper, TextField, IconButton, Tooltip, Button, Drawer, Grid, Typography } from '@material-ui/core';
@@ -32,8 +31,8 @@ const useStyles = makeStyles({
 
 function EventDrawer (props) {
     const { openInputDrawer, setOpenInputDrawer } = props;
-    const {width} = useWindowDimensions();
-    const {eventName, startDate, setStartDate, endDate, setEndDate, eventLocation, insertEvent, summary, setSummary } = useContext(EventContext);
+    const { width } = useWindowDimensions();
+    const { eventName, startDate, setStartDate, endDate, setEndDate, eventLocation, insertEvent, summary, setSummary } = useContext(EventContext);
 
     // conditional styles
     const formStyles = makeStyles({
@@ -43,7 +42,6 @@ function EventDrawer (props) {
             minHeight:'600px',
         },
         inputWrapper:{
-            marginTop:'30px',
             height: width > 600 ? 'auto' : '300px'
         },
     })
@@ -103,8 +101,6 @@ function EventDrawer (props) {
                                     className={classes.date}
                                 />
                             </Grid>
-                            {/* start date */}
-                          
                                 <Grid item xs={6} md={6}>
                                     <Typography variant='body1'>Start Date</Typography>
                                 </Grid>
@@ -117,7 +113,6 @@ function EventDrawer (props) {
                                    isValidDate={checkDate}
                                    />
                                </Grid>
-                                    
                                 <Grid item xs={6} md={6}>
                                     <Typography variant='body1'>End Date</Typography>
                                 </Grid>
@@ -131,17 +126,6 @@ function EventDrawer (props) {
                                 </Grid>
                                
                             <Grid item xs={12}>
-                                {/* <TextField
-                                    onKeyDown={handleEnter}
-                                    id='event-summary' 
-                                    type='text'
-                                    label='Event Summary' 
-                                    inputRef={eventSummary}
-                                    rows={20}
-                                    multiline
-                                    variant='outlined'
-                                    className={classes.summary}
-                                /> */}
                                 <CKEditor 
                                     editor={ClassicEditor}
                                     data={summary}

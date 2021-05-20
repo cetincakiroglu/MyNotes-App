@@ -8,7 +8,7 @@ import { auth, googleProvider } from './../Auth/firebase'
 import { EventContext } from './../Context/EventContext';
 
 function Login() {
-    const { login, saveUserDB, email, password, classes, setUserInfo, userInfo } = useContext(AuthContext);
+    const { login, saveUserDB, email, password, classes, setUserInfo } = useContext(AuthContext);
     const { getCalendar } = useContext(EventContext);
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
@@ -43,7 +43,6 @@ function Login() {
             const firebaseCreds = await auth.signInWithCredential(creds);
             saveUserDB(firebaseCreds.user.uid, user);
             setUserInfo(firebaseCreds);
-            console.log('USERINFO', userInfo)
             sessionStorage.setItem('UID', JSON.stringify(firebaseCreds.user.uid))
             // redirect user
             setMessage(`Signed in with Google`)

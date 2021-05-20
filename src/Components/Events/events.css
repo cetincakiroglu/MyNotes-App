@@ -1,11 +1,4 @@
-
-html,
-body,
-body > div { /* the react root */
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300&display=swap");
 
 h2 {
   margin: 0;
@@ -22,34 +15,60 @@ li {
   padding: 0;
 }
 
-b { /* used for event dates/times */
+b {
+  /* used for event dates/times */
   margin-right: 3px;
+  line-break: break-all !important;
 }
 
-.demo-app {
+.calendar {
   display: flex;
-  min-height: 100%;
-  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+  min-height: 80%;
   font-size: 14px;
+  width: 100%;
 }
 
-.demo-app-sidebar {
-  width: 300px;
-  line-height: 1.5;
-  background: #eaf9ff;
-  border-right: 1px solid #d3e2e8;
-}
-
-.demo-app-sidebar-section {
-  padding: 2em;
-}
-
-.demo-app-main {
+.calendar-main {
   flex-grow: 1;
-  padding: 3em;
+}
+/* TODO: multiply event colors */
+.calendar-event {
+  width:100%;
+  background: #77cb0150;
+  z-index: 9999;
+  border-radius: 5px;
+  padding: 1px;
+  color: rgba(238, 238, 238, 0.8);
 }
 
-.fc { /* the calendar root */
-  max-width: 1100px;
+.fc {
+  /* the calendar root */
   margin: 0 auto;
+}
+
+.fc-button-primary {
+  background-color: transparent !important;
+  border-radius: 5px !important;
+  border: none !important;
+  transition: .2s ease-in-out !important;
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+.fc-button-primary:hover {
+  background-color: #76cb01 !important;
+  color: #242424 !important;
+}
+
+.fc-button-primary:focus {
+  box-shadow: none !important;
+}
+
+.fc-day-today {
+  background-color: #77cb0130 !important;
+}
+
+.fc table,
+.fc td,
+.fc th {
+  border-color: rgba(238, 238, 238, 0.30) !important;
 }
