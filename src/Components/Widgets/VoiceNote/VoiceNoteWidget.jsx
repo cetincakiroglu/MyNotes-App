@@ -5,7 +5,7 @@ import MicRoundedIcon from '@material-ui/icons/MicRounded';
 import { NoteContext } from '../../Context/NoteContext'
 import { AuthContext } from '../../Context/AuthContext'
 import { v4 as uuidv4 } from 'uuid'
-
+import alertify from 'alertifyjs'
 
 // to check if browser supports feature
 try{
@@ -56,6 +56,7 @@ function VoiceNoteWidget() {
     const handleSave = () => {
        // note object
         const newNote = {
+            created    :new Date(),
             id         : uuidv4(),
             ownerID    : currentUser ? currentUser.uid : 'unknown',
             ownerEmail : currentUser ? currentUser.uid : 'unknown',
@@ -67,10 +68,11 @@ function VoiceNoteWidget() {
         // update db
         notesRef.doc(newNote.id)
                 .set(newNote)
-                .catch(err => console.log(err));
+                .catch(err => alertify.error(`Failed to create voice note. Error: ${err}`));
          
         setVoiceNote('');
         setShowBtn(false)
+        alertify.success('Voice note created.')
     }
     
     const handleListen = () => {
@@ -126,7 +128,7 @@ function VoiceNoteWidget() {
                         <Typography variant='body2'>{voiceNote}</Typography>
                     </CardContent>
                 </Card>
-                <Button onClick={handleSave} color='primary' variant='contained' className={showBtn ? classes.buttonActive : classes.buttonDisabled}>Save</Button>
+                <Button onClick={() => handleSave()} color='primary' variant='contained' className={showBtn ? classes.buttonActive : classes.buttonDisabled}>Save</Button>
             </Paper>
        
         </>

@@ -107,7 +107,7 @@ export const NoteProvider = props => {
         } else if(noteId.join('') === '0'){
             // submit new note
             const newNote = {
-                created   : new Date(),
+                created    : new Date(),
                 id         : uuidv4(),
                 ownerID    : currentUser.uid ? currentUser.uid : 'unknown',
                 ownerEmail : currentUser ? currentUser.email : 'unknown',

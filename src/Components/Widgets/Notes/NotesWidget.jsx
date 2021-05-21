@@ -91,10 +91,10 @@ function NotesWidget() {
             let arr = notes.filter(note => note.categories.includes(select));
             console.log('ARR',arr)
             setItemsToRender(arr);
-            console.log(itemsToRender)
+            // console.log(itemsToRender)
         }else if(select === 'recent') {
             setItemsToRender(notes)
-            console.log('ITEMS TO RENDER', itemsToRender)
+            // console.log('ITEMS TO RENDER', itemsToRender)
         }
         
     }
