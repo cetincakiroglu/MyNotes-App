@@ -81,7 +81,7 @@ function Home() {
               <Typography className={classes.message} variant='h1'>{`Welcome, ${currentUser.displayName ? currentUser.displayName.split(' ')[0] : currentUser.email.split('@')[0]} !`}</Typography>
             </Grid>
             <Grid item xs={12} md={3}>
-            <Typography variant='h1' className={classes.date} align='center'>{moment(date).format(' h:mm A MMMM Do')}</Typography>
+            <Typography variant='h1' className={classes.date} align='center'>{moment(date).format('h:mm A, MMMM Do')}</Typography>
               <Typography variant='h1' className={classes.date} align='center'>{date.getFullYear()}</Typography>
             </Grid>
           </Grid>
