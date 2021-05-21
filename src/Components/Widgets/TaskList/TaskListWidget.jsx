@@ -39,7 +39,8 @@ function TaskListWidget() {
             margin:'0 20%'
         },
         linkButton:{
-            float:'right'
+            position:'absolute',
+            left:'93%',
         }
     })
     const classes = useStyles();
@@ -58,7 +59,6 @@ function TaskListWidget() {
                             </IconButton>
                         </Tooltip>  
                    </Grid>
-                    <Button color='primary' onClick={() => history.push('/Tasks')} className={classes.linkButton}>See All</Button>
                </Grid>
                 <Grid container spacing={3} className={classes.taskListContainer}>
                     {taskListInfo.length > 0 ? taskListInfo.map((item,index) => (
@@ -67,6 +67,7 @@ function TaskListWidget() {
                         </Grid>
                         )): <Typography variant='body1' className={classes.subtitle}>Create a task list.</Typography>}
                 </Grid>
+                <Button color='primary' onClick={() => history.push('/Tasks')} className={classes.linkButton}>See All</Button>
            </Paper>
         </>
     )
