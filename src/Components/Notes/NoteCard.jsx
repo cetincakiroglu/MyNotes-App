@@ -1,25 +1,31 @@
 import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Card, Typography, Divider, CardContent, Paper, Grid, Menu, MenuItem } from '@material-ui/core'
+import { Card, Typography, Divider, CardContent, Paper, Menu, MenuItem } from '@material-ui/core'
 import { NoteContext } from './../Context/NoteContext';
 import { CardContext } from './../Context/CardContext'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import alertify from 'alertifyjs'
 
-function NoteCard({ item, index }) {
-
-    const { setTextInput, setHeader, editNote, deleteNote } = useContext(NoteContext);
+function NoteCard(props) {
+    const { item } = props;
+    const { notesRef, setTextInput, setHeader, editNote, deleteNote } = useContext(NoteContext);
     const { classes } = useContext(CardContext);
     const [anchorEl, setAnchorEl] = useState(null);
     const history = useHistory();
-
-    const handleChange = (e, item) => {
+    
+    const saveEdit = (e, item) => {
         const editedNote = {...item}
-        editedNote.note = e.target.textContent;
-        // notesRef.doc(item.id)
-        //    .update(editedNote)
-        //    .catch(err => console.log(err))
-    }
+        const prevNote = item.note;
+        const newNote = e.target.innerHTML;
 
+        if(newNote !== prevNote) {
+            editedNote.note = newNote;
+            notesRef.doc(item.id)
+               .update(editedNote)
+               .catch(err => alertify.error(`Failed to save edit. Error: ${err}`))
+        }
+    }
+    
     const handleClick = (e) => {
         setAnchorEl(e.currentTarget)
     }
@@ -58,14 +64,16 @@ function NoteCard({ item, index }) {
                             {item.date}
                         </Typography>
                     </div>
-                    <CardContent className={classes.cardBody}>
+                    <CardContent>
                         <Divider />
-                        <div contentEditable='true' dangerouslySetInnerHTML={{__html: item.note}} className={classes.cardText} onMouseLeave={(e) => handleChange(e, item)}>
+                        <div contentEditable='true' dangerouslySetInnerHTML={{__html: item.note}} className={classes.cardText} onBlur={(e) => saveEdit(e, item)}>
                         </div>
-                            <Divider />
-                        <Typography variant='body1'>
-                            Categories: {item.categories && item.categories.map(item => (`#${item}`))}
-                        </Typography>
+                        <Divider />
+                        <div className={classes.cardFooter} >
+                            <Typography variant='body1'>
+                                Categories: {item.categories && item.categories.map(item => (`#${item}`))}
+                            </Typography>
+                        </div>
                     </CardContent>
                 </Card>
             </Paper>

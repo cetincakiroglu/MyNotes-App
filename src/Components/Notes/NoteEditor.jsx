@@ -1,9 +1,8 @@
-import './editor.css'
+
 import { Paper, Drawer, Tooltip, IconButton, Button, TextField, Typography, Grid } from '@material-ui/core'
 import React,{ useContext } from 'react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-// import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import { makeStyles } from '@material-ui/core/styles';
 import { NoteContext } from './../Context/NoteContext';
@@ -44,7 +43,7 @@ function NoteEditor(props) {
         },
         categoryInput:{
             width:'100%'
-        }
+        },
     })
 
     const classes = useStyles();
@@ -66,21 +65,15 @@ function NoteEditor(props) {
                             <form onSubmit={handleSubmit} className={classes.form}>
                                 <Grid container alignItems='center' spacing={3}>
                                     <Grid item xs={6}>
-                                        <TextField id='note-title' inputRef={title} variant='outlined' label='Title' className={classes.title}/>
+                                        <TextField id='note-title' inputRef={title} variant='standard' label='Title' className={classes.title}/>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <TextField 
                                         onKeyDown={addCategory}
                                         inputRef={category} id='note-category' variant='standard' label='Add Category' className={classes.categoryInput}/>
-                                        {/* TODO: Temporary disabled due to keyboard support. Fix */}
-                                        {/* <Tooltip title='Add Category'>
-                                            <IconButton color='primary' onClick={addCategory}>
-                                                <AddRoundedIcon />
-                                            </IconButton>
-                                        </Tooltip> */}
                                     </Grid>
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid item xs={12} className={classes.editorContainer}>
                                     <CKEditor
                                         editor={ClassicEditor}
                                         data={textInput}

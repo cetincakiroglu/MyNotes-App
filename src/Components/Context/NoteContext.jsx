@@ -2,9 +2,9 @@ import React, { createContext, useContext, useState, useRef, useEffect } from 'r
 import { v4 as uuidv4 } from 'uuid'
 import { db } from '../Auth/firebase'
 import { AuthContext } from '../Context/AuthContext'
+import alertify from 'alertifyjs'
 
 export const NoteContext = createContext();
-
 export const NoteProvider = props => {
     const [textInput, setTextInput] = useState('');
     const [notes, setNotes] = useState([]);
@@ -27,7 +27,7 @@ export const NoteProvider = props => {
     function getNotes(){
         if(currentUser){
             setDbLoading(true);
-            notesRef.where('ownerID', '==', currentUser.uid).onSnapshot(querySnapshot => {
+            notesRef.where('ownerID', '==', currentUser.uid).orderBy('created').onSnapshot(querySnapshot => {
             const items = [];
             querySnapshot.forEach(doc => {
                 items.push(doc.data())
@@ -40,10 +40,12 @@ export const NoteProvider = props => {
     
     // delete from db
     function deleteNote(note){
-        // console.log(obj);
         notesRef.doc(note.id)
            .delete()
-           .catch(err => console.error(err));
+           .catch(err => {
+            alertify.warning(`Failed to delete note. Error: ${err}`)
+           });
+        alertify.warning('Note Deleted')
     }
 
     const editNote = (obj) => {
@@ -99,11 +101,13 @@ export const NoteProvider = props => {
             notesArr.map(item => item.id === noteId.join('') ? item.note = editedNote.note : item )
             notesRef.doc(noteId.join(''))
                .update(editedNote)
-               .catch(err => console.error(err))
+               .catch(err => alertify.error(`Failed to update note. Error: ${err}`))
+            alertify.success('Note saved')
 
         } else if(noteId.join('') === '0'){
             // submit new note
             const newNote = {
+                created   : new Date(),
                 id         : uuidv4(),
                 ownerID    : currentUser.uid ? currentUser.uid : 'unknown',
                 ownerEmail : currentUser ? currentUser.email : 'unknown',
@@ -115,7 +119,8 @@ export const NoteProvider = props => {
             // save to db
             notesRef.doc(newNote.id)
                .set(newNote)
-               .catch(err => console.error(err))
+               .catch(err => alertify.error(`Failed to save note. Error: ${err}`))
+            alertify.success('Note saved')
         }
         // reset inputs
         title.current.value='';

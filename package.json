@@ -21,6 +21,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "admin": "^1.4.1",
+    "alertifyjs": "^1.13.1",
     "file": "^0.2.2",
     "firebase": "^8.5.0",
     "firebase-functions": "^3.13.2",

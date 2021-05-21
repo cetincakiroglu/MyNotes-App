@@ -11,6 +11,7 @@ import { EventContext } from '../Context/EventContext'
 import { AuthContext } from './../Context/AuthContext'
 import moment from 'moment'
 import EventModal from './EventModal'
+import alertify from 'alertifyjs'
 
 // MUI styles
 const useStyles = makeStyles({
@@ -122,9 +123,9 @@ function Events() {
             })
             request.execute((res) => {
                 if(res.error || res === false){
-                    console.log('error', res.error)
+                    alertify.error(`Failed to update event. Error ${res.error}`)
                 }else {
-                    console.log('EVENT UPDATED');
+                    alertify.success('Event updated.')
                 }
             })
         })
@@ -144,7 +145,7 @@ function Events() {
         try{
             const filteredData = await eventsRef
             .where('creator.email', '==', currentUser.email)
-            .orderBy('created')
+            .orderBy('start.dateTime','desc')
             .get();
             callback(filteredData.docs.map(doc => {
                 return(
@@ -159,7 +160,8 @@ function Events() {
             }))
 
         }catch(err){
-            console.error('Failed to retrieve data. Error:', err)
+            alertify.error(`Failed to retrieve data. Error: ${err}`)
+            console.error(err);
         }
     }
 
@@ -175,6 +177,11 @@ function Events() {
         )
     }
 
+    // restrict past dates
+    const restrictDates = (selectInfo) => {
+        if ( selectInfo.start > moment(new Date()).subtract(1, 'days') ) return true;
+        else return false;
+    }
     // All events sidebar
     const sideBar = (
         <Grid item xs={12} md={3}>
@@ -186,7 +193,9 @@ function Events() {
                 <Divider /> 
             </Grid>
             <Grid container spacing={3} className={classes.cardContainer}>
-                {eventList.length > 0 ? eventList.map(item => (
+                {eventList.length > 0 ? eventList
+                .sort((prev,next) => moment((prev.start.dateTime)).format('YYYYMMDD') > moment(new Date(next.start.dateTime)).format('YYYYMMDD'))
+                .map(item => (
                     <Grid item xs={12} key={item.id}>
                         <Paper elevation={5} className={classes.cardPaper}>
                             <Typography variant='body2'>{item.description}</Typography>
@@ -237,7 +246,7 @@ function Events() {
                                 eventContent={eventContent}
                                 eventClick={eventClick}
                                 eventDrop={handleDrag}
-                                // eventReceive={handleDrag}
+                                selectAllow={restrictDates}
                                 eventOverlap={false}
                                 dayMaxEventRows={3}
                                 handleWindowResize={true}

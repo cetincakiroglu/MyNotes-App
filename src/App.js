@@ -6,13 +6,13 @@ import Home from './Components/Home/Home'
 import Info from './Components/Info/Info'
 import Notes from './Components/Notes/Notes'
 import Tasks from './Components/Tasks/Tasks'
-import NewNote from './Components/Notes/NewNote'
 import Signup from './Components/Auth/Signup'
 import Login from './Components/Auth/Login'
 import Events from './Components/Events/Events'
 import ResetPassword from './Components/Auth/ResetPassword'
 import PrivateRoute from './Components/Auth/PrivateRoute';
 import { AuthContext } from './Components/Context/AuthContext';
+import LargeEditor from './Components/Editor/LargeEditor'
 
 // MUI custom theme
 const theme = createMuiTheme({
@@ -109,8 +109,7 @@ function App() {
                   <PrivateRoute exact path ='/Notes' component ={Notes}/>
                   <PrivateRoute exact path ='/Tasks' component ={Tasks}/>
                   <PrivateRoute exact path ='/Events' component={Events}/>
-                  <PrivateRoute exact path ='/New' component ={NewNote}/>
-                  <PrivateRoute path ='/New/:id' component ={NewNote}/>
+                  <PrivateRoute path ='/New/:id' component ={LargeEditor}/>
                 </Switch>
             </div>
           </ThemeProvider>

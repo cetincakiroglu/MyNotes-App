@@ -56,15 +56,14 @@ function EventCard({ item,index, deleteEvent, syncGoogle }) {
             <Card className={classes.card} onMouseOver={() => setShowBtn(true)} onMouseLeave={() => setShowBtn(false)}>
                 <Grid container justify='space-between' alignItems='center' direction={`${width > 500 ? 'row' : 'column'}`} spacing={1}>
                     <Grid item xs={width > 500 ? 4 : 12} className={width < 500 ? mobileClasses.text : null}>
-                        <Typography variant='body2'>Start: {moment(item.start.dateTime).format('MMMM Do, h:mm A')}</Typography>
-                        <Typography variant='body2'>End: {moment(item.end.dateTime).format('MMMM Do, h:mm A')}</Typography>
+                        <Typography variant='body2'>{moment(item.start.dateTime).format('MMMM Do, h:mm A')}</Typography>
+                        <Typography variant='body2'>{moment(item.end.dateTime).format('MMMM Do, h:mm A')}</Typography>
                     </Grid>
                     <Divider />
                     <Grid item xs={width > 500 ? 6 : 12} className={width < 500 ? mobileClasses.text : null}>
                         <Typography variant='h4' color='primary' noWrap>{item.description}</Typography>
                         <div dangerouslySetInnerHTML={{__html: item.summary}}></div>
                         <Typography variant='body1'><LocationOnIcon className={classes.locationIcon}/>{item.location}</Typography>
-                        {/* {item.htmlLink && <Typography variant='body1'><Link to={{ pathname: `${item.htmlLink}`}} target='_blank'>See on Google</Link></Typography>} */}
                     </Grid>
                     <Divider className={width > 500 ? classes.divider : mobileClasses.divider}/>
                     <Grid item xs={width > 500 ? 1 : 12} className={width < 500 ? mobileClasses.buttonContainer : null} align='center'>

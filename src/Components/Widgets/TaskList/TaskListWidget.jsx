@@ -1,14 +1,16 @@
 import React, { useContext } from 'react'
-import { Grid, Paper, Typography, IconButton, Tooltip } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
+import { Grid, Paper, Typography, IconButton, Tooltip, Button } from '@material-ui/core'
 import AddRoundedIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles'
 import { TaskContext } from './../../Context/TaskContext'
-import DisplayGroup from './DisplayGroup'
+import TaskCard from './TaskCard'
 import useWindowDimensions from '../../Hooks/useWindowDimensions'
 
 function TaskListWidget() {
-    const {width} = useWindowDimensions();
+    const { width } = useWindowDimensions();
     const { taskListInfo, setOpen } = useContext(TaskContext);
+    const history = useHistory();
 
     const useStyles = makeStyles({
         paper:{
@@ -19,7 +21,6 @@ function TaskListWidget() {
         },
         wrapper:{
             minHeight:'25em',
-            margin:'0 1em'
         },
         title:{
             margin:'20px 0px'
@@ -36,6 +37,10 @@ function TaskListWidget() {
         subtitle:{
             height:'325px',
             margin:'0 20%'
+        },
+        linkButton:{
+            position:'absolute',
+            left:'93.5%',
         }
     })
     const classes = useStyles();
@@ -58,10 +63,11 @@ function TaskListWidget() {
                 <Grid container spacing={3} className={classes.taskListContainer}>
                     {taskListInfo.length > 0 ? taskListInfo.map((item,index) => (
                         <Grid item xs={12} md={3} key={index}>
-                            <DisplayGroup item={item} index={index} key={index}/>
+                            <TaskCard item={item} index={index} key={index}/>
                         </Grid>
                         )): <Typography variant='body1' className={classes.subtitle}>Create a task list.</Typography>}
                 </Grid>
+                <Button color='primary' onClick={() => history.push('/Tasks')} className={classes.linkButton}>See All</Button>
            </Paper>
         </>
     )

@@ -6,6 +6,7 @@ import { AuthContext } from './../Context/AuthContext';
 import {GoogleLogin} from 'react-google-login'
 import { auth, googleProvider } from './../Auth/firebase'
 import { EventContext } from './../Context/EventContext';
+import alertify from 'alertifyjs'
 
 function Login() {
     const { login, saveUserDB, email, password, classes, setUserInfo } = useContext(AuthContext);
@@ -25,8 +26,10 @@ function Login() {
             await login(email.current.value, password.current.value);
             setMessage('Login successful')
             history.push('/')
+            alertify.success(message)
         }catch(err){
             setError(`Failed to log in ${err}`)
+            alertify.error(error)
         }
         setLoading(false)
     }
@@ -53,6 +56,7 @@ function Login() {
         }catch(err){
             console.error(err);
             setError('Failed to sign in')
+            alertify.error(error)
         }
         setLoading(false);
     }

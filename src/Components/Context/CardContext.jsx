@@ -14,7 +14,7 @@ export const CardProvider = props => {
             fontSize:'14px !important'
         },
         header:{
-            padding:'1em',
+            padding:'5px 20px 5px 20px',
             textOverflow:'ellipsis',
             whiteSpace:'nowrap'
         },
@@ -30,12 +30,12 @@ export const CardProvider = props => {
             WebkitBoxOrient: 'vertical',
             display: '-webkit-box',
             maxHeight:'15em',
-          
         },
         cardText:{
-            margin:'1em 0',
+            padding:'5px',
+            margin:'5px 0px',
             lineHeight:'1.4rem',
-            height:'200px',
+            height:'330px',
            '&:focus-visible':{
                outline:'none'
            },
@@ -47,7 +47,6 @@ export const CardProvider = props => {
         },
         cardFooter:{
             fontSize:'14px !important',
-            padding:'0em 1em'
         },
         listItem:{
             display:'flex',
@@ -56,10 +55,11 @@ export const CardProvider = props => {
             margin:'0'
         },
         list:{
-            height:'17em',
+            height:'340px',
             overflowY:'scroll',
             overflowX:'hidden',
-            scrollbarWidth:'none'
+            scrollbarWidth:'none',
+            padding:'0 !important',
         },
         btnDisabled:{
             display:'none'

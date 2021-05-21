@@ -37,7 +37,7 @@ const useStyles = makeStyles({
     },
     button:{
         width:'100px',
-        margin:'4em auto 0 auto',
+        margin:'15px auto 0 auto',
         display:'block'
     },
     buttonDisabled:{
@@ -64,7 +64,7 @@ function NewTaskDrawer() {
     // conditional styling
     const listStyles = makeStyles({
         taskList:{
-            height:width > 500 ? '500px' : '400px',
+            height:width > 500 ? '400px' : '300px',
             overflowY:'scroll',
             overflowX:'hidden',
             scrollbarWidth:'none',

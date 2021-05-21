@@ -34,16 +34,21 @@
 }
 
 .ck-content {
-    min-height: 400px;
+    height:400px !important;
     background-color: #242424 !important;
+    border:1px transparent !important;
+}
+
+.ck-focused{
+    border:1px solid #76bc01 !important;
 }
 
 .ck-toolbar {
-    color:#eee !important;
+    color:rgba(238, 238, 238, 0.384) !important;
 }
 
 .ck-toolbar__items {
-    color: #eee !important;
+    color: rgba(238, 238, 238, 0.075) !important;
 }
 
 .ck input.ck-input.ck-input-text {

@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
 import { withRouter, useHistory } from 'react-router-dom'
-import { Drawer, Collapse, Divider, Avatar, CardHeader, ListItem, List, ListItemText, Button, Hidden } from '@material-ui/core'
+import { Drawer, Collapse, Divider, Avatar, CardHeader, ListItem, List, ListItemText, Button, Hidden, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { AuthContext } from './../Context/AuthContext';
 import { NoteContext } from './../Context/NoteContext';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 // conditional & responsive styling
 const drawerWidth = 230;
@@ -33,7 +34,7 @@ const useStyles = makeStyles(theme => ({
         height:'75%'
     },
     buttonContainer:{
-        margin:'50px auto'
+        margin:'auto'
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -47,6 +48,11 @@ const useStyles = makeStyles(theme => ({
           marginLeft: drawerWidth
         }
       },
+    icon:{
+        width:'18px',
+        height:'18px',
+        verticalAlign:'text-bottom'
+    }
 }))
 
 function Nav() {
@@ -153,6 +159,7 @@ function Nav() {
                         />
                         <Divider />
                             {menu}
+                        <Typography variant='caption' align='center'>Made with <FavoriteIcon color='primary' className={classes.icon}/> by Çetin Çakıroğlu. </Typography>
                         <Divider />
                         <div className={classes.buttonContainer}>
                             <Button onClick={handleLogOut} variant='outlined' color='secondary' fullWidth={true}>Log out</Button> 

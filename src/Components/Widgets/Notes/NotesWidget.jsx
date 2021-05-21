@@ -1,7 +1,8 @@
 import '@splidejs/splide/dist/css/themes/splide-default.min.css';
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Paper, Grid, Typography, Card, CardContent, IconButton, Tooltip, Divider } from '@material-ui/core'
+// eslint-disable-next-line
+import { Button, Paper, Grid, Typography, Card, CardContent, IconButton, Tooltip, Divider, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { NoteContext } from './../../Context/NoteContext'
 import { Splide, SplideSlide } from '@splidejs/react-splide'
@@ -10,10 +11,10 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded'
 
 const useStyles = makeStyles({
     paper:{
+        position:'relative',
         maxWidth:'100%',
         padding:'0 15px',
         backgroundColor:'#161616',
-        position:'relative',
         minHeight:'450px',
     },
     noteCard:{
@@ -31,11 +32,10 @@ const useStyles = makeStyles({
         display:'flex',
         flexWrap:'nowrap',
         flexDirection:'column',
-        height:'60px',
-        padding:'5px',
+        padding:'2px',
     },
     cardContent:{
-        margin:'10px 0px',
+        margin:'5px 0px',
         lineHeight: '1.2rem',
         maxHeight: '100%',
         WebkitBoxOrient: 'vertical',
@@ -43,10 +43,11 @@ const useStyles = makeStyles({
         textOverflow:'ellipsis',
         overflow:'hidden',
         WebkitLineClamp: '8',
-        fontSize:'12px',
+        fontSize:'14px',
     },
     subheader:{
-        alignSelf:'flex-end'
+        alignSelf:'flex-end',
+        paddingRight:'10px'
     },
     header:{
         padding:'5px 10px ',
@@ -63,15 +64,47 @@ const useStyles = makeStyles({
     subtitle:{
         height:'325px',
         margin:'auto'
+    },
+    linkButton:{
+        position:'absolute',
+        left:'93.5%'
+    },
+    divider:{
+        maxWidth:'95%',
+        margin:'0 auto'
     }
 })
 
 function NotesWidget() {
     const { width } = useWindowDimensions(); // listen screen size change.
     const classes = useStyles();
-    const { notes, setTextInput, setHeader, openDrawer } = useContext(NoteContext);
+    // eslint-disable-next-line
+    const { notes, setTextInput, setHeader, openDrawer, setNotes, notesRef } = useContext(NoteContext);
     const history = useHistory();
+    const [select, setSelect] = useState('');
+    const [itemsToRender, setItemsToRender] = useState([]);
     
+    // filter by categories
+    const filterNotes = (e) => {
+        setSelect(e.target.value);
+        if(select !== 'recent'){
+            let arr = notes.filter(note => note.categories.includes(select));
+            console.log('ARR',arr)
+            setItemsToRender(arr);
+            console.log(itemsToRender)
+        }else if(select === 'recent') {
+            setItemsToRender(notes)
+            console.log('ITEMS TO RENDER', itemsToRender)
+        }
+        
+    }
+
+    // reset filtering
+    // eslint-disable-next-line
+    const resetFilter = () => {
+
+    }
+
     const openInLarge = (item) => {
         history.push(`/New/${item.id}`)
         setTextInput(item.note)
@@ -97,7 +130,27 @@ function NotesWidget() {
         clones: 0,
         height:325,
     }
+  
+    const allCategories = () => {
+        let arr = [];
+        notes.forEach(item => {
+            item.categories.map(item => arr.push(item))
+        })
+        arr = arr.filter((a,b) => a !== b);
+        return [...arr];
+    }
 
+    // eslint-disable-next-line
+    const categoryButtons = (
+        <FormControl component="fieldset">
+            <RadioGroup aria-label="gender" name="gender1" value={select} onChange={(e) => filterNotes(e)}>
+                {allCategories().map((item, index) => (
+                    <FormControlLabel key={index} value={item} control={<Radio color='primary' />} label={`#${item}`}/>
+                ))}
+                <FormControlLabel value='recent' control={<Radio color='primary' />} label='Recent'/>
+            </RadioGroup>
+        </FormControl>
+    )
     return (
         <>  
         <Paper className={classes.paper} elevation={5}>
@@ -112,7 +165,11 @@ function NotesWidget() {
                         </IconButton>
                     </Tooltip>
                 </Grid>
+                {/* <Grid item>
+                    {categoryButtons}
+                </Grid> */}
                 <Grid item xs={12} >
+                    {/* CAROUSEL STARTS*/}
                     <Splide options={splideOptions}>
                         {notes.length > 0 ? notes.map((item,index) =>(
                             <SplideSlide key={index}>
@@ -121,7 +178,7 @@ function NotesWidget() {
                                         <Typography variant='caption' className={classes.subheader}>{item.date}</Typography>
                                         <Typography variant='h4'className={classes.header}> {item.title ? item.title : 'Untitled Note'} </Typography>
                                     </div>
-                                        <Divider />
+                                        <Divider className={classes.divider}/>
                                     <CardContent >
                                         <div className={classes.cardContent} dangerouslySetInnerHTML = {{__html: item.note}}>
                                        
@@ -131,8 +188,10 @@ function NotesWidget() {
                             </SplideSlide>
                         )): <Typography variant='body1' className={classes.subtitle}>Create a note.</Typography>}
                     </Splide>
+                    {/* CAROUSEL ENDS*/}
                 </Grid>
             </Grid>
+            <Button color='primary' onClick={() => history.push('/Notes')} className={classes.linkButton}>See All</Button>
         </Paper>
         </>
     )

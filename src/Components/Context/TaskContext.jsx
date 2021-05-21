@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useRef, useEffect } from 'r
 import { v4 as uuidv4 } from 'uuid' 
 import { db } from '../Auth/firebase'
 import { AuthContext } from '../Context/AuthContext';
+import alertify from 'alertifyjs'
 
 export const TaskContext = createContext();
 
@@ -24,7 +25,7 @@ export const TaskProvider = props => {
     function getTasks(){
         if(currentUser){
             setDbLoading(true);
-            tasksRef.where('ownerID', '==', currentUser.uid).onSnapshot(querySnapshot => {
+            tasksRef.where('ownerID', '==', currentUser.uid).orderBy('created').onSnapshot(querySnapshot => {
                 const items = [];
                 querySnapshot.forEach(doc => {
                     items.push(doc.data())
@@ -51,8 +52,6 @@ export const TaskProvider = props => {
                 setTaskList([...arr]);
                 console.log('TASKS',taskList)
                 taskListItem.current.value='';
-            } else{
-                console.log('NO')
             }
         }
     }
@@ -83,7 +82,8 @@ export const TaskProvider = props => {
     function deleteTaskList(taskList) {
         tasksRef.doc(taskList.id)
                 .delete()
-                .catch(err => console.log(err));
+                .catch(err => alertify.error(`Failed to delete task list. Error: ${err}`));
+        alertify.warning('Task list deleted.')
     }
 
     // delete single task & update db
@@ -110,6 +110,7 @@ export const TaskProvider = props => {
         const tasks = [...taskList];
         //create new task list object
        const newTaskList = {
+        created   : new Date(),
         id        : uuidv4(),
         ownerID   : currentUser ? currentUser.uid : 'unknown',
         ownerEmail: currentUser.email ? currentUser.email : 'unknown',
@@ -122,7 +123,8 @@ export const TaskProvider = props => {
         // add to db
         tasksRef.doc(newTaskList.id)
                 .set(newTaskList)
-                .catch(err => console.log(err));
+                .catch(err => alertify.error(`Failed to save task list. Error: ${err}`));
+        alertify.success('Task list saved.')
 
         // reset values
         setTaskList([]);

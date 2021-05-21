@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react'
+import '../Editor/editor.css'
 import { Typography, Paper, Grid, IconButton, Hidden } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import InstantNote from '../Widgets/InstantNote/InstantNote'
@@ -76,11 +77,11 @@ function Home() {
               </IconButton>
             </Hidden>
           <Grid container className={classes.header}>
-            <Grid item xs={12} md={10}>
+            <Grid item xs={12} md={9}>
               <Typography className={classes.message} variant='h1'>{`Welcome, ${currentUser.displayName ? currentUser.displayName.split(' ')[0] : currentUser.email.split('@')[0]} !`}</Typography>
             </Grid>
-            <Grid item xs={12} md={2}>
-            <Typography variant='h1' className={classes.date} align='center'>{moment(date).format(' h:mm A, MMMM Do')}</Typography>
+            <Grid item xs={12} md={3}>
+            <Typography variant='h1' className={classes.date} align='center'>{moment(date).format(' h:mm A MMMM Do')}</Typography>
               <Typography variant='h1' className={classes.date} align='center'>{date.getFullYear()}</Typography>
             </Grid>
           </Grid>

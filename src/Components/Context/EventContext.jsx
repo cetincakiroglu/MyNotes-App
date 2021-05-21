@@ -2,6 +2,7 @@ import React, { createContext, useRef, useState, useContext, useEffect } from 'r
 import { db } from '../Auth/firebase'
 import { AuthContext } from './AuthContext';
 import moment from 'moment'
+import alertify from 'alertifyjs'
 
 export const EventContext = createContext();
 export const EventProvider = props => {
@@ -26,7 +27,6 @@ export const EventProvider = props => {
     // delete from db
     const deleteEvent = (eventObj) => {
         const event_id = eventObj.id.split('_',1).join('');
-        console.log(event_id)
         gapi.client.load('calendar', 'v3', () => {
             var request = gapi.client.calendar.events.delete({
                 'calendarId': 'primary',
@@ -34,9 +34,9 @@ export const EventProvider = props => {
             });
             request.execute((res) => {
                 if(res.error || res === false){
-                    console.log('error', res.error)
+                    alertify.error(`Failed to remove event. Error: ${res.error}`)
                 }else {
-                    console.log('EVENT DELETED');
+                    alertify.warning('Event Deleted')
                 }
             })
         })
@@ -80,7 +80,7 @@ export const EventProvider = props => {
     function getEvents(){
         if(currentUser){
             setDbLoading(true);
-            eventsRef.where('creator.email', '==', currentUser.email).onSnapshot(querySnapshot => {
+            eventsRef.where('creator.email', '==', currentUser.email).orderBy('created','desc').onSnapshot(querySnapshot => {
                 const items = [];
                 querySnapshot.forEach(doc => {
                    items.push(doc.data())
@@ -129,21 +129,20 @@ export const EventProvider = props => {
             eventsRef.doc(event_id)
                      .set(event.result)
                      .catch(err => console.log(err));
-                     console.log('EVENT CREATED', event)
-                     console.log('EVENT ID', event.result.id)
         })
         // reset inputs
         setStartDate('');
         setEndDate('');
+        setSummary('');
         eventName.current.value = '';
         // eventSummary.current.value = '';
         eventLocation.current.value = '';
         // call calendar API to refresh
         getCalendar();
+        // alert user
+        alertify.success('Event Created')
     }
-
-    // get Events collection from db
-   
+       
     const value={
         getCalendar,
         initClient,

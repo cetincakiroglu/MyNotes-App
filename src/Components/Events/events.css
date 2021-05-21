@@ -70,5 +70,5 @@ b {
 .fc table,
 .fc td,
 .fc th {
-  border-color: rgba(238, 238, 238, 0.30) !important;
+  border-color: rgba(238, 238, 238, 0.1) !important;
 }

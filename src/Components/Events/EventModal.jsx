@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Dialog, DialogActions, DialogContent,  DialogTitle, Button, Typography,Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import moment from 'moment'
+import alertify from 'alertifyjs'
 
 const useStyles = makeStyles({
 
@@ -23,7 +24,9 @@ function EventModal(props) {
     const classes = useStyles();
 
     const removeEvent = (event) => {
-        const { id, description } = event;
+        const event_id = event.id;
+        const description = event.description;
+
         // eslint-disable-next-line
         if(confirm(`Are you sure to delete ${description}, this action cannot be undone.`)){
             gapi.load('client', () => {
@@ -36,18 +39,20 @@ function EventModal(props) {
                 gapi.client.load('calendar', 'v3', () => {
                     var request = gapi.client.calendar.events.delete({
                         'calendarId': 'primary',
-                        'eventId': id,
+                        'eventId': event_id,
                     });
                     request.execute((res) => {
                         if(res.error || res === false){
                            setError(res.error)
+                           alertify.error(error)
                         }else {
-                            setMessage('Event Deleted')
+                            setMessage('Event Deleted.')
+                            alertify.warning('Event Deleted')
                         }
                     })
                 })
             })
-            eventsRef.doc(id.split('_').splice(0,1).join(''))
+            eventsRef.doc(event_id.split('_').splice(0,1).join(''))
             .delete()
             .catch(err => {
                 console.error(err)
@@ -58,6 +63,8 @@ function EventModal(props) {
     }
     return (
         <>
+        {error && <Alert severity='error'><AlertTitle>Error</AlertTitle>{error}</Alert>}
+        {eventList.filter(item => item.id === eventId.slice(0,1).join()).map(event => (
             <Dialog
             open={showModal}
             onClose={closeModal}
@@ -66,8 +73,6 @@ function EventModal(props) {
             >
             <DialogTitle id="alert-dialog-title">
             </DialogTitle>
-            {error && <Alert severity='error'><AlertTitle>Error</AlertTitle>{error}</Alert>}
-            {eventList.filter(item => item.id === eventId.slice(0,1).join()).map(event => (
             <TableContainer component={DialogContent} key={event.id}>
                 <Typography align='center' variant='h2' color='primary'>{event.description}</Typography>
                 <Table className={classes.table} aria-label="simple table">
@@ -77,7 +82,7 @@ function EventModal(props) {
                         <TableCell align="right">{moment(event.start.dateTime).format('MMMM Do, h:mm A')}</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell>End Time</TableCell>
+                        <TableCell>End Time:</TableCell>
                         <TableCell align="right">{moment(event.end.dateTime).format('MMMM Do, h:mm A')}</TableCell>
                     </TableRow>
                     <TableRow>
@@ -105,9 +110,8 @@ function EventModal(props) {
                     </TableBody>
                 </Table>
             </TableContainer>
-            ))}
             <DialogActions>
-            <Button onClick={() => removeEvent()} color="secondary">
+            <Button onClick={() => removeEvent(event)} color="secondary">
                 Delete
             </Button>
             <Button onClick={closeModal} color="primary">
@@ -115,6 +119,7 @@ function EventModal(props) {
             </Button>
             </DialogActions>
         </Dialog>
+                ))}
         </>
     )
 }

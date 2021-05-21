@@ -15,10 +15,15 @@ const useStyles = makeStyles({
     marginBottom:'50px'
   },
   container:{
-    padding:'25px'
+    overflowX:'hidden',
+    overflowY:'scroll',
+    scrollbarWidth:'none',
+    maxHeight:'80vh',
+    padding:'30px',
   },
   iconContainer:{
     display:'flex',
+    maxWidth:'300px'
   },
   title:{
     marginBottom:'50px',
@@ -35,7 +40,7 @@ function Info() {
     return (
         <>
         <Paper className={classes.paper}>
-          <Grid container className={classes.container} alignContent='center' direction='column'>
+          <Grid container className={classes.container} direction='column'>
             <Grid item xs={6} className={classes.title}>
               <Typography variant='h3' color='primary'>About Us</Typography>
             </Grid>

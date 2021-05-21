@@ -5,7 +5,8 @@ import { Grid, Paper, Typography, Divider, Card, CardContent, List } from '@mate
 import Task from './Task'
 import DeleteCardBtn from './DeleteCardBtn';
 
-function TaskCard({ item, deleteTaskList, deleteTask }) {
+function TaskCard(props) {
+    const { item, deleteTask, deleteTaskList } = props;
     const { handleCheckbox } = useContext(TaskContext);
     const { classes } = useContext(CardContext);
     const [showBtn, setShowBtn] = useState(false);
@@ -29,15 +30,15 @@ function TaskCard({ item, deleteTaskList, deleteTask }) {
                                 <Task key={index} el={el} index={index} item={item} handleCheckbox={handleCheckbox} deleteTask={deleteTask}/>
                             ))}
                         </List>
-                    </CardContent>
-                        <div className={classes.cardFooter}>
-                        <Divider />
-                            <Typography variant='body1'>
-                                Categories: {item.categories.map((category,index) => (
-                                   `#${category}`
+                    <div className={classes.cardFooter}>
+                    <Divider />
+                        <Typography variant='body1'>
+                            Categories: {item.categories.map((category,index) => (
+                                `#${category}`
                                 ))}
-                            </Typography>
-                        </div>
+                        </Typography>
+                    </div>
+                    </CardContent>
                 </Card>
             </Paper>
         </Grid>

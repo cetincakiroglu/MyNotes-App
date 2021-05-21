@@ -1,11 +1,11 @@
 import React,{ useState, useContext } from 'react'
 import { Grid, Paper, Typography, TextField, Button } from '@material-ui/core'
 import { AuthContext } from './../Context/AuthContext';
-
+import alertify from 'alertifyjs';
 
 function ResetPassword() {
     
-    const { resetPassword, email, setError, classes } = useContext(AuthContext);
+    const { resetPassword, email, setError, classes, error } = useContext(AuthContext);
     const [loading, setLoading] = useState(false)
     // eslint-disable-next-line
     const [message, setMessage] = useState('')
@@ -19,9 +19,11 @@ function ResetPassword() {
             setLoading(true)
             await resetPassword(email.current.value);
             setMessage('Check your email for further instructions')
+            alertify.success(message)
         }catch(err){
             console.log(err);
             setError('Failed to reset password')
+            alertify.error(error)
         }
         setLoading(false)
     }

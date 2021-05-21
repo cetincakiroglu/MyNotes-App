@@ -14,4 +14,22 @@ h1, h2, h3, h4, h5, h6, p, span, li, a {
   overflow-x:hidden !important;
   width:none !important;
 }
+
+.alertify-notifier .ajs-message.ajs-error{
+  color: #242424;
+  font-family:'Montserrat', sans-serif;
+  background-color: #242424;
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0,5);
+  background-color:#F84F31;
+}
+.alertify-notifier .ajs-message.ajs-success {
+  color: #242424;
+  font-family:'Montserrat', sans-serif;
+  background: #23C552;
+}
+.alertify-notifier .ajs-message.ajs-warning {
+  color: #242424;
+  font-family:'Montserrat', sans-serif;
+  background-color:#F8DF77;
+}
 /*# sourceMappingURL=main.css.map */

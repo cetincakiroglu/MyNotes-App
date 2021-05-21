@@ -33,7 +33,8 @@ const useStyles = makeStyles({
     }
 })
 
-function Task({ el, index, item, handleCheckbox, deleteTask }) {
+function Task(props) {
+    const { el, index, item, handleCheckbox, deleteTask } = props;
     const [show, setShow] = useState(false);
 
     const classes = useStyles();
