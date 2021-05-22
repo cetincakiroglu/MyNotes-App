@@ -9,6 +9,7 @@ export const TaskContext = createContext();
 export const TaskProvider = props => {
     const [taskListInfo, setTaskListInfo] = useState([]);
     const [taskList, setTaskList] = useState([]);
+    const [allLists, setAllLists] = useState([]); 
     const [categoryList, setCategoryList] = useState([]);
     const [open, setOpen] = useState(false);
     // eslint-disable-next-line
@@ -32,6 +33,7 @@ export const TaskProvider = props => {
                 });
                 setDbLoading(false);
                 setTaskListInfo(items);
+                setAllLists(items);
             })
         }
     }
@@ -96,7 +98,7 @@ export const TaskProvider = props => {
     }
 
     // handle checkbox & update db
-    const handleCheckbox = (e,num, taskList) => {
+    const handleCheckbox = (e, num, taskList) => {
        let newList = {...taskList}
        newList.tasklist[num].status = e.target.checked;
        tasksRef.doc(taskList.id)
@@ -151,7 +153,9 @@ export const TaskProvider = props => {
         category,
         taskListItem,
         open,
-        setOpen
+        setOpen,
+        allLists,
+        tasksRef
     }
 
     //listen to db

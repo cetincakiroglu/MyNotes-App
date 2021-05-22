@@ -64,6 +64,7 @@ const useStyles = makeStyles({
         margin:'0 auto'
     }
 })
+
 function TaskCard(props) {
     const { item, index } = props;
     const classes = useStyles();

@@ -1,16 +1,19 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Grid, Paper, Typography, IconButton, Tooltip, Button } from '@material-ui/core'
+import { Grid, Paper, Typography, IconButton, Tooltip, Button, FormControl, FormControlLabel, Radio, RadioGroup } from '@material-ui/core'
 import AddRoundedIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles'
 import { TaskContext } from './../../Context/TaskContext'
+import { AuthContext } from './../../Context/AuthContext'
 import TaskCard from './TaskCard'
 import useWindowDimensions from '../../Hooks/useWindowDimensions'
 
 function TaskListWidget() {
     const { width } = useWindowDimensions();
-    const { taskListInfo, setOpen } = useContext(TaskContext);
+    const { taskListInfo, setTaskListInfo, setOpen, allLists, tasksRef } = useContext(TaskContext);
+    const { currentUser } = useContext(AuthContext);
     const history = useHistory();
+    const [select, setSelect] = useState('recent')
 
     const useStyles = makeStyles({
         paper:{
@@ -41,10 +44,62 @@ function TaskListWidget() {
         linkButton:{
             position:'absolute',
             left:'93%',
+        },
+        radioGroup:{
+            display:'flex',
+            flexDirection:'row',
+            marginLeft:'auto'
+        },
+        categories:{
+            marginLeft:'auto'
         }
     })
     const classes = useStyles();
     
+    // category filter
+    // TODO: same approach used 4 times. DRY violation. Refactor with class.
+    const arr = [];
+    allLists.map(list =>list.categories.map(category => !(arr.includes(category)) ? arr.push(category) : category));
+    const filterLists = (e) => {
+        const param = e.target.value;
+        if(currentUser) {
+            if(param !== 'recent'){
+                tasksRef.where('ownerID', '==', currentUser.uid)
+                .where('categories', 'array-contains', param)
+                .onSnapshot(querySnapshot => {
+                    const items = [];
+                    querySnapshot.forEach(doc => {
+                        items.push(doc.data());
+                    })
+                    setTaskListInfo(items);
+                    setSelect(param);
+                })
+            } else if(param === 'recent') {
+                tasksRef.where('ownerID', '==', currentUser.uid)
+                .orderBy('created')
+                .onSnapshot(querySnapshot => {
+                    const items = [];
+                    querySnapshot.forEach(doc => {
+                        items.push(doc.data());
+                    })
+                    setTaskListInfo(items);
+                    setSelect(param);
+                })
+            }
+        }
+    }
+    // select group
+    const categoryButtons = (
+         <FormControl component="fieldset" className={classes.radioGroup}>
+            <RadioGroup aria-label="gender" name="gender1" className={classes.radioGroup} value={select} onChange={filterLists}>
+                {arr.splice(0,7).map((category, index) => (
+                    <FormControlLabel key={index} value={category} control={<Radio color='primary' />} label={`#${category}`}/>
+                    ))}
+                    <FormControlLabel value='recent' control={<Radio color='primary' />} label='Recent'/>
+            </RadioGroup>
+        </FormControl>
+    )
+
     return (
         <>
            <Paper className={classes.paper} elevation={5}>
@@ -59,6 +114,12 @@ function TaskListWidget() {
                             </IconButton>
                         </Tooltip>  
                    </Grid>
+                   <Grid item xs={8} alignSelf='end' className={classes.categories}>
+                    {categoryButtons}
+                   </Grid>
+                   <Grid item xs={1}>
+                        <Button color='primary' onClick={() => history.push('/Tasks')} className={classes.categories}>See All</Button>
+                   </Grid>
                </Grid>
                 <Grid container spacing={3} className={classes.taskListContainer}>
                     {taskListInfo.length > 0 ? taskListInfo.map((item,index) => (
@@ -67,7 +128,6 @@ function TaskListWidget() {
                         </Grid>
                         )): <Typography variant='body1' className={classes.subtitle}>Create a task list.</Typography>}
                 </Grid>
-                <Button color='primary' onClick={() => history.push('/Tasks')} className={classes.linkButton}>See All</Button>
            </Paper>
         </>
     )

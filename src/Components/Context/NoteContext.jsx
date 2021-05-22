@@ -8,6 +8,7 @@ export const NoteContext = createContext();
 export const NoteProvider = props => {
     const [textInput, setTextInput] = useState('');
     const [notes, setNotes] = useState([]);
+    const [allNotes, setAllNotes]=useState([]);
     const [categoryList, setCategoryList] = useState([]);
     const [open, setOpen] = useState(false);
     const [noteId, setNoteId] = useState([0]); // used in handleSubmit to determine edit || create new note.
@@ -27,13 +28,14 @@ export const NoteProvider = props => {
     function getNotes(){
         if(currentUser){
             setDbLoading(true);
+            const items =[];
             notesRef.where('ownerID', '==', currentUser.uid).orderBy('created').onSnapshot(querySnapshot => {
-            const items = [];
             querySnapshot.forEach(doc => {
                 items.push(doc.data())
                 });
                 setDbLoading(false);
                 setNotes(items);
+                setAllNotes(items);
             })
         }
     }
@@ -159,7 +161,8 @@ export const NoteProvider = props => {
         addCategory, 
         noteId, 
         setNoteId,
-        openDrawer 
+        openDrawer,
+        allNotes,
     }
     
     return (
