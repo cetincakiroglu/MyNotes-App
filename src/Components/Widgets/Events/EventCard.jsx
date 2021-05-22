@@ -5,30 +5,10 @@ import DeleteBtn from './Buttons/DeleteBtn'
 import useWindowDimensions from './../../Hooks/useWindowDimensions';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import moment from 'moment'
+import { cardStyles } from './styles'
 
-const useStyles = makeStyles({
-    card:{
-        minHeight:'100px',
-        padding:'10px',
-        backgroundColor:'#242424',
-        transition:'.1s ease-in-out',
-        '&:hover':{
-            transform:'translateY(-5px)'
-        },
-    },
-    locationIcon:{
-        transform:'scale(0.8)',
-        verticalAlign:'bottom'
-    },
-    divider:{
-        display:'none'
-    },
-    container:{
-        margin:'auto'
-    }
-})
-
-function EventCard({ item,index, deleteEvent, syncGoogle }) {
+function EventCard(props) {
+    const { item, deleteEvent } = props;
     const [showBtn, setShowBtn] = useState(false);
     const { width } = useWindowDimensions();
     
@@ -49,7 +29,7 @@ function EventCard({ item,index, deleteEvent, syncGoogle }) {
     })
     
     const mobileClasses = mobileStyles();
-    const classes = useStyles();
+    const classes = cardStyles();
 
     return (
         <>

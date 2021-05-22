@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Card, Typography, Divider, CardContent, Paper, Menu, MenuItem } from '@material-ui/core'
 import { NoteContext } from './../Context/NoteContext';
-import { CardContext } from './../Context/CardContext'
+import { CardContext } from './../Context/CardContext'// styles
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import alertify from 'alertifyjs'
 

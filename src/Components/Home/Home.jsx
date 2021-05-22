@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import '../Editor/editor.css'
 import { Typography, Paper, Grid, IconButton, Hidden } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
 import InstantNote from '../Widgets/InstantNote/InstantNote'
 import NotesWidget from '../Widgets/Notes/NotesWidget'
 import TaskListWidget from '../Widgets/TaskList/TaskListWidget';
@@ -15,37 +14,7 @@ import { EventContext } from './../Context/EventContext'
 import VoiceNoteWidget from '../Widgets/VoiceNote/VoiceNoteWidget'
 import MenuIcon from '@material-ui/icons/Menu';
 import moment from 'moment'
-
-const useStyles = makeStyles({
-  paper:{
-    position:'relative',
-    height:'100vh',
-    width:'100%',
-    borderRadius:'0',
-    overflowX:'hidden',
-    overflowY:'scroll',
-    scrollbarWidth:'none'
-  },
-  widgetWrapper:{
-    padding:'50px'
-  },
-  header:{
-    margin:'20px 50px',
-  },
-  alert:{
-    position:'absolute',
-    width:'100%'
-  },
-  date:{
-    opacity:'0.1',
-    marginRight:'50px'
-  },
-  icon:{
-    position:'sticky',
-    top:'10px'
-  }
-
-})
+import { useStyles } from './styles'
 
 function Home() {
   const classes = useStyles();

@@ -1,34 +1,9 @@
 import React, { useContext } from 'react'
 import { Grid, Paper, Typography, Button } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
 import NoteCard from './NoteCard'
 import { NoteContext } from './../Context/NoteContext';
 import NoteEditor from './NoteEditor'
-
-const useStyles = makeStyles({
-    paper:{
-        width:'100%',
-        borderRadius:'0',
-        overflow:'hidden',
-        minHeight:'100vh',
-        scrollbarWidth:'none',
-    },
-    container:{
-        marginTop:'40px',
-        overflowX:'hidden',
-        overflowY:'scroll',
-        scrollbarWidth:'none',
-        maxHeight:'80vh',
-        padding:'30px',
-    },
-    button:{
-        width:'100%',
-        height:'100%',
-    },
-    message:{
-        marginLeft:'25px'
-    }
-})
+import { useStyles } from './styles'
 
 function Notes() {
     const { open, setOpen, notes, openDrawer } = useContext(NoteContext);

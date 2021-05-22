@@ -1,5 +1,5 @@
 import '@splidejs/splide/dist/css/themes/splide-default.min.css';
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 // eslint-disable-next-line
 import { Button, Paper, Grid, Typography, Card, CardContent, IconButton, Tooltip, Divider, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@material-ui/core'
@@ -9,86 +9,14 @@ import { Splide, SplideSlide } from '@splidejs/react-splide'
 import useWindowDimensions from '../../Hooks/useWindowDimensions'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import { AuthContext } from '../../Context/AuthContext'
-
-const useStyles = makeStyles({
-    paper:{
-        position:'relative',
-        maxWidth:'100%',
-        padding:'0 15px',
-        backgroundColor:'#161616',
-        minHeight:'450px',
-    },
-    noteCard:{
-        backgroundColor:'#242424',
-        width:'180px',
-        height:'300px',
-        margin:'15px auto',
-        transition:'.1s ease-in-out',
-        '&:hover':{
-            cursor:'pointer',
-            transform: 'translateY(-5px)',
-        }
-    },
-    cardHeader:{
-        display:'flex',
-        flexWrap:'nowrap',
-        flexDirection:'column',
-        padding:'2px',
-    },
-    cardContent:{
-        margin:'5px 0px',
-        lineHeight: '1.2rem',
-        maxHeight: '100%',
-        WebkitBoxOrient: 'vertical',
-        display: '-webkit-box',
-        textOverflow:'ellipsis',
-        overflow:'hidden',
-        WebkitLineClamp: '8',
-        fontSize:'14px',
-    },
-    subheader:{
-        alignSelf:'flex-end',
-        paddingRight:'10px'
-    },
-    header:{
-        padding:'5px 10px ',
-        textOverflow:'ellipsis',
-        whiteSpace:'nowrap',
-        overflow:'hidden'
-     },
-    title:{
-        margin:'20px 0px'
-    },
-    button:{
-        marginLeft:'15px'
-    },
-    subtitle:{
-        height:'325px',
-        margin:'auto'
-    },
-    linkButton:{
-        position:'absolute',
-        left:'93.5%'
-    },
-    divider:{
-        maxWidth:'95%',
-        margin:'0 auto'
-    },
-    radioGroup:{
-        display:'flex',
-        flexDirection:'row',
-        marginLeft:'auto'
-    },
-    categories:{
-        marginLeft:'auto'
-    }
-})
+import { v4 as uuidv4  } from 'uuid'
+import { useStyles } from './styles'
 
 function NotesWidget() {
     const { width } = useWindowDimensions(); // listen screen size change.
     const classes = useStyles();
     // eslint-disable-next-line
-    const { notes, setTextInput, setHeader, openDrawer, setNotes, notesRef, allNotes } = useContext(NoteContext);
+    const { notes, setTextInput, setHeader, openDrawer, setNotes, getNotes, notesRef, allNotes } = useContext(NoteContext);
     const history = useHistory();
     const [select, setSelect] = useState('recent');
     const { currentUser } = useContext(AuthContext);
@@ -159,12 +87,16 @@ function NotesWidget() {
         <FormControl component="fieldset" className={classes.radioGroup}>
             <RadioGroup aria-label="gender" name="gender1" className={classes.radioGroup} value={select} onChange={filterNotes}>
                 {arr.splice(0,7).map((category, index) => (
-                    <FormControlLabel key={index} value={category} control={<Radio color='primary' />} label={`#${category}`}/>
+                    <FormControlLabel key={uuidv4()} value={category} control={<Radio color='primary' />} label={`#${category}`}/>
                     ))}
                     <FormControlLabel value='recent' control={<Radio color='primary' />} label='Recent'/>
             </RadioGroup>
         </FormControl>
     )
+
+    useEffect(() =>{
+        getNotes();
+    },[])
     return (
         <>  
         <Paper className={classes.paper} elevation={5}>

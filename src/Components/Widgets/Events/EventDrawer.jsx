@@ -10,24 +10,7 @@ import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounde
 import { EventContext } from '../../Context/EventContext'
 import useWindowDimensions from '../../Hooks/useWindowDimensions'
 import moment from 'moment'
-
-const useStyles = makeStyles({
-    button:{
-        width:'100px',
-        margin:'10px auto'
-    },
-    paper:{
-        height:'100vh',
-        backgroundColor:'#161616',
-        margin:'auto',
-    },
-    date:{
-        width:'100%',
-    },
-    summary:{
-        width:'100%'
-    }
-})
+import { drawerStyles } from './styles'
 
 function EventDrawer (props) {
     const { openInputDrawer, setOpenInputDrawer } = props;
@@ -47,7 +30,7 @@ function EventDrawer (props) {
     })
     
     const formClasses = formStyles();
-    const classes = useStyles();
+    const classes = drawerStyles();
 
     // focus next input on enter
     const handleEnter = (e) => {

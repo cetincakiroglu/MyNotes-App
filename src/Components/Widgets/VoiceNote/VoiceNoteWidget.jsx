@@ -1,6 +1,6 @@
 import React, { useEffect , useState, useContext } from 'react'
 import { Grid, Paper, IconButton, Tooltip, Button, Card, CardContent, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { useStyles } from './styles'
 import MicRoundedIcon from '@material-ui/icons/MicRounded';
 import { NoteContext } from '../../Context/NoteContext'
 import { AuthContext } from '../../Context/AuthContext'
@@ -26,31 +26,6 @@ function VoiceNoteWidget() {
     const { notesRef } = useContext(NoteContext);
     const { currentUser } = useContext(AuthContext)
     const [ showBtn, setShowBtn ] = useState(false);
-   
-    
-    const useStyles = makeStyles({
-        buttonDisabled:{
-            display:'none',
-        },
-        buttonActive:{
-            display:'block',
-            margin:'25px auto',
-        },
-        paper:{
-            height:'420px',
-            backgroundColor:'#161616',
-            padding:'0 20px'
-            
-        },
-        card:{
-            height:'60%',
-            margin:'22px auto',
-            backgroundColor:'#242424'
-        },
-        title:{
-            paddingTop:'15px'
-        }
-    })
     const classes = useStyles();
     
     const handleSave = () => {

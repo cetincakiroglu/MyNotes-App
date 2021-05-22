@@ -1,59 +1,13 @@
 import React, { useContext } from 'react'
 import { withRouter, useHistory } from 'react-router-dom'
 import { Drawer, Collapse, Divider, Avatar, CardHeader, ListItem, List, ListItemText, Button, Hidden, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { useStyles } from './styles'
 import { AuthContext } from './../Context/AuthContext';
 import { NoteContext } from './../Context/NoteContext';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 // conditional & responsive styling
-const drawerWidth = 230;
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-    },
-    drawer: {
-        [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
-            flexShrink: 0
-          }
-    },
-    toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    nested:{
-        paddingLeft:'10px'
-    },
-    listItem:{
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'flex-start'
-    },
-    list:{
-        height:'75%'
-    },
-    buttonContainer:{
-        margin:'auto'
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-        [theme.breakpoints.up('sm')]: {
-          display: 'none'
-        }
-    },
-    appBar: {
-        [theme.breakpoints.up('sm')]: {
-          width: `calc(100% - ${drawerWidth}px)`,
-          marginLeft: drawerWidth
-        }
-      },
-    icon:{
-        width:'18px',
-        height:'18px',
-        verticalAlign:'text-bottom'
-    }
-}))
+
 
 function Nav() {
     const classes = useStyles();

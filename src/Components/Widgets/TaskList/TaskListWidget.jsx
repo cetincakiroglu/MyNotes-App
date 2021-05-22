@@ -7,6 +7,7 @@ import { TaskContext } from './../../Context/TaskContext'
 import { AuthContext } from './../../Context/AuthContext'
 import TaskCard from './TaskCard'
 import useWindowDimensions from '../../Hooks/useWindowDimensions'
+import { widgetStyles } from './styles'
 
 function TaskListWidget() {
     const { width } = useWindowDimensions();
@@ -15,21 +16,14 @@ function TaskListWidget() {
     const history = useHistory();
     const [select, setSelect] = useState('recent')
 
-    const useStyles = makeStyles({
+    // MUI styling, fold
+    const classes = widgetStyles();
+    const responsiveStyles = makeStyles({
         paper:{
             padding:'0 15px',
             backgroundColor:'#161616',
             position:'relative',
             minHeight: width > 500 ? '450px' : '520px',
-        },
-        wrapper:{
-            minHeight:'25em',
-        },
-        title:{
-            margin:'20px 0px'
-        },
-        button:{
-            marginLeft:'10px'
         },
         taskListContainer:{
             overflowY:'scroll',
@@ -37,25 +31,10 @@ function TaskListWidget() {
             scrollbarWidth:'none',
             maxHeight: width > 500 ? '450px' : '520px',
         },
-        subtitle:{
-            height:'325px',
-            margin:'0 20%'
-        },
-        linkButton:{
-            position:'absolute',
-            left:'93%',
-        },
-        radioGroup:{
-            display:'flex',
-            flexDirection:'row',
-            marginLeft:'auto'
-        },
-        categories:{
-            marginLeft:'auto'
-        }
     })
-    const classes = useStyles();
-    
+    const responsive = responsiveStyles();
+
+
     // category filter
     // TODO: same approach used 4 times. DRY violation. Refactor with class.
     const arr = [];
@@ -102,7 +81,7 @@ function TaskListWidget() {
 
     return (
         <>
-           <Paper className={classes.paper} elevation={5}>
+           <Paper className={responsive.paper} elevation={5}>
                <Grid container alignItems='center'>
                    <Grid item className={classes.title}>
                         <Typography variant='h3' color='primary'>Recent Tasks</Typography>
@@ -121,7 +100,7 @@ function TaskListWidget() {
                         <Button color='primary' onClick={() => history.push('/Tasks')} className={classes.categories}>See All</Button>
                    </Grid>
                </Grid>
-                <Grid container spacing={3} className={classes.taskListContainer}>
+                <Grid container spacing={3} className={responsive.taskListContainer}>
                     {taskListInfo.length > 0 ? taskListInfo.map((item,index) => (
                         <Grid item xs={12} md={3} key={index}>
                             <TaskCard item={item} index={index} key={index}/>

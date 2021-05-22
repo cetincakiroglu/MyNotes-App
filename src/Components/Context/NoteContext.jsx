@@ -42,12 +42,13 @@ export const NoteProvider = props => {
     
     // delete from db
     function deleteNote(note){
-        notesRef.doc(note.id)
-           .delete()
-           .catch(err => {
-            alertify.warning(`Failed to delete note. Error: ${err}`)
-           });
-        alertify.warning('Note Deleted')
+        console.log(note.id)
+        // notesRef.doc(note.id)
+        //    .delete()
+        //    .catch(err => {
+        //     alertify.warning(`Failed to delete note. Error: ${err}`)
+        //    });
+        // alertify.warning('Note Deleted')
     }
 
     const editNote = (obj) => {

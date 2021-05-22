@@ -2,42 +2,11 @@ import React,{ useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Button, Grid, Paper, Typography, IconButton, Tooltip } from '@material-ui/core'
 import AddRoundedIcon from '@material-ui/icons/Add';
-import { makeStyles } from '@material-ui/styles'
 import EventCard from './EventCard'
 import EventDrawer from './EventDrawer'
 import { EventContext } from '../../Context/EventContext'
 import moment from 'moment'
-
-const useStyles = makeStyles({
-    paper:{
-        padding:'0 15px',
-        backgroundColor:'#161616',
-        position:'relative',
-        minHeight:'500px'
-    },
-    title:{
-        margin:'20px 0px 30px 0px'
-    },
-    button:{
-        marginLeft:'10px',
-        marginBottom:'10px'
-    },
-    container:{
-        overflowX:'hidden',
-        overflowY:'scroll',
-        scrollbarWidth:'none',
-        height:'400px',
-    },
-    subtitle:{
-        height:'400px',
-        margin:'auto'
-    },
-    linkButton:{
-        position:'absolute',
-        left:'82.75%',
-        top:20,
-    }
-})
+import { useStyles } from './styles'
 
 function EventsWidget() {
     const classes = useStyles();
