@@ -62,7 +62,7 @@ function NoteCard(props) {
                             {item.title ? item.title : 'Untitled Note'}
                         </Typography>
                         <Typography variant='body1' className={classes.subHeader}>
-                            {moment(new Date(item.date)).format('DD/MM hh:mm')}
+                            {moment(item.date).format('HH:mm DD/MM')}
                         </Typography>
                     </div>
                     <CardContent>

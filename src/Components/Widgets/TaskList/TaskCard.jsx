@@ -2,6 +2,7 @@ import React,{ useContext } from 'react'
 import { Card, Typography, Divider, CardContent, List, ListItem, Checkbox } from '@material-ui/core'
 import { TaskContext } from '../../Context/TaskContext'
 import { cardStyles } from './styles'
+import moment from 'moment'
 
 function TaskCard(props) {
     const { item, index } = props;
@@ -12,7 +13,7 @@ function TaskCard(props) {
             <> 
             <Card className={classes.taskCard} key={index}>
                 <div className={classes.cardHeader}>
-                    <Typography variant='caption' className={classes.subheader}>{item.date}</Typography>
+                    <Typography variant='caption' className={classes.subheader}>{moment(item.date).format('HH:mm DD/MM')}</Typography>
                     <Typography variant='h4'className={classes.header}>{item.title ? item.title : 'Untitled'}</Typography>
                 </div>
                 <Divider className={classes.divider}/>

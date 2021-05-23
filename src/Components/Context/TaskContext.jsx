@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { db } from '../Auth/firebase'
 import { AuthContext } from '../Context/AuthContext';
 import alertify from 'alertifyjs'
+import moment from 'moment'
 
 export const TaskContext = createContext();
 
@@ -112,10 +113,10 @@ export const TaskProvider = props => {
         //create new task list object
        const newTaskList = {
         created   : new Date(),
+        date      : moment().format(),
         id        : uuidv4(),
         ownerID   : currentUser ? currentUser.uid : 'unknown',
         ownerEmail: currentUser.email ? currentUser.email : 'unknown',
-        date      : new Date().toDateString(),
         title     : title.current.value, 
         tasklist  : tasks,
         categories:  tags === [] ? [''] : tags 

@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { db } from '../Auth/firebase'
 import { AuthContext } from '../Context/AuthContext'
 import alertify from 'alertifyjs'
+import moment from 'moment'
 
 export const NoteContext = createContext();
 export const NoteProvider = props => {
@@ -111,10 +112,10 @@ export const NoteProvider = props => {
             // submit new note
             const newNote = {
                 created    : new Date(),
+                date      : moment().format(),
                 id         : uuidv4(),
                 ownerID    : currentUser.uid ? currentUser.uid : 'unknown',
                 ownerEmail : currentUser ? currentUser.email : 'unknown',
-                date       : new Date().toDateString(),
                 title      : noteTitle,
                 note       : note,
                 categories : tags === [] ? [''] : tags,

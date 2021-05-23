@@ -8,6 +8,7 @@ import { Splide, SplideSlide } from '@splidejs/react-splide'
 import useWindowDimensions from '../../Hooks/useWindowDimensions'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import { useStyles } from './styles'
+import moment from 'moment'
 
 function NotesWidget() {
     const { width } = useWindowDimensions(); // listen screen size change.
@@ -87,7 +88,7 @@ function NotesWidget() {
                             <SplideSlide key={index}>
                                 <Card className={classes.noteCard} key={item.id} onClick={() => openInLarge(item)}>
                                     <div className={classes.cardHeader}>
-                                        <Typography variant='caption' className={classes.subheader}>{item.date}</Typography>
+                                        <Typography variant='caption' className={classes.subheader}>{moment(item.date).format('HH:mm DD/MM')}</Typography>
                                         <Typography variant='h4'className={classes.header}> {item.title ? item.title : 'Untitled Note'} </Typography>
                                     </div>
                                         <Divider className={classes.divider}/>
