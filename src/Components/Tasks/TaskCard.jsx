@@ -4,6 +4,7 @@ import { CardContext } from './../Context/CardContext'
 import { Grid, Paper, Typography, Divider, Card, CardContent, List } from '@material-ui/core'
 import Task from './Task'
 import DeleteCardBtn from './DeleteCardBtn';
+import moment from 'moment'
 
 function TaskCard(props) {
     const { item, deleteTask, deleteTaskList } = props;
@@ -21,7 +22,7 @@ function TaskCard(props) {
                     </div>
                     <div className={classes.cardHeader}>
                         <Typography variant='h4' className={classes.header}>{item.title ? item.title : 'Untitled'}</Typography>
-                        <Typography variant='body1' className={classes.subHeader}>{item.date}</Typography>
+                        <Typography variant='body1' className={classes.subHeader}>{moment(item.date).format('HH:mm DD/MM')}</Typography>
                     </div>
                     <CardContent className={classes.cardBody}>
                     <Divider />

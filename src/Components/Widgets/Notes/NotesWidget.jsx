@@ -20,7 +20,6 @@ function NotesWidget() {
     // categories to display filter options.
     const arr = [];
     notes.map(note => note.categories.map(category => !(arr.includes(category)) ? arr.push(category) : category));
-    // console.log('CATEGORIES', arr);
     
     const openInLarge = (item) => {
         history.push(`/New/${item.id}`)
@@ -76,7 +75,7 @@ function NotesWidget() {
                 <Grid item xs={9} className={classes.categories}>
                     {categoryButtons}
                 </Grid>
-                <Grid item xs={1} className={classes.categories}>
+                <Grid item className={classes.categories}>
                     <Button color='primary' onClick={() => history.push('/Notes')} >See All</Button>
                 </Grid>
                 <Grid item xs={12} >

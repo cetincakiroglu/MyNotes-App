@@ -8,7 +8,6 @@ const useStyles = makeStyles({
         display:'flex',
         justifyContent:'space-between',
         padding:'0',
-       
         flexShrink:'0 !important'
     },
     list:{

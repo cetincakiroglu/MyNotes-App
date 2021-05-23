@@ -77,8 +77,7 @@ export const widgetStyles = makeStyles({
         margin:'0 20%'
     },
     linkButton:{
-        position:'absolute',
-        left:'93%',
+        marginLeft:'auto',
     },
     radioGroup:{
         display:'flex',
@@ -86,6 +85,6 @@ export const widgetStyles = makeStyles({
         marginLeft:'auto'
     },
     categories:{
-        marginLeft:'auto'
+        marginLeft:'auto',
     }
 })

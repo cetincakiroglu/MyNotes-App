@@ -70,6 +70,6 @@ export const useStyles = makeStyles({
         marginLeft:'auto'
     },
     categories:{
-        marginLeft:'auto'
+        marginLeft:'auto',
     }
 })

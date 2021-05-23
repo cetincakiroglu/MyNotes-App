@@ -1,10 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Grid, Paper, Typography, IconButton, Tooltip, Button, FormControl, FormControlLabel, Radio, RadioGroup } from '@material-ui/core'
 import AddRoundedIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles'
 import { TaskContext } from './../../Context/TaskContext'
-import { AuthContext } from './../../Context/AuthContext'
 import TaskCard from './TaskCard'
 import useWindowDimensions from '../../Hooks/useWindowDimensions'
 import { widgetStyles } from './styles'
@@ -54,7 +53,7 @@ function TaskListWidget() {
            <Paper className={responsive.paper} elevation={5}>
                <Grid container alignItems='center'>
                    <Grid item className={classes.title}>
-                        <Typography variant='h3' color='primary'>Recent Tasks</Typography>
+                        <Typography variant='h3' color='primary'>Tasks</Typography>
                    </Grid>
                    <Grid item className={classes.button}>
                         <Tooltip title='New Task List'>
@@ -63,11 +62,11 @@ function TaskListWidget() {
                             </IconButton>
                         </Tooltip>  
                    </Grid>
-                   <Grid item xs={8} alignSelf='end' className={classes.categories}>
+                   <Grid item xs={9} className={classes.categories}>
                     {categoryButtons}
                    </Grid>
-                   <Grid item xs={1}>
-                        <Button color='primary' onClick={() => history.push('/Tasks')} className={classes.categories}>See All</Button>
+                   <Grid item className={classes.categories}>
+                        <Button color='primary' onClick={() => history.push('/Tasks')} >See All</Button>
                    </Grid>
                </Grid>
                 <Grid container spacing={3} className={responsive.taskListContainer}>
