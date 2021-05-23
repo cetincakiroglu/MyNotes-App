@@ -6,6 +6,7 @@ import { NoteContext } from '../../Context/NoteContext'
 import { AuthContext } from '../../Context/AuthContext'
 import { v4 as uuidv4 } from 'uuid'
 import alertify from 'alertifyjs'
+import moment from 'moment'
 
 // to check if browser supports feature
 try{
@@ -35,7 +36,7 @@ function VoiceNoteWidget() {
             id         : uuidv4(),
             ownerID    : currentUser ? currentUser.uid : 'unknown',
             ownerEmail : currentUser ? currentUser.email : 'unknown',
-            date       : new Date().toDateString(),
+            date       : moment().format(),
             title      : 'Voice Note',
             note       : voiceNote,
             categories : [],
