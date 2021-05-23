@@ -24,7 +24,7 @@ function Notes() {
             </Grid>
             <Grid container spacing={5} className={classes.container}>
                     {notes.length > 0 ? notes.map((item,index) => (
-                        <Grid item xs={12} md={3} key={item.id}>
+                        <Grid item xs={12} md={3} key={index}>
                             <NoteCard item={item} index={index} />
                         </Grid>
                         

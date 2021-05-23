@@ -1,61 +1,26 @@
 import '@splidejs/splide/dist/css/themes/splide-default.min.css';
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 // eslint-disable-next-line
 import { Button, Paper, Grid, Typography, Card, CardContent, IconButton, Tooltip, Divider, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
 import { NoteContext } from './../../Context/NoteContext'
 import { Splide, SplideSlide } from '@splidejs/react-splide'
 import useWindowDimensions from '../../Hooks/useWindowDimensions'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
-import { AuthContext } from '../../Context/AuthContext'
-import { v4 as uuidv4  } from 'uuid'
 import { useStyles } from './styles'
 
 function NotesWidget() {
     const { width } = useWindowDimensions(); // listen screen size change.
     const classes = useStyles();
     // eslint-disable-next-line
-    const { notes, setTextInput, setHeader, openDrawer, setNotes, getNotes, notesRef, allNotes } = useContext(NoteContext);
+    const { notes, setTextInput, setHeader, openDrawer, getNotes, setFilterParam, filterParam } = useContext(NoteContext);
     const history = useHistory();
-    const [select, setSelect] = useState('recent');
-    const { currentUser } = useContext(AuthContext);
-    
-    // filter by categories
-    const filterNotes = (e) => {
-        const param = e.target.value;
-
-        if(currentUser) {
-            if(param !== 'recent'){
-                notesRef.where('ownerID', '==', currentUser.uid)
-                .where('categories', 'array-contains', param)
-                .onSnapshot(querySnapshot => {
-                    const items = [];
-                    querySnapshot.forEach(doc => {
-                        items.push(doc.data());
-                    })
-                    setNotes(items);
-                    setSelect(param);
-                })
-            } else if(param === 'recent') {
-                notesRef.where('ownerID', '==', currentUser.uid)
-                .orderBy('created')
-                .onSnapshot(querySnapshot => {
-                    const items = [];
-                    querySnapshot.forEach(doc => {
-                        items.push(doc.data());
-                    })
-                    setNotes(items);
-                    setSelect(param);
-                })
-            }
-        }
-    }
 
     // categories to display filter options.
     const arr = [];
-    allNotes.map(note => note.categories.map(category => !(arr.includes(category)) ? arr.push(category) : category));
-
+    notes.map(note => note.categories.map(category => !(arr.includes(category)) ? arr.push(category) : category));
+    // console.log('CATEGORIES', arr);
+    
     const openInLarge = (item) => {
         history.push(`/New/${item.id}`)
         setTextInput(item.note)
@@ -81,22 +46,18 @@ function NotesWidget() {
         clones: 0,
         height:325,
     }
-  
     // eslint-disable-next-line
     const categoryButtons = (
         <FormControl component="fieldset" className={classes.radioGroup}>
-            <RadioGroup aria-label="gender" name="gender1" className={classes.radioGroup} value={select} onChange={filterNotes}>
-                {arr.splice(0,7).map((category, index) => (
-                    <FormControlLabel key={uuidv4()} value={category} control={<Radio color='primary' />} label={`#${category}`}/>
+            <RadioGroup aria-label="gender" name="gender1" className={classes.radioGroup} value={filterParam} onChange={(e) => setFilterParam(e.target.value)}>
+                {arr.map((category, index) => (
+                    <FormControlLabel key={index + 1} value={category} control={<Radio color='primary' />} label={`#${category}`}/>
                     ))}
-                    <FormControlLabel value='recent' control={<Radio color='primary' />} label='Recent'/>
+                    <FormControlLabel value='' control={<Radio color='primary' />} label='Recent'/>
             </RadioGroup>
         </FormControl>
     )
 
-    useEffect(() =>{
-        getNotes();
-    },[])
     return (
         <>  
         <Paper className={classes.paper} elevation={5}>
@@ -111,7 +72,7 @@ function NotesWidget() {
                         </IconButton>
                     </Tooltip>
                 </Grid>
-                <Grid item xs={9} alignSelf='end' className={classes.categories}>
+                <Grid item xs={9} className={classes.categories}>
                     {categoryButtons}
                 </Grid>
                 <Grid item xs={1} className={classes.categories}>
@@ -120,7 +81,9 @@ function NotesWidget() {
                 <Grid item xs={12} >
                     {/* CAROUSEL STARTS*/}
                     <Splide options={splideOptions}>
-                        {notes.length > 0 ? notes.map((item,index) =>(
+                        {notes.length > 0 ? notes
+                        .filter(item => filterParam ? item.categories.includes(filterParam) : item)
+                        .map((item,index) =>(
                             <SplideSlide key={index}>
                                 <Card className={classes.noteCard} key={item.id} onClick={() => openInLarge(item)}>
                                     <div className={classes.cardHeader}>

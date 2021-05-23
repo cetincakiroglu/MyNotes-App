@@ -11,10 +11,8 @@ import { widgetStyles } from './styles'
 
 function TaskListWidget() {
     const { width } = useWindowDimensions();
-    const { taskListInfo, setTaskListInfo, setOpen, allLists, tasksRef } = useContext(TaskContext);
-    const { currentUser } = useContext(AuthContext);
+    const { setFilterParam, filterParam, taskListInfo, setOpen } = useContext(TaskContext);
     const history = useHistory();
-    const [select, setSelect] = useState('recent')
 
     // MUI styling, fold
     const classes = widgetStyles();
@@ -34,47 +32,19 @@ function TaskListWidget() {
     })
     const responsive = responsiveStyles();
 
-
     // category filter
     // TODO: same approach used 4 times. DRY violation. Refactor with class.
     const arr = [];
-    allLists.map(list =>list.categories.map(category => !(arr.includes(category)) ? arr.push(category) : category));
-    const filterLists = (e) => {
-        const param = e.target.value;
-        if(currentUser) {
-            if(param !== 'recent'){
-                tasksRef.where('ownerID', '==', currentUser.uid)
-                .where('categories', 'array-contains', param)
-                .onSnapshot(querySnapshot => {
-                    const items = [];
-                    querySnapshot.forEach(doc => {
-                        items.push(doc.data());
-                    })
-                    setTaskListInfo(items);
-                    setSelect(param);
-                })
-            } else if(param === 'recent') {
-                tasksRef.where('ownerID', '==', currentUser.uid)
-                .orderBy('created')
-                .onSnapshot(querySnapshot => {
-                    const items = [];
-                    querySnapshot.forEach(doc => {
-                        items.push(doc.data());
-                    })
-                    setTaskListInfo(items);
-                    setSelect(param);
-                })
-            }
-        }
-    }
+    taskListInfo.map(list =>list.categories.map(category => !(arr.includes(category)) ? arr.push(category) : category));
+
     // select group
     const categoryButtons = (
          <FormControl component="fieldset" className={classes.radioGroup}>
-            <RadioGroup aria-label="gender" name="gender1" className={classes.radioGroup} value={select} onChange={filterLists}>
+            <RadioGroup aria-label="gender" name="gender1" className={classes.radioGroup} value={filterParam} onChange={(e) => setFilterParam(e.target.value)}>
                 {arr.splice(0,7).map((category, index) => (
-                    <FormControlLabel key={index} value={category} control={<Radio color='primary' />} label={`#${category}`}/>
+                    <FormControlLabel key={index + 1} value={category} control={<Radio color='primary' />} label={`#${category}`}/>
                     ))}
-                    <FormControlLabel value='recent' control={<Radio color='primary' />} label='Recent'/>
+                    <FormControlLabel value='' control={<Radio color='primary' />} label='Recent'/>
             </RadioGroup>
         </FormControl>
     )
@@ -101,7 +71,9 @@ function TaskListWidget() {
                    </Grid>
                </Grid>
                 <Grid container spacing={3} className={responsive.taskListContainer}>
-                    {taskListInfo.length > 0 ? taskListInfo.map((item,index) => (
+                    {taskListInfo.length > 0 ? taskListInfo
+                    .filter(item => filterParam ? item.categories.includes(filterParam) : item)
+                    .map((item,index) => (
                         <Grid item xs={12} md={3} key={index}>
                             <TaskCard item={item} index={index} key={index}/>
                         </Grid>

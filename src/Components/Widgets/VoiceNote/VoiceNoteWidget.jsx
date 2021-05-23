@@ -31,10 +31,10 @@ function VoiceNoteWidget() {
     const handleSave = () => {
        // note object
         const newNote = {
-            created    :new Date(),
+            created    : new Date(),
             id         : uuidv4(),
             ownerID    : currentUser ? currentUser.uid : 'unknown',
-            ownerEmail : currentUser ? currentUser.uid : 'unknown',
+            ownerEmail : currentUser ? currentUser.email : 'unknown',
             date       : new Date().toDateString(),
             title      : 'Voice Note',
             note       : voiceNote,
@@ -75,7 +75,6 @@ function VoiceNoteWidget() {
             }
         }
     }
-    
     
     useEffect(() => {
       handleListen();

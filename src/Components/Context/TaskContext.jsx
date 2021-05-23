@@ -9,11 +9,11 @@ export const TaskContext = createContext();
 export const TaskProvider = props => {
     const [taskListInfo, setTaskListInfo] = useState([]);
     const [taskList, setTaskList] = useState([]);
-    const [allLists, setAllLists] = useState([]); 
     const [categoryList, setCategoryList] = useState([]);
     const [open, setOpen] = useState(false);
     // eslint-disable-next-line
-    const [dbLoading, setDbLoading] = useState(false)
+    const [dbLoading, setDbLoading] = useState(false);
+    const [filterParam, setFilterParam] = useState('');
 
     const title = useRef();
     const taskListItem = useRef();
@@ -33,7 +33,6 @@ export const TaskProvider = props => {
                 });
                 setDbLoading(false);
                 setTaskListInfo(items);
-                setAllLists(items);
             })
         }
     }
@@ -119,7 +118,7 @@ export const TaskProvider = props => {
         date      : new Date().toDateString(),
         title     : title.current.value, 
         tasklist  : tasks,
-        categories: tags 
+        categories:  tags === [] ? [''] : tags 
         };
 
         // add to db
@@ -154,15 +153,16 @@ export const TaskProvider = props => {
         taskListItem,
         open,
         setOpen,
-        allLists,
-        tasksRef
+        tasksRef,
+        filterParam,
+        setFilterParam,
     }
 
     //listen to db
     useEffect(() => {
         getTasks();
         // eslint-disable-next-line
-    },[])
+    },[filterParam])
 
     return(
         <TaskContext.Provider value={value}>

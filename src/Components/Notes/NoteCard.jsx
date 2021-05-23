@@ -5,10 +5,11 @@ import { NoteContext } from './../Context/NoteContext';
 import { CardContext } from './../Context/CardContext'// styles
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import alertify from 'alertifyjs'
+import moment from 'moment'
 
 function NoteCard(props) {
     const { item } = props;
-    const { notesRef, setTextInput, setHeader, editNote, deleteNote } = useContext(NoteContext);
+    const { notesRef, setTextInput, setHeader, editNote, deleteNote} = useContext(NoteContext);
     const { classes } = useContext(CardContext);
     const [anchorEl, setAnchorEl] = useState(null);
     const history = useHistory();
@@ -61,7 +62,7 @@ function NoteCard(props) {
                             {item.title ? item.title : 'Untitled Note'}
                         </Typography>
                         <Typography variant='body1' className={classes.subHeader}>
-                            {item.date}
+                            {moment(new Date(item.date)).format('DD/MM hh:mm')}
                         </Typography>
                     </div>
                     <CardContent>

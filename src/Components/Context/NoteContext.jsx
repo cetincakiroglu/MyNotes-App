@@ -8,7 +8,6 @@ export const NoteContext = createContext();
 export const NoteProvider = props => {
     const [textInput, setTextInput] = useState('');
     const [notes, setNotes] = useState([]);
-    const [allNotes, setAllNotes]=useState([]);
     const [categoryList, setCategoryList] = useState([]);
     const [open, setOpen] = useState(false);
     const [noteId, setNoteId] = useState([0]); // used in handleSubmit to determine edit || create new note.
@@ -16,7 +15,7 @@ export const NoteProvider = props => {
     // eslint-disable-next-line
     const [dbLoading, setDbLoading] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
-    
+    const [filterParam, setFilterParam] = useState('');
     const { currentUser } = useContext(AuthContext);
    
     const title = useRef();
@@ -25,30 +24,31 @@ export const NoteProvider = props => {
     const notesRef = db.collection('Notes');
     
     // get Notes collection from db
-    function getNotes(){
+    function getNotes() {
         if(currentUser){
-            setDbLoading(true);
-            const items =[];
-            notesRef.where('ownerID', '==', currentUser.uid).orderBy('created').onSnapshot(querySnapshot => {
-            querySnapshot.forEach(doc => {
-                items.push(doc.data())
-                });
-                setDbLoading(false);
-                setNotes(items);
-                setAllNotes(items);
+            notesRef.where('ownerID', '==', currentUser.uid)
+            .orderBy('created')
+            // .where('categories', 'array-contains', filterParam)
+            .onSnapshot(querySnapshot => {
+                const items = [];
+                querySnapshot.forEach(doc => {
+                    items.push(doc.data())
+                })
+                setNotes(items)
             })
         }
     }
     
     // delete from db
     function deleteNote(note){
-        console.log(note.id)
-        // notesRef.doc(note.id)
-        //    .delete()
-        //    .catch(err => {
-        //     alertify.warning(`Failed to delete note. Error: ${err}`)
-        //    });
-        // alertify.warning('Note Deleted')
+        notesRef.doc(note.id)
+           .delete()
+           .catch(err => {
+            alertify.warning(`Failed to delete note. Error: ${err}`)
+           });
+        alertify.warning('Note Deleted')
+
+        console.log(notes);
     }
 
     const editNote = (obj) => {
@@ -117,7 +117,7 @@ export const NoteProvider = props => {
                 date       : new Date().toDateString(),
                 title      : noteTitle,
                 note       : note,
-                categories : tags,
+                categories : tags === [] ? [''] : tags,
             };
             // save to db
             notesRef.doc(newNote.id)
@@ -137,7 +137,7 @@ export const NoteProvider = props => {
     useEffect(() => {
         getNotes();
         // eslint-disable-next-line
-    },[])
+    },[filterParam])
     
     const value = {
         mobileOpen,
@@ -163,7 +163,8 @@ export const NoteProvider = props => {
         noteId, 
         setNoteId,
         openDrawer,
-        allNotes,
+        filterParam,
+        setFilterParam
     }
     
     return (
