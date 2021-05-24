@@ -64,8 +64,9 @@ function EventModal(props) {
     return (
         <>
         {error && <Alert severity='error'><AlertTitle>Error</AlertTitle>{error}</Alert>}
-        {eventList.filter(item => item.id === eventId.slice(0,1).join()).map(event => (
+        {eventList.filter(item => item.id === eventId.slice(0,1).join()).map((event, index) => (
             <Dialog
+            key={index + 1}
             open={showModal}
             onClose={closeModal}
             aria-labelledby="alert-dialog-title"
@@ -73,7 +74,7 @@ function EventModal(props) {
             >
             <DialogTitle id="alert-dialog-title">
             </DialogTitle>
-            <TableContainer component={DialogContent} key={event.id}>
+            <TableContainer component={DialogContent} >
                 <Typography align='center' variant='h2' color='primary'>{event.description}</Typography>
                 <Table className={classes.table} aria-label="simple table">
                     <TableBody>

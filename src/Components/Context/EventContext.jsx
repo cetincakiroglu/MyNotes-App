@@ -14,7 +14,6 @@ export const EventProvider = props => {
     const [summary, setSummary] = useState('');
     const [initialEvs, setInitialEvs] = useState([]);
     const eventName = useRef();
-    // const eventSummary = useRef();
     const eventLocation = useRef();
 
     const { currentUser } = useContext(AuthContext)
@@ -80,7 +79,7 @@ export const EventProvider = props => {
     function getEvents(){
         if(currentUser){
             setDbLoading(true);
-            eventsRef.where('creator.email', '==', currentUser.email).orderBy('created','desc').onSnapshot(querySnapshot => {
+            eventsRef.where('creator.email', '==', currentUser.email).orderBy('created').onSnapshot(querySnapshot => {
                 const items = [];
                 querySnapshot.forEach(doc => {
                    items.push(doc.data())
@@ -118,7 +117,6 @@ export const EventProvider = props => {
                 ]
             }
         };
-       
         var request = gapi.client.calendar.events.insert({
             'calendarId':'primary',
             'resource': event

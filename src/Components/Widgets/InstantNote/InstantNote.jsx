@@ -14,7 +14,6 @@ function InstantNote() {
     const { textInput, setTextInput, notesRef } = useContext(NoteContext);
     const { currentUser } = useContext(AuthContext)
     const formInput = useRef();
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const newNote = {
@@ -35,6 +34,7 @@ function InstantNote() {
         setTextInput('')
         setShowBtn(false)
     }
+
     // conditional styling
     const btnStyles = makeStyles({
         button:{
@@ -46,7 +46,11 @@ function InstantNote() {
         }
     })
     const btnClasses = btnStyles();
-    
+    const handleChange = (e) => {
+        setTextInput(e.target.value);
+        e.target.value !== '' ? setShowBtn(true) : setShowBtn(false);
+
+    }
     return (
         <>  
             <Paper elevation={5}>
@@ -60,8 +64,7 @@ function InstantNote() {
                     multiline 
                     rows={16}
                     variant='outlined'
-                    onChange={(e) => {setTextInput(e.target.value) 
-                        e.target.value !== '' ? setShowBtn(true) : setShowBtn(false)}}
+                    onChange={handleChange}
                     />
                         <Button 
                         variant='contained'

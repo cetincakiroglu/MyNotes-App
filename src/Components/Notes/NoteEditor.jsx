@@ -1,6 +1,6 @@
 
+import React, { useContext } from 'react'
 import { Paper, Drawer, Tooltip, IconButton, Button, TextField, Typography, Grid } from '@material-ui/core'
-import React,{ useContext } from 'react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
@@ -12,7 +12,6 @@ function NoteEditor(props) {
     const { open, setOpen } = props;
     const { width } = useWindowDimensions();
     const { textInput, categoryList, title, category, addCategory, handleSubmit, setTextInput } = useContext(NoteContext);
-    
     const useStyles = makeStyles({
         paper:{
             height:'100vh',

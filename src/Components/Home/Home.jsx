@@ -74,7 +74,7 @@ function Home() {
             </Grid>
             <Grid container className={classes.widgetWrapper}>
               <Grid item xs={12} md={6}>
-                <RemindersWidget id='#eventsWidget'/>
+                <RemindersWidget />
               </Grid>
             </Grid>
         </Paper>
