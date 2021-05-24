@@ -112,7 +112,7 @@ export const NoteProvider = props => {
             // submit new note
             const newNote = {
                 created    : new Date(),
-                date      : moment().format(),
+                date       : moment().format(),
                 id         : uuidv4(),
                 ownerID    : currentUser.uid ? currentUser.uid : 'unknown',
                 ownerEmail : currentUser ? currentUser.email : 'unknown',

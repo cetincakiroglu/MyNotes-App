@@ -6,6 +6,8 @@ import { useStyles } from './styles'
 import { makeStyles } from '@material-ui/core/styles'
 import './instantNote.css'
 import { v4 as uuidv4 } from 'uuid'
+import moment from 'moment'
+import alertify from 'alertifyjs'
 
 
 function InstantNote() {
@@ -18,13 +20,15 @@ function InstantNote() {
         e.preventDefault();
         const newNote = {
             id         : uuidv4(),
+            created    : new Date(),
             ownerID    : currentUser ? currentUser.uid : 'unknown',
             ownerEmail : currentUser ? currentUser.email : 'unknown',
-            date       : new Date().toDateString(),
+            date       : moment().format(),
             title      : 'Untitled',
             note       : textInput,
             categories : [],
         };
+        console.log(newNote)
         // update db
         notesRef.doc(newNote.id)
         .set(newNote)
@@ -33,6 +37,7 @@ function InstantNote() {
         formInput.current.value ='';
         setTextInput('')
         setShowBtn(false)
+        alertify.success('Note Saved.')
     }
 
     // conditional styling

@@ -4,7 +4,7 @@ import { Grid, Paper, TextField, Button, Typography } from '@material-ui/core'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import { AuthContext } from './../Context/AuthContext';
 import alertify from 'alertifyjs'
-import {GoogleLogin} from 'react-google-login'
+import { GoogleLogin } from 'react-google-login'
 import { auth, googleProvider } from './../Auth/firebase'
 import { EventContext } from './../Context/EventContext';
 

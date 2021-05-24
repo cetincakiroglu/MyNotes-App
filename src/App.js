@@ -100,17 +100,17 @@ function App() {
           <ThemeProvider theme={theme}>
             <div className={classes.container}>
                   { currentUser ? <Nav /> : <></>}
-                <Switch>
-                  <Route path ='/Info' component={Info}/>
-                  <Route path ='/Signup' component={Signup}/>
-                  <Route path ='/Login' component={Login}/>
-                  <Route path ='/Forgot-Password' component ={ResetPassword}/>
-                  <PrivateRoute exact path ='/' component={Home}/>
-                  <PrivateRoute exact path ='/Notes' component ={Notes}/>
-                  <PrivateRoute exact path ='/Tasks' component ={Tasks}/>
-                  <PrivateRoute exact path ='/Events' component={Events}/>
-                  <PrivateRoute path ='/New/:id' component ={LargeEditor}/>
-                </Switch>
+                  <Switch>
+                    <Route path ='/Info' component={Info}/>
+                    <Route path ='/Signup' component={Signup}/>
+                    <Route path ='/Login' component={Login}/>
+                    <Route path ='/Forgot-Password' component ={ResetPassword}/>
+                    <PrivateRoute exact path ='/' component={Home}/>
+                    <PrivateRoute exact path ='/Notes' component ={Notes}/>
+                    <PrivateRoute exact path ='/Tasks' component ={Tasks}/>
+                    <PrivateRoute exact path ='/Events' component={Events}/>
+                    <PrivateRoute path ='/New/:id' component ={LargeEditor}/>
+                  </Switch>
             </div>
           </ThemeProvider>
       </BrowserRouter>
